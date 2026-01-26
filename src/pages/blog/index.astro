@@ -1,0 +1,96 @@
+---
+import { getCollection } from 'astro:content';
+import BaseLayout from '../../layouts/BaseLayout.astro';
+import Grid from '../../components/Grid.astro';
+import Hero from '../../components/Hero.astro';
+
+const posts = (await getCollection('blog')).sort(
+	(a, b) => b.data.pubDate.valueOf() - a.data.pubDate.valueOf()
+);
+---
+
+<BaseLayout title="Blog | LouisLau-art" description="Tech thoughts and tutorials">
+	<div class="stack gap-20">
+		<main class="wrapper stack gap-8">
+			<Hero
+				title="Tech Blog"
+				tagline="Sharing my journey in Open Source, Rust, and Frontend."
+				align="start"
+			/>
+			<Grid variant="offset">
+				{
+					posts.map((post) => (
+						<li>
+                            <a class="card-link" href={`/blog/${post.id}`}>
+                                <article class="card">
+                                    <h5 class="title">{post.data.title}</h5>
+                                    <p class="description">{post.data.description}</p>
+                                    <div class="meta">
+                                        <small>{post.data.pubDate.toLocaleDateString()}</small>
+                                        {post.data.tags && (
+                                            <div class="tags">
+                                                {post.data.tags.slice(0, 3).map(tag => <span>#{tag}</span>)}
+                                            </div>
+                                        )}
+                                    </div>
+                                </article>
+                            </a>
+						</li>
+					))
+				}
+			</Grid>
+		</main>
+	</div>
+</BaseLayout>
+
+<style>
+    .card-link {
+        text-decoration: none;
+        color: inherit;
+        display: block;
+        height: 100%;
+    }
+    .card {
+        padding: 1.5rem;
+        background: var(--gradient-subtle);
+        border: 1px solid var(--gray-800);
+        border-radius: 1.5rem;
+        height: 100%;
+        display: flex;
+        flex-direction: column;
+        justify-content: space-between;
+        transition: box-shadow var(--theme-transition), border-color var(--theme-transition);
+        box-shadow: var(--shadow-sm);
+    }
+    .card:hover {
+        border-color: var(--accent-regular);
+        box-shadow: var(--shadow-md);
+    }
+    .title {
+        font-size: 1.2rem;
+        margin-bottom: 0.5rem;
+        color: var(--gray-0);
+    }
+    .description {
+        color: var(--gray-300);
+        font-size: 0.9rem;
+        margin-bottom: 1rem;
+        flex-grow: 1;
+    }
+    .meta {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        color: var(--gray-400);
+        font-size: 0.8rem;
+    }
+    .tags {
+        display: flex;
+        gap: 0.5rem;
+    }
+    .tags span {
+        background: var(--gray-999_40);
+        padding: 0.2rem 0.5rem;
+        border-radius: 0.5rem;
+    }
+</style>
