@@ -77,4 +77,4 @@ pub struct RestackOptions<'a> {
 
 此重构显著改进了 restack 命令的可维护性，同时保留了所有现有功能。更改将 8 个参数整合到一个结构化选项对象中，使代码更清洁，便于未来增强。
 
-拉取请求已提交，可在 [auswm85/rung#90](https://github.com/auswm85/rung/pull/90) 查看。这解决了 [auswm85/rung#89](https://github.com/auswm85/rung/issues/89) 问题，并增强了 Rung 代码库的长期可维护性。
+拉取请求已提交，可在 [auswm85/rung#90](https://github.com/auswm85/rung/pull/90) 查看。这解决了 [auswm85/rung#89](https://github.com/auswm85/rung/issues/89) 问题，并增强了 Rung 代码库的长期可维护性。目前该 PR 已经被项目维护者合并。
