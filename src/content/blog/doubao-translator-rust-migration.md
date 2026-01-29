@@ -19,6 +19,8 @@ tags: ["Rust", "Backend", "Performance", "Systemd"]
 - 后端改为 Rust + axum，尽量减少依赖与内存占用
 - 前端不用框架，纯原生 JS
 - marked + MathJax 走本地静态文件（`static/libs`）
+- UI 允许拖拽调整左右面板，支持一键“专注输出”
+- 翻译历史改为底部抽屉，不挤占主翻译区域
 - systemd 服务静默启动、开机自启
 
 ## 🛠️ 执行 (Execute)
