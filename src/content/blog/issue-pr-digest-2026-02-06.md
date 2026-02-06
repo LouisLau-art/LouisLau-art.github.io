@@ -37,7 +37,9 @@ tags: ["Open Source", "GitHub", "PR Digest", "Issue Tracking", "AI"]
 - [kubernetes-sigs/cluster-api-provider-openstack#3000](https://github.com/kubernetes-sigs/cluster-api-provider-openstack/pull/3000) 清理重复 `nolint`，统一 lint 规则
 - [pulumi/esc#617](https://github.com/pulumi/esc/pull/617) 2 段环境引用歧义提示
 - [python-poetry/poetry#10715](https://github.com/python-poetry/poetry/pull/10715) `poetry self` 锁文件提示命令修正
+- [python-poetry/poetry#10716](https://github.com/python-poetry/poetry/pull/10716) Windows 上 `bash` 执行 `poetry env activate` 时按 shell 输出 `source ...`，并补回归测试（关联 [#10395](https://github.com/python-poetry/poetry/issues/10395)）
 - [pytest-dev/pytest-reportlog#100](https://github.com/pytest-dev/pytest-reportlog/pull/100) 去除 report message 中 ANSI 转义
+- [vueuse/vueuse#5227](https://github.com/vueuse/vueuse/pull/5227) 跟进 reviewer 评论，确认清理重复 SSR 测试并改为更聚焦的回归用例
 
 ## ✅ 总结 (Summary)
 
@@ -46,4 +48,3 @@ tags: ["Open Source", "GitHub", "PR Digest", "Issue Tracking", "AI"]
 - 过程层：看已完成但待合并队列
 
 这样可以更清楚地看到真实交付节奏，也方便后续做周报、复盘和优先级调整。
-
