@@ -38,6 +38,7 @@ tags: ["Open Source", "GitHub", "PR Digest", "Issue Tracking", "AI"]
 - [pulumi/esc#617](https://github.com/pulumi/esc/pull/617) 2 段环境引用歧义提示
 - [python-poetry/poetry#10715](https://github.com/python-poetry/poetry/pull/10715) `poetry self` 锁文件提示命令修正
 - [python-poetry/poetry#10716](https://github.com/python-poetry/poetry/pull/10716) Windows 上 `bash` 执行 `poetry env activate` 时按 shell 输出 `source ...`，并补回归测试（关联 [#10395](https://github.com/python-poetry/poetry/issues/10395)）
+- [python-poetry/poetry#10717](https://github.com/python-poetry/poetry/pull/10717) 修复仓库名包含 `.` 时配置路径被错误拆分的问题（关联 [#1328](https://github.com/python-poetry/poetry/issues/1328)），统一处理 `repositories/http-basic/pypi-token/certificates` 的键路径转义
 - [pytest-dev/pytest-reportlog#100](https://github.com/pytest-dev/pytest-reportlog/pull/100) 去除 report message 中 ANSI 转义
 - [vueuse/vueuse#5227](https://github.com/vueuse/vueuse/pull/5227) 跟进 reviewer 评论，确认清理重复 SSR 测试并改为更聚焦的回归用例
 
