@@ -42,6 +42,7 @@ tags: ["Open Source", "GitHub", "PR Digest", "Issue Tracking", "AI"]
 - [astral-sh/uv#17888](https://github.com/astral-sh/uv/pull/17888) 修复 `uv python find --project` 场景下未优先解析目标项目 `.venv` 的问题（关联 [#11990](https://github.com/astral-sh/uv/issues/11990)）
 - [astral-sh/uv#17889](https://github.com/astral-sh/uv/pull/17889) 修复 settings discovery 在父目录遇到 `pyproject.toml` 目录时直接中断的问题：当前目录保持报错，父目录改为 warning 并继续搜索（关联 [#14584](https://github.com/astral-sh/uv/issues/14584)）
 - [astral-sh/uv#17891](https://github.com/astral-sh/uv/pull/17891) 优化 `uv sync --frozen` 在锁文件与工作区成员不匹配时的报错文案，明确提示可能由重命名 `project.name` 导致（关联 [#12661](https://github.com/astral-sh/uv/issues/12661)）
+- [astral-sh/uv#17892](https://github.com/astral-sh/uv/pull/17892) 修复文件锁获取在 `EINTR` 场景下未重试的问题，统一覆盖 try-lock 与 blocking lock 并补单测（关联 [#15996](https://github.com/astral-sh/uv/issues/15996)）
 - [delta-io/delta-kernel-rs#1783](https://github.com/delta-io/delta-kernel-rs/pull/1783) 为 `Transaction` 增加 blind append 支持，写入 `CommitInfo.isBlindAppend=true` 并补充语义校验与测试（关联 [#1771](https://github.com/delta-io/delta-kernel-rs/issues/1771)）
 - [delta-io/delta-kernel-rs#1784](https://github.com/delta-io/delta-kernel-rs/pull/1784) 抽取并统一嵌套 schema 路径查找工具，替换 stats 过滤中的重复实现并补测试（关联 [#1729](https://github.com/delta-io/delta-kernel-rs/issues/1729)）
 - [pytest-dev/pytest-reportlog#100](https://github.com/pytest-dev/pytest-reportlog/pull/100) 去除 report message 中 ANSI 转义
