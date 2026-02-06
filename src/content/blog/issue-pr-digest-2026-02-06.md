@@ -40,6 +40,7 @@ tags: ["Open Source", "GitHub", "PR Digest", "Issue Tracking", "AI"]
 - [python-poetry/poetry#10716](https://github.com/python-poetry/poetry/pull/10716) Windows 上 `bash` 执行 `poetry env activate` 时按 shell 输出 `source ...`，并补回归测试（关联 [#10395](https://github.com/python-poetry/poetry/issues/10395)）
 - [python-poetry/poetry#10717](https://github.com/python-poetry/poetry/pull/10717) 修复仓库名包含 `.` 时配置路径被错误拆分的问题（关联 [#1328](https://github.com/python-poetry/poetry/issues/1328)），统一处理 `repositories/http-basic/pypi-token/certificates` 的键路径转义
 - [astral-sh/uv#17888](https://github.com/astral-sh/uv/pull/17888) 修复 `uv python find --project` 场景下未优先解析目标项目 `.venv` 的问题（关联 [#11990](https://github.com/astral-sh/uv/issues/11990)）
+- [astral-sh/uv#17889](https://github.com/astral-sh/uv/pull/17889) 修复 settings discovery 在父目录遇到 `pyproject.toml` 目录时直接中断的问题：当前目录保持报错，父目录改为 warning 并继续搜索（关联 [#14584](https://github.com/astral-sh/uv/issues/14584)）
 - [delta-io/delta-kernel-rs#1783](https://github.com/delta-io/delta-kernel-rs/pull/1783) 为 `Transaction` 增加 blind append 支持，写入 `CommitInfo.isBlindAppend=true` 并补充语义校验与测试（关联 [#1771](https://github.com/delta-io/delta-kernel-rs/issues/1771)）
 - [delta-io/delta-kernel-rs#1784](https://github.com/delta-io/delta-kernel-rs/pull/1784) 抽取并统一嵌套 schema 路径查找工具，替换 stats 过滤中的重复实现并补测试（关联 [#1729](https://github.com/delta-io/delta-kernel-rs/issues/1729)）
 - [pytest-dev/pytest-reportlog#100](https://github.com/pytest-dev/pytest-reportlog/pull/100) 去除 report message 中 ANSI 转义
