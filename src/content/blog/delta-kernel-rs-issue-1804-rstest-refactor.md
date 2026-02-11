@@ -72,3 +72,22 @@ tags: ["Open Source", "Rust", "Delta Lake", "Testing", "rstest", "GitHub"]
 - `cargo test -p delta_kernel is_feature_info_supported_reader_writer`
 
 PR 跟进评论：<https://github.com/delta-io/delta-kernel-rs/pull/1825#issuecomment-3881655148>
+
+## Follow-up 2
+
+我又补了第三轮（commit: `1b15674`），继续沿着 issue 里提到的 `create_table` 测试组做参数化：
+
+- 重构文件：`kernel/tests/create_table.rs`
+- 合并两个成对测试：
+  - `test_clustering_stats_columns_within_limit`
+  - `test_clustering_stats_columns_beyond_limit`
+- 新增参数化测试：`test_clustering_stats_columns`
+  - case 1：`10` 列 + `col5`
+  - case 2：`40` 列 + `col35` + 期望 stats 列数 `33`
+
+第三轮验证命令：
+
+- `cargo fmt --all`
+- `cargo test -p delta_kernel test_clustering_stats_columns`
+
+PR 跟进评论：<https://github.com/delta-io/delta-kernel-rs/pull/1825#issuecomment-3881662224>
