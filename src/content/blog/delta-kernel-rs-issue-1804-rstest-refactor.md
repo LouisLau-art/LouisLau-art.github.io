@@ -55,3 +55,20 @@ tags: ["Open Source", "Rust", "Delta Lake", "Testing", "rstest", "GitHub"]
 - 保持行为不变，review 风险低、易合并。
 
 如果 maintainer 认可这轮范围，我会按 issue 列表继续扩展到其它高重复测试文件。
+
+## Follow-up
+
+在 PR 评论反馈前，我先做了第二轮小步扩展（commit: `ea02b5a`）：
+
+- 新增参数化范围：`kernel/src/table_configuration.rs`
+  - `test_is_feature_info_supported_writer`
+  - `test_is_feature_info_supported_reader_writer`
+- 同样保持“仅重构测试组织，不改行为逻辑”。
+
+第二轮验证命令：
+
+- `cargo fmt --all`
+- `cargo test -p delta_kernel is_feature_info_supported_writer`
+- `cargo test -p delta_kernel is_feature_info_supported_reader_writer`
+
+PR 跟进评论：<https://github.com/delta-io/delta-kernel-rs/pull/1825#issuecomment-3881655148>
