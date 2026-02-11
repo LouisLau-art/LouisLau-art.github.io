@@ -35,10 +35,23 @@ tags: ["Open Source", "Rust", "Delta Lake", "URL", "Bugfix", "Testing", "GitHub"
 2) 补齐并修正相关测试，让测试数据真实写入到 `table_root/_delta_log/...` 下。\n
 3) 本地验证：`cargo test -p delta_kernel`。
 
+## 🔁 跟进 (Follow-up)
+
+这单在 review 阶段有一次代码补丁跟进（2026-02-11）：
+
+- Reviewer 明确要求补 utility function 单测并提升 coverage。
+- 我补了两组测试并推送 `32ba66e`：
+  - `kernel/src/utils.rs`：`normalize_table_root_url` 的 trailing slash/empty-path 场景。
+  - `test-utils/src/lib.rs`：`delta_path_for_version_at` 的 root 与 nested table path 场景。
+- 验证命令：
+  - `cargo fmt --all`
+  - `cargo test -p delta_kernel normalize_table_root_url`
+  - `cargo test -p test_utils delta_path_for_version_at`
+- PR 跟进评论：<https://github.com/delta-io/delta-kernel-rs/pull/1769#issuecomment-3881621006>
+
 ## ✅ 总结 (Summary)
 
 这个修复属于“改动很小，但能显著提升鲁棒性”的典型案例：
 - API 对用户输入更宽容（不用强制 trailing slash）。\n
 - 避免隐藏的路径拼接陷阱，减少线上误判成权限问题的概率。\n
 - 测试覆盖更贴近真实表结构，能更早捕获同类回归。
-
