@@ -1,5 +1,5 @@
 ---
-title: "为 Podman Desktop 贡献：修复 PR Labeler workflow 未 checkout 导致 NOP (PR #16227)"
+title: "为 Podman Desktop 贡献：修复 PR Labeler workflow 未 checkout 导致 NOP (PR #16228)"
 description: "在 pr-labeler GitHub Actions workflow 中增加 actions/checkout（checkout base SHA），让 actions/labeler 能读取 .github/labeler.yml 正常打标签。"
 pubDate: "Feb 13 2026"
 tags: ["Open Source", "Podman Desktop", "GitHub Actions", "CI"]
@@ -8,7 +8,7 @@ tags: ["Open Source", "Podman Desktop", "GitHub Actions", "CI"]
 这单属于“看起来跑了，其实没干活”的 CI 小坑：workflow 里调用了 `actions/labeler`，但没有 `checkout` 代码，导致 `configuration-path: .github/labeler.yml` 在工作目录里根本不存在，最终相当于 NOP。
 
 - Issue: [podman-desktop/podman-desktop#14443](https://github.com/podman-desktop/podman-desktop/issues/14443)
-- PR: [podman-desktop/podman-desktop#16227](https://github.com/podman-desktop/podman-desktop/pull/16227)
+- PR: [podman-desktop/podman-desktop#16228](https://github.com/podman-desktop/podman-desktop/pull/16228)
 
 ## 🔍 分析 (Analyze)
 
@@ -28,4 +28,3 @@ tags: ["Open Source", "Podman Desktop", "GitHub Actions", "CI"]
 ## ✅ 总结 (Summary)
 
 这是典型的“CI plumbing”修复：改动很小，但能把一个实际无效的 workflow 变成真正工作，同时也保持 `pull_request_target` 的安全边界（只 checkout base 代码）。
-
