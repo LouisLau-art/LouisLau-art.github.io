@@ -1,7 +1,9 @@
 ---
+import { Image } from 'astro:assets';
 import ContactCTA from '../components/ContactCTA.astro';
 import Hero from '../components/Hero.astro';
 import BaseLayout from '../layouts/BaseLayout.astro';
+import profileImage from '../assets/profile.png';
 ---
 
 <BaseLayout title="About | LouisLau-art" description="About LouisLau-art - Full-stack Developer">
@@ -11,11 +13,14 @@ import BaseLayout from '../layouts/BaseLayout.astro';
 				title="About"
 				tagline="Thanks for stopping by. Read below to learn more about myself and my background."
 			>
-				<img
+				<Image
 					width="1792"
 					height="2400"
-					src="/assets/profile.png"
+					src={profileImage}
 					alt="LouisLau-art at work"
+					fetchpriority="high"
+					loading="eager"
+					decoding="sync"
 				/>
 			</Hero>
 

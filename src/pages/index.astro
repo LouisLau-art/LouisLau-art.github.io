@@ -1,5 +1,6 @@
 ---
 import { getCollection } from 'astro:content';
+import { Image } from 'astro:assets';
 // Component Imports
 import CallToAction from '../components/CallToAction.astro';
 // Page section components
@@ -12,6 +13,7 @@ import PortfolioPreview from '../components/PortfolioPreview.astro';
 import Skills from '../components/Skills.astro';
 // Layout import — provides basic page elements: <head>, <nav>, <footer> etc.
 import BaseLayout from '../layouts/BaseLayout.astro';
+import profileImage from '../assets/profile.png';
 
 // Content Fetching: List five most recent work projects
 const projects = (await getCollection('work'))
@@ -38,11 +40,14 @@ const projects = (await getCollection('work'))
 					</div>
 				</Hero>
 
-				<img
+				<Image
 					alt="LouisLau-art coding"
 					width="1792"
 					height="2400"
-					src="/assets/profile.png"
+					src={profileImage}
+					fetchpriority="high"
+					loading="eager"
+					decoding="sync"
 				/>
 			</header>
 
