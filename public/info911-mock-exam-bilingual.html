@@ -1231,11 +1231,30 @@ Transaction 10: {F}</div>
                     <textarea class="text-input" rows="3" placeholder="在此输入你的草稿或答案..."></textarea>
                     <button class="btn primary" onclick="toggleSolution('sol-5-5')">查看考场标答解析</button>
                 </div>
-                <div id="sol-5-5" class="solution-box">
+                                <div id="sol-5-5" class="solution-box">
                     <div class="solution-header">✔ 考场英语答题模板（复制背诵）</div>
                     <div class="solution-english-template">1. Random Forest constructs an ensemble of decision trees using bootstrap sampling of the training data and random subset feature selection at each node split. For regression, the final prediction is the average of all individual tree predictions.
 2. Random Forest improves predictions by significantly reducing model variance compared to a single tree, preventing overfitting, and smoothing out noise and outliers.</div>
+                    
+                    <div style="font-size: 0.85rem; color: var(--text-secondary); margin-top: 0.5rem; border-top: 1px solid rgba(255,255,255,0.05); padding-top: 0.5rem;">
+                        <b>💡 大白话物理图像：</b><br>
+                        随机森林的本质是<b>“三个臭皮匠顶个诸葛亮”</b>的<b>集体智慧（Ensemble）</b>。
+                        <ul style="margin-left: 1.25rem; margin-top: 0.25rem; margin-bottom: 0.5rem;">
+                            <li><b>随机选样本 —— 行随机（Bootstrap Sampling）：</b> 假设我们要建 50 棵树。每建一棵新树，都在原始数据里“有放回地随机抽样”，导致每棵树看到的复习资料都有微妙区别。</li>
+                            <li><b>随机选特征 —— 列随机（Random subset feature selection）：</b> 在决策树的每一个分叉节点上，不把所有特征都拿来选，而是随机挑一部分特征（比如只在“年龄”和“GPA”里挑），在这部分随机特征里选最好的去分叉。</li>
+                            <li><b>回归任务的预测结果：</b> 每一棵树都独立给出一个具体的预测数字（比如 80、82、81），最终结果<b>取所有树预测值的平均值（Average）</b>。</li>
+                        </ul>
+                        
+                        <b>⚡️ 为什么它比单棵决策树（Single Tree）更好？</b>
+                        <ol style="margin-left: 1.25rem; margin-top: 0.25rem; margin-bottom: 0.5rem;">
+                            <li><b>降低方差（Reducing Variance）：</b> 单棵树极易钻牛角尖（过拟合，高方差）。随机森林通过 50 棵树的联合表决，即使有个别树钻了牛角尖，平均一下就会被“拉回正轨”，大大防止了<b>过拟合 (Overfitting)</b>。</li>
+                            <li><b>平滑噪音（Smoothing out noise/outliers）：</b> 脏数据或异常值最多只影响分到它们的极少数树，当所有树一起平均时，这些噪声的影响会被大流<b>“平滑抵消”</b>掉。</li>
+                        </ol>
+                        <b>⚡️ 归纳口诀：</b><br>
+                        “样本有放回（Bootstrap），特征随缘挑（Subset）；回归求平均（Average），防钻牛角尖（降方差，防过拟合）。”
+                    </div>
                 </div>
+            </div>
             </div>
 
         </section>
