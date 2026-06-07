@@ -1276,11 +1276,34 @@ Transaction 10: {F}</div>
                     <textarea class="text-input" rows="3" placeholder="在此输入你的草稿或答案..."></textarea>
                     <button class="btn primary" onclick="toggleSolution('sol-6-1')">查看考场标答解析</button>
                 </div>
-                <div id="sol-6-1" class="solution-box">
+                                <div id="sol-6-1" class="solution-box">
                     <div class="solution-header">✔ 考场英语答题模板（复制背诵）</div>
                     <div class="solution-english-template">1. The optimal Bayes classifier is a theoretical classifier that minimizes classification error by assigning observations to the class with the highest posterior probability using the true underlying joint probability distribution.
 2. The key difference is that Naive Bayes assumes class-conditional independence among features (i.e., features do not affect each other given the class), whereas the optimal Bayes classifier makes no such assumption and utilizes the full joint conditional probabilities.</div>
+                    
+                    <div style="font-size: 0.85rem; color: var(--text-secondary); margin-top: 0.5rem; border-top: 1px solid rgba(255,255,255,0.05); padding-top: 0.5rem;">
+                        <b>💡 大白话物理图像：</b><br>
+                        <ul style="margin-left: 1.25rem; margin-top: 0.25rem; margin-bottom: 0.5rem;">
+                            <li><b>最优贝叶斯（Optimal Bayes）＝ “上帝视角的终极神医”：</b> 
+                                如果我们知道这个世界上疾病与症状之间<b>绝对真实的概率关系（真正的联合概率分布）</b>，每次来一个病人，我们都算出他得各种病的后验概率，永远挑概率最大的病进行诊断。
+                                <br>这个分类器能达到<b>理论上最低的报错率（贝叶斯误差率 Bayes Error Rate）</b>。但在现实中因为上帝视角不存在（真实的概率分布未知），所以它<b>无法在现实中实现</b>。
+                            </li>
+                            <li><b>朴素贝叶斯（Naive Bayes）＝ “退而求其次的实用医生”：</b> 
+                                因为不知道真实的联合概率，我们索性做了一个<b>极其天真（Naive）的假设</b>：假设所有的症状（特征）之间是<b>完全独立的（Class-conditional independence）</b>。比如强行认为“发烧”和“咳嗽”之间完全没有半毛钱关系，只跟有没有感冒有关。
+                                <br>正因为有了这个独立假设，我们才能直接把概率相乘计算出来。它虽然有误差，但<b>计算极其简单，在现实中完全可行</b>。
+                            </li>
+                        </ul>
+                        
+                        <b>⚡️ 核心区别（考试采分点）：</b>
+                        <ol style="margin-left: 1.25rem; margin-top: 0.25rem; margin-bottom: 0.5rem;">
+                            <li><b>独立性假设的存无：</b> 朴素贝叶斯强行假定特征之间是**条件独立**的（Class-conditional independence）；而最优贝叶斯没有任何假设，直接利用完整的联合概率。</li>
+                            <li><b>可实现性：</b> 最优贝叶斯是一个<b>理论上（Theoretical）</b>的最优边界，现实中不可计算；朴素贝叶斯是<b>实践中（Practical）</b>可以落地的算法。</li>
+                        </ol>
+                        <b>⚡️ 秒杀口诀：</b><br>
+                        “最优贝叶斯是理想，上帝视角零假设；朴素贝叶斯是现实，特征独立乘一乘。”
+                    </div>
                 </div>
+            </div>
             </div>
 
             <!-- 6.2 Decision tree entropy gain calculation -->
