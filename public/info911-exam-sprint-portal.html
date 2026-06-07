@@ -1,0 +1,1815 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>INFO911 数据挖掘期末手算大题通关宝典</title>
+    <meta name="description" content="包含 ROC-AUC、决策树熵、线性回归、K-Means 聚类手算真题的交互式考前通关系统">
+    
+    <!-- Outfit 和 Noto Sans SC 字体 -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700&family=Noto+Sans+SC:wght@300;400;500;700&display=swap" rel="stylesheet">
+    
+    <!-- 启用 MathJax 以渲染 LaTeX 数学公式 -->
+    <script>
+    MathJax = {
+      tex: {
+        inlineMath: [['$', '$'], ['\\(', '\\)']],
+        displayMath: [['$$', '$$'], ['\\[', '\\]']]
+      }
+    };
+    </script>
+    <script id="MathJax-script" async src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
+    
+    <style>
+        :root {
+            --bg-color: #0b0f19;
+            --card-bg: rgba(22, 30, 49, 0.7);
+            --card-border: rgba(255, 255, 255, 0.06);
+            --text-primary: #f8fafc;
+            --text-secondary: #94a3b8;
+            --primary: #6366f1;
+            --primary-glow: rgba(99, 102, 241, 0.15);
+            --success: #10b981;
+            --success-glow: rgba(16, 185, 129, 0.15);
+            --danger: #ef4444;
+            --danger-glow: rgba(239, 68, 68, 0.15);
+            --warning: #f59e0b;
+            --accent: #8b5cf6;
+            --font-family: 'Outfit', 'Noto Sans SC', -apple-system, BlinkMacSystemFont, sans-serif;
+        }
+
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+
+        body {
+            background-color: var(--bg-color);
+            background-image: 
+                radial-gradient(at 0% 0%, rgba(99, 102, 241, 0.08) 0px, transparent 50%),
+                radial-gradient(at 100% 0%, rgba(139, 92, 246, 0.08) 0px, transparent 50%);
+            color: var(--text-primary);
+            font-family: var(--font-family);
+            line-height: 1.6;
+            min-height: 100vh;
+            padding-bottom: 3rem;
+        }
+
+        /* 顶部导航与大标题 */
+        header {
+            text-align: center;
+            padding: 2.5rem 2rem 1.5rem 2rem;
+            background: rgba(15, 23, 42, 0.4);
+            border-bottom: 1px solid var(--card-border);
+            backdrop-filter: blur(10px);
+        }
+
+        h1 {
+            font-size: 2.2rem;
+            font-weight: 700;
+            background: linear-gradient(135deg, #a5b4fc 0%, #6366f1 50%, #8b5cf6 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            margin-bottom: 0.6rem;
+            letter-spacing: -0.025em;
+        }
+
+        header p {
+            color: var(--text-secondary);
+            font-size: 1rem;
+            max-width: 700px;
+            margin: 0 auto;
+        }
+
+        /* 选项卡导航 */
+        .nav-tabs {
+            display: flex;
+            justify-content: center;
+            background: rgba(15, 23, 42, 0.6);
+            padding: 0.5rem;
+            border-bottom: 1px solid var(--card-border);
+            position: sticky;
+            top: 0;
+            z-index: 100;
+            backdrop-filter: blur(12px);
+        }
+
+        .tab-btn {
+            background: transparent;
+            color: var(--text-secondary);
+            border: none;
+            padding: 0.8rem 1.5rem;
+            cursor: pointer;
+            font-size: 0.95rem;
+            font-weight: 500;
+            border-radius: 8px;
+            transition: all 0.2s ease;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+            margin: 0 0.25rem;
+        }
+
+        .tab-btn:hover {
+            color: var(--text-primary);
+            background: rgba(255, 255, 255, 0.03);
+        }
+
+        .tab-btn.active {
+            color: var(--text-primary);
+            background: var(--primary);
+            box-shadow: 0 4px 12px rgba(99, 102, 241, 0.3);
+        }
+
+        /* 内容区域布局 */
+        .container {
+            max-width: 1400px;
+            margin: 2rem auto 0 auto;
+            padding: 0 1.5rem;
+        }
+
+        .tab-content {
+            display: none;
+            animation: fadeIn 0.4s ease-out-in;
+        }
+
+        .tab-content.active {
+            display: block;
+        }
+
+        .grid-2col {
+            display: grid;
+            grid-template-columns: 1.2fr 1fr;
+            gap: 1.5rem;
+        }
+
+        @media (max-width: 1024px) {
+            .grid-2col {
+                grid-template-columns: 1fr;
+            }
+        }
+
+        .card {
+            background: var(--card-bg);
+            border: 1px solid var(--card-border);
+            border-radius: 16px;
+            padding: 1.5rem;
+            backdrop-filter: blur(12px);
+            box-shadow: 0 10px 30px -10px rgba(0, 0, 0, 0.5);
+            margin-bottom: 1.5rem;
+        }
+
+        .card-title {
+            font-size: 1.25rem;
+            font-weight: 600;
+            margin-bottom: 1.2rem;
+            padding-bottom: 0.5rem;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.05);
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+
+        .card-title span {
+            color: var(--primary);
+        }
+
+        /* 按钮与输入控件 */
+        .btn {
+            background: #1e293b;
+            color: var(--text-primary);
+            border: 1px solid rgba(255, 255, 255, 0.08);
+            padding: 0.5rem 1rem;
+            border-radius: 8px;
+            cursor: pointer;
+            font-size: 0.88rem;
+            transition: all 0.2s;
+            font-family: var(--font-family);
+        }
+
+        .btn:hover {
+            background: var(--primary);
+            border-color: var(--primary);
+        }
+
+        .btn.primary {
+            background: var(--primary);
+            border-color: var(--primary);
+        }
+
+        .btn.primary:hover {
+            background: #4f46e5;
+        }
+
+        .input-group {
+            margin-bottom: 1rem;
+        }
+
+        .input-label {
+            font-size: 0.85rem;
+            color: var(--text-secondary);
+            margin-bottom: 0.4rem;
+            display: block;
+        }
+
+        .text-input {
+            width: 100%;
+            background: #0f172a;
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            color: var(--text-primary);
+            padding: 0.6rem 0.8rem;
+            border-radius: 8px;
+            outline: none;
+            font-family: monospace;
+            font-size: 1rem;
+            transition: border-color 0.2s;
+        }
+
+        .text-input:focus {
+            border-color: var(--primary);
+        }
+
+        /* 考题展示区 */
+        .question-box {
+            background: rgba(99, 102, 241, 0.04);
+            border-left: 4px solid var(--primary);
+            padding: 1rem;
+            border-radius: 0 8px 8px 0;
+            margin-bottom: 1.5rem;
+            font-size: 0.9rem;
+        }
+
+        .question-tag {
+            background: var(--primary-glow);
+            color: #a5b4fc;
+            padding: 0.15rem 0.4rem;
+            border-radius: 4px;
+            font-size: 0.75rem;
+            font-weight: 600;
+            margin-bottom: 0.5rem;
+            display: inline-block;
+        }
+
+        /* 各种特制排版 */
+        .calculator-step {
+            background: rgba(0,0,0,0.3);
+            border-radius: 8px;
+            padding: 1rem;
+            margin-top: 1rem;
+            border-left: 3px solid var(--warning);
+        }
+
+        .calculator-keys {
+            background: #0f172a;
+            color: #38bdf8;
+            padding: 0.2rem 0.5rem;
+            border-radius: 4px;
+            font-family: monospace;
+            font-weight: bold;
+            font-size: 0.9rem;
+            border: 1px solid rgba(56, 189, 248, 0.2);
+        }
+
+        .formula-display {
+            font-family: monospace;
+            background: rgba(0,0,0,0.2);
+            padding: 0.8rem;
+            border-radius: 6px;
+            margin: 0.5rem 0;
+            overflow-x: auto;
+            border: 1px dashed rgba(255,255,255,0.08);
+            font-size: 0.9rem;
+        }
+
+        /* 布局网格 */
+        .matrix-grid {
+            display: grid;
+            grid-template-columns: 80px 1fr 1fr;
+            grid-template-rows: 40px 1fr 1fr;
+            gap: 0.5rem;
+            margin-bottom: 1.5rem;
+            text-align: center;
+        }
+
+        .matrix-header {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 0.8rem;
+            color: var(--text-secondary);
+            font-weight: 600;
+        }
+
+        .matrix-cell {
+            background: rgba(15, 23, 42, 0.4);
+            border: 1px solid rgba(255, 255, 255, 0.05);
+            border-radius: 8px;
+            padding: 0.8rem;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+        }
+
+        .matrix-cell-label {
+            font-size: 0.75rem;
+            color: var(--text-secondary);
+        }
+
+        .matrix-cell-val {
+            font-size: 1.5rem;
+            font-weight: 700;
+        }
+
+        .badge {
+            padding: 0.15rem 0.4rem;
+            border-radius: 4px;
+            font-size: 0.75rem;
+            font-weight: 600;
+        }
+
+        .badge.pos { background: var(--success-glow); color: #34d399; }
+        .badge.neg { background: var(--danger-glow); color: #f87171; }
+
+        /* K-Means 图形画布 */
+        #kmeans-canvas {
+            background: #080c14;
+            border-radius: 12px;
+            border: 1px solid rgba(255, 255, 255, 0.05);
+            box-shadow: inset 0 0 20px rgba(0,0,0,0.8);
+            width: 100%;
+            max-width: 450px;
+        }
+
+        /* 动画 */
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(8px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        /* 散点分布带 */
+        .distribution-band {
+            position: relative;
+            height: 40px;
+            background: #111827;
+            border-radius: 8px;
+            margin-bottom: 1.5rem;
+            overflow: hidden;
+            border: 1px solid rgba(255, 255, 255, 0.05);
+        }
+
+        .threshold-line {
+            position: absolute;
+            top: 0;
+            bottom: 0;
+            width: 2px;
+            background: var(--warning);
+            z-index: 5;
+            box-shadow: 0 0 8px var(--warning);
+        }
+
+        .dot {
+            position: absolute;
+            width: 12px;
+            height: 12px;
+            border-radius: 50%;
+            top: 50%;
+            transform: translate(-50%, -50%);
+            box-shadow: 0 0 6px rgba(0,0,0,0.5);
+        }
+
+        .dot.pos { background: var(--success); }
+        .dot.neg { background: var(--danger); }
+
+        .range-slider {
+            -webkit-appearance: none;
+            width: 100%;
+            height: 6px;
+            border-radius: 3px;
+            background: #334155;
+            outline: none;
+            margin: 0.8rem 0;
+        }
+
+        .range-slider::-webkit-slider-thumb {
+            -webkit-appearance: none;
+            appearance: none;
+            width: 18px;
+            height: 18px;
+            border-radius: 50%;
+            background: var(--warning);
+            cursor: pointer;
+            box-shadow: 0 0 8px rgba(245, 158, 11, 0.5);
+        }
+
+        .list-unstyled {
+            list-style: none;
+            font-size: 0.88rem;
+        }
+
+        .list-unstyled li {
+            margin-bottom: 0.5rem;
+            display: flex;
+            align-items: flex-start;
+            gap: 0.5rem;
+        }
+
+        /* 表格容器 */
+        .table-container {
+            max-height: 350px;
+            overflow-y: auto;
+            border-radius: 8px;
+            background: rgba(0,0,0,0.2);
+        }
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            font-size: 0.82rem;
+            text-align: left;
+        }
+
+        th, td {
+            padding: 0.5rem 0.6rem;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.05);
+        }
+
+        th {
+            background: #1e293b;
+            color: var(--text-secondary);
+            font-weight: 500;
+            position: sticky;
+            top: 0;
+            z-index: 2;
+        }
+
+        tr.active-row {
+            outline: 1.5px solid var(--warning);
+            outline-offset: -1.5px;
+        }
+
+        /* SOM 样式 */
+        .som-neuron {
+            background: rgba(30, 41, 59, 0.8);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            border-radius: 8px;
+            aspect-ratio: 1;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: bold;
+            color: var(--text-secondary);
+            cursor: pointer;
+            transition: all 0.2s;
+            font-size: 0.85rem;
+        }
+        .som-neuron:hover, .som-neuron.active {
+            background: var(--primary);
+            color: var(--text-primary);
+            box-shadow: 0 0 12px rgba(99, 102, 241, 0.6);
+            border-color: #a5b4fc;
+        }
+        .som-neuron.winner {
+            background: var(--warning) !important;
+            color: #0b0f19 !important;
+            box-shadow: 0 0 15px var(--warning);
+            border-color: #fff;
+        }
+
+    </style>
+</head>
+<body>
+
+    <header>
+        <h1>INFO911 数据挖掘期末手算大题通关宝典</h1>
+        <p>「HTML + JS 交互式大讲堂」—— 极简大白话解释，教你如何用计算器按出每一个考点答案。</p>
+    </header>
+
+    <!-- 选项卡切换导航 -->
+    <nav class="nav-tabs">
+        <button class="tab-btn active" onclick="switchTab(event, 'tab-roc')">📉 ROC-AUC 面积 (Q3)</button>
+        <button class="tab-btn" onclick="switchTab(event, 'tab-entropy')">🌳 决策树多分类熵 (Q6C)</button>
+        <button class="tab-btn" onclick="switchTab(event, 'tab-regression')">📈 线性回归显著性 (Q7)</button>
+        <button class="tab-btn" onclick="switchTab(event, 'tab-kmeans')">🧬 K-Means 聚类手算</button>
+        <button class="tab-btn" onclick="switchTab(event, 'tab-hierarchical')">📂 层次聚类更新</button>
+        <button class="tab-btn" onclick="switchTab(event, 'tab-som')">🧠 SOM 网格与维度</button>
+    </nav>
+
+    <div class="container">
+
+        <!-- ==================== TAB 1: ROC & AUC ==================== -->
+        <div id="tab-roc" class="tab-content active">
+            <div class="grid-2col">
+                <div>
+                    <div class="card">
+                        <div class="card-title"><span>📝</span> 2022 真题 Question 3(C) 题干</div>
+                        <div class="question-box">
+                            <span class="question-tag">真题原题</span>
+                            <p>给出在10个测试样本上的二分类结果数据表（如下表所示）。要求：<br>
+                            1. 描述绘制其分类的 ROC 曲线的主要步骤，并绘制出曲线；<br>
+                            2. 精确计算该曲线下的面积 (AUC)。</p>
+                        </div>
+                        
+                        <div class="slider-container" style="background: rgba(0,0,0,0.15); padding: 1rem; border-radius: 12px; margin-bottom: 1rem;">
+                            <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom: 0.5rem;">
+                                <span style="font-size:0.85rem; color:var(--text-secondary);">决策阈值 (大于等于此值判定为正类)</span>
+                                <span style="font-size:1.3rem; font-weight:700; color:var(--warning);" id="roc-threshold-val">0.50</span>
+                            </div>
+                            <input type="range" id="roc-threshold-slider" class="range-slider" min="0" max="1" step="0.01" value="0.50" oninput="updateROC(this.value)">
+                        </div>
+
+                        <div class="distribution-band" id="roc-dist-band">
+                            <div class="threshold-line" id="roc-thresh-line" style="left: 50%;"></div>
+                        </div>
+
+                        <div class="table-container">
+                            <table id="roc-table">
+                                <thead>
+                                    <tr>
+                                        <th>降序序号</th>
+                                        <th>Sample ID</th>
+                                        <th>预测概率</th>
+                                        <th>真实标签</th>
+                                        <th>判定划分</th>
+                                    </tr>
+                                </thead>
+                                <tbody></tbody>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+
+                <div>
+                    <div class="card" style="text-align: center;">
+                        <div class="card-title"><span>📉</span> ROC 曲线及 AUC</div>
+                        <canvas id="roc-canvas" width="360" height="360" style="margin: 0 auto; display: block;"></canvas>
+                        
+                        <div style="background: linear-gradient(135deg, rgba(99, 102, 241, 0.1), rgba(139, 92, 246, 0.1)); border: 1px solid rgba(99, 102, 241, 0.2); border-radius: 8px; padding: 0.8rem; margin-top: 1rem;">
+                            <div style="font-size:0.8rem; color:var(--text-secondary);">本题 AUC 精确面积</div>
+                            <div style="font-size:1.8rem; font-weight:700; color:#a5b4fc; font-family:monospace;">0.880</div>
+                        </div>
+                    </div>
+
+                    <div class="card">
+                        <div class="card-title"><span>💡</span> 考场“数格子”秒杀 AUC 法</div>
+                        <p style="font-size:0.85rem; color:var(--text-secondary); margin-bottom: 0.8rem;">
+                            将画布切成 $5 \times 5 = 25$ 个小方格，每个小方格面积为 $0.04$。
+                            数一数曲线下共有多少个小格子：
+                        </p>
+                        <div class="formula-display">
+                            第1列负样本(0.67)上方封死于 Y=0.4 → 2 个格子<br>
+                            第2列负样本(0.19)上方封死于 Y=1.0 → 5 个格子<br>
+                            第3、4、5列负样本(0.11, 0.07, 0.06)均封顶于 Y=1.0 → 各5个格子<br>
+                            总格子数 = 2 + 5 + 5 + 5 + 5 = 22 个格子<br>
+                            AUC = 22 * 0.04 = 0.880
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- ==================== TAB 2: ENTROPY ==================== -->
+        <div id="tab-entropy" class="tab-content">
+            <div class="grid-2col">
+                <div>
+                    <div class="card">
+                        <div class="card-title"><span>🌳</span> 2022 真题 Question 6(C) 题干</div>
+                        <div class="question-box">
+                            <span class="question-tag">真题原题</span>
+                            <p>决策树分类任务中：根节点（Root Node）有 10 个样本属于类别1，10 个属于类别2，10 个属于类别3。<br>
+                            进行第一次属性分裂后，得到如下两个节点：<br>
+                            • <b>左子节点 (Left Node)</b>：4个类1，3个类2，4个类3。<br>
+                            • <b>右子节点 (Right Node)</b>：6个类1，7个类2，6个类3。<br>
+                            计算分裂前后的信息熵增益 (Entropy Gain / Loss)。</p>
+                        </div>
+
+                        <!-- 动态调节参数，直观感受混乱度 -->
+                        <div style="background: rgba(0,0,0,0.15); padding: 1.2rem; border-radius: 12px; margin-bottom: 1.5rem;">
+                            <div style="font-weight:600; margin-bottom: 0.8rem; font-size: 0.95rem; color: var(--primary);">🔧 交互式数据调节器 (改变样本数，看熵如何变)</div>
+                            <div class="grid-2col" style="grid-template-columns: 1fr 1fr; gap: 1rem;">
+                                <div>
+                                    <div class="input-group">
+                                        <label class="input-label">左节点 类1 样本数</label>
+                                        <input type="number" id="ent-l1" class="text-input" value="4" min="0" oninput="calcEntropyRealtime()">
+                                    </div>
+                                    <div class="input-group">
+                                        <label class="input-label">左节点 类2 样本数</label>
+                                        <input type="number" id="ent-l2" class="text-input" value="3" min="0" oninput="calcEntropyRealtime()">
+                                    </div>
+                                    <div class="input-group">
+                                        <label class="input-label">左节点 类3 样本数</label>
+                                        <input type="number" id="ent-l3" class="text-input" value="4" min="0" oninput="calcEntropyRealtime()">
+                                    </div>
+                                </div>
+                                <div>
+                                    <div class="input-group">
+                                        <label class="input-label">右节点 类1 样本数</label>
+                                        <input type="number" id="ent-r1" class="text-input" value="6" min="0" oninput="calcEntropyRealtime()">
+                                    </div>
+                                    <div class="input-group">
+                                        <label class="input-label">右节点 类2 样本数</label>
+                                        <input type="number" id="ent-r2" class="text-input" value="7" min="0" oninput="calcEntropyRealtime()">
+                                    </div>
+                                    <div class="input-group">
+                                        <label class="input-label">右节点 类3 样本数</label>
+                                        <input type="number" id="ent-r3" class="text-input" value="6" min="0" oninput="calcEntropyRealtime()">
+                                    </div>
+                                </div>
+                            </div>
+                            <button class="btn" style="width:100%; margin-top:0.5rem;" onclick="resetEntropyData()">重置为 2022 真题数据</button>
+                        </div>
+                    </div>
+                </div>
+
+                <div>
+                    <div class="card">
+                        <div class="card-title"><span>📐</span> 实时手算步骤与计算器按键</div>
+                        
+                        <div style="margin-bottom: 1rem;">
+                            <div style="font-size:0.85rem; color:var(--text-secondary);">根节点 (Root Node) 熵：</div>
+                            <div class="formula-display" id="out-ent-parent">H(parent) = 1.585</div>
+                        </div>
+
+                        <div style="margin-bottom: 1rem;">
+                            <div style="font-size:0.85rem; color:var(--text-secondary);">左节点 (Left Node) 熵：</div>
+                            <div class="formula-display" id="out-ent-left">H(left) = 1.573</div>
+                            <div class="calculator-step">
+                                <b>📟 计算器按键步骤：</b><br>
+                                1. 算出分子内 $\log_2(3)$: 按 <span class="calculator-keys">ln(3) / ln(2)</span> $\approx 1.585$<br>
+                                2. 计算括号内分子: <span class="calculator-keys">4 * 2 + 3 * 1.585 + 4 * 2</span> $= 20.755$<br>
+                                3. 分子除以 $N_{left}=11$: <span class="calculator-keys">20.755 / 11</span> $\approx 1.887$<br>
+                                4. 算前面的 $\log_2(11)$: 按 <span class="calculator-keys">ln(11) / ln(2)</span> $\approx 3.459$<br>
+                                5. 两数相减得到左熵: <span class="calculator-keys">3.459 - 1.887</span> $= \mathbf{1.572}$
+                            </div>
+                        </div>
+
+                        <div style="margin-bottom: 1rem;">
+                            <div style="font-size:0.85rem; color:var(--text-secondary);">右节点 (Right Node) 熵：</div>
+                            <div class="formula-display" id="out-ent-right">H(right) = 1.581</div>
+                        </div>
+
+                        <div style="margin-bottom: 1rem;">
+                            <div style="font-size:0.85rem; color:var(--text-secondary);">分裂后加权子节点熵及信息增益：</div>
+                            <div class="formula-display" id="out-ent-gain">
+                                H(children) = (11/30)*1.573 + (19/30)*1.581 = 1.578<br>
+                                Info Gain = 1.585 - 1.578 = 0.007
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- ==================== TAB 3: REGRESSION ==================== -->
+        <div id="tab-regression" class="tab-content">
+            <div class="grid-2col">
+                <div>
+                    <div class="card">
+                        <div class="card-title"><span>📈</span> 2022 真题 Question 7 题干</div>
+                        <div class="question-box">
+                            <span class="question-tag">真题原题</span>
+                            <p>回归方程如下：<br>
+                            $sleep_i = \beta_0 + \beta_1 totwrk_i + \beta_2 age_i + \beta_3 male_i + \beta_4 educ_i + \beta_5 kid_i + \beta_6 inlf_i + e_i$<br>
+                            利用 R 软件的 <code>lm</code> 和 <code>summary</code> 输出结果系数表（如下）。</p>
+                        </div>
+
+                        <div class="table-container" style="max-height: none; margin-bottom: 1.5rem;">
+                            <table>
+                                <thead>
+                                    <tr>
+                                        <th>变量名</th>
+                                        <th>系数估计值 (Estimate)</th>
+                                        <th>标准差 (Std. Error)</th>
+                                        <th>t 统计量 (t value)</th>
+                                        <th>显著性 p值 (Pr(>|t|))</th>
+                                        <th>显著性级别</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <tr>
+                                        <td>(Intercept)</td>
+                                        <td style="font-family:monospace;">3636.1751</td>
+                                        <td style="font-family:monospace;">119.0833</td>
+                                        <td style="font-family:monospace;">30.535</td>
+                                        <td style="font-family:monospace; color:#34d399;">&lt; 2e-16</td>
+                                        <td>*** (极显著)</td>
+                                    </tr>
+                                    <tr style="background: rgba(99,102,241,0.06);">
+                                        <td><b>totwrk</b> (工作分钟)</td>
+                                        <td style="font-family:monospace; font-weight:bold;">-0.1659</td>
+                                        <td style="font-family:monospace;">0.0181</td>
+                                        <td style="font-family:monospace;">-9.164</td>
+                                        <td style="font-family:monospace; color:#34d399;">&lt; 2e-16</td>
+                                        <td>*** (极显著)</td>
+                                    </tr>
+                                    <tr style="opacity: 0.5;">
+                                        <td>age (年龄)</td>
+                                        <td style="font-family:monospace;">2.0211</td>
+                                        <td style="font-family:monospace;">1.5246</td>
+                                        <td style="font-family:monospace;">1.326</td>
+                                        <td style="font-family:monospace; color:#ef4444;">0.1854</td>
+                                        <td>(不显著，需排除)</td>
+                                    </tr>
+                                    <tr style="background: rgba(16,185,129,0.06);">
+                                        <td><b>factor(male)1</b> (是否男性)</td>
+                                        <td style="font-family:monospace; font-weight:bold;">87.9292</td>
+                                        <td style="font-family:monospace;">34.8295</td>
+                                        <td style="font-family:monospace;">2.525</td>
+                                        <td style="font-family:monospace; color:#34d399;">0.0118</td>
+                                        <td>* (显著)</td>
+                                    </tr>
+                                    <tr style="background: rgba(16,185,129,0.06);">
+                                        <td><b>educ</b> (受教育年限)</td>
+                                        <td style="font-family:monospace; font-weight:bold;">-11.7273</td>
+                                        <td style="font-family:monospace;">5.8836</td>
+                                        <td style="font-family:monospace;">-1.993</td>
+                                        <td style="font-family:monospace; color:#34d399;">0.0466</td>
+                                        <td>* (显著)</td>
+                                    </tr>
+                                    <tr style="opacity: 0.5;">
+                                        <td>factor(kid)1 (小孩&lt;3岁)</td>
+                                        <td style="font-family:monospace;">4.4487</td>
+                                        <td style="font-family:monospace;">50.1296</td>
+                                        <td style="font-family:monospace;">0.089</td>
+                                        <td style="font-family:monospace; color:#ef4444;">0.9293</td>
+                                        <td>(不显著，需排除)</td>
+                                    </tr>
+                                    <tr style="opacity: 0.5;">
+                                        <td>factor(inlf)1 (劳动力)</td>
+                                        <td style="font-family:monospace;">4.5419</td>
+                                        <td style="font-family:monospace;">36.9562</td>
+                                        <td style="font-family:monospace;">0.123</td>
+                                        <td style="font-family:monospace; color:#ef4444;">0.9022</td>
+                                        <td>(不显著，需排除)</td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+
+                <div>
+                    <div class="card">
+                        <div class="card-title"><span>🧮</span> 考点实战演练与计算器联动</div>
+                        
+                        <div style="background: rgba(0,0,0,0.15); padding: 1rem; border-radius: 10px; margin-bottom: 1.5rem;">
+                            <div style="font-weight:600; margin-bottom: 0.5rem; font-size: 0.9rem;">自变量单位换算模拟计算器：</div>
+                            <div class="input-group">
+                                <label class="input-label">每周多工作的小时数 (Hours)：</label>
+                                <input type="number" id="reg-hours" class="text-input" value="4" oninput="calcRegRealtime()">
+                            </div>
+                            <div class="formula-display" id="out-reg-calc" style="font-weight:bold; color:var(--warning);">
+                                换算分钟: 4 * 60 = 240 分钟<br>
+                                预测睡眠变化: 240 * (-0.1659) = -39.82 分钟
+                            </div>
+                        </div>
+
+                        <div class="help-box">
+                            <h3 style="font-size: 0.95rem; margin-bottom: 0.5rem; color:#a5b4fc;">✍️ 考场标准回答话术（背熟直接拿满分）</h3>
+                            <ul class="list-unstyled">
+                                <li>
+                                    <span><b>(A) 问男女睡眠是否有差异：</b></span>
+                                    <span style="display:block; margin-top:0.2rem; color:var(--success);">Yes. The coefficient of factor(male)1 is 87.93 with a p-value of 0.0118, which is less than 0.05. Therefore, it is statistically significant, indicating males sleep about 87.93 minutes more per week than females.</span>
+                                </li>
+                                <li style="margin-top: 1rem;">
+                                    <span><b>(B) 问哪些变量应该排除：</b></span>
+                                    <span style="display:block; margin-top:0.2rem; color:var(--success);">We should exclude age, factor(kid)1, and factor(inlf)1. Their p-values (0.1854, 0.9293, 0.9022) are all greater than 0.05, which are not statistically significant.</span>
+                                </li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- ==================== TAB 4: K-MEANS ==================== -->
+        <div id="tab-kmeans" class="tab-content">
+            <div class="grid-2col">
+                <div>
+                    <div class="card">
+                        <div class="card-title"><span>🧬</span> K-Means 聚类手算与迭代过程</div>
+                        <div class="question-box">
+                            <span class="question-tag">高频考点</span>
+                            <p>给定 2D 空间中的 5 个点，使用 K-Means 算法（$k=2$）进行聚类。<br>
+                            • <b>数据点</b>：A(1,1), B(2,1), C(4,3), D(5,4), E(5,5)。<br>
+                            • <b>初始质心</b>：质心1 设为 A(1,1)，质心2 设为 D(5,4)。<br>
+                            观察并手算每一轮：(1) 计算距离分配簇；(2) 重新计算新质心；(3) 直至收敛。</p>
+                        </div>
+                        
+                        <div style="display:flex; gap:0.5rem; margin-bottom:1rem;">
+                            <button class="btn primary" onclick="stepKMeans()">运行下一步迭代 (Step)</button>
+                            <button class="btn" onclick="resetKMeans()">重置状态</button>
+                        </div>
+
+                        <div class="table-container">
+                            <table id="kmeans-table">
+                                <thead>
+                                    <tr>
+                                        <th>数据点</th>
+                                        <th>到质心1 距离</th>
+                                        <th>到质心2 距离</th>
+                                        <th>分配到哪个簇</th>
+                                    </tr>
+                                </thead>
+                                <tbody></tbody>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+
+                <div>
+                    <div class="card" style="text-align: center;">
+                        <div class="card-title"><span>📍</span> 聚类特征空间动态变化</div>
+                        <canvas id="kmeans-canvas" width="360" height="360" style="margin: 0 auto; display: block;"></canvas>
+                        
+                        <div class="calculator-step" style="text-align: left; margin-top: 1rem;">
+                            <div style="font-weight:600; margin-bottom: 0.3rem;">当前系统状态：</div>
+                            <div id="kmeans-status-desc">初始状态：准备开始第 1 轮迭代。</div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- ==================== TAB 5: HIERARCHICAL CLUSTERING ==================== -->
+        <div id="tab-hierarchical" class="tab-content">
+            <div class="grid-2col">
+                <div>
+                    <div class="card">
+                        <div class="card-title"><span>📂</span> 层次聚类邻近度矩阵更新</div>
+                        <div class="question-box">
+                            <span class="question-tag">真题原题 (Q2.1)</span>
+                            <p>在层次聚类中，假设目前有五个簇：$C_1, C_2, C_3, C_4, C_5$。两两距离如下矩阵所示。<br>
+                            (1) 邻近度矩阵大小目前为 <b>5x5</b>。<br>
+                            (2) 如果我们将 <b>$C_3$ 和 $C_4$ 合并</b>为一个新簇 $C_{34}$，更新后的矩阵大小为多少？哪些行列被删除，哪些行列被添加？</p>
+                        </div>
+
+                        <div style="margin-bottom: 1rem; display: flex; gap: 0.5rem; flex-wrap: wrap;">
+                            <button class="btn primary" onclick="mergeC3C4()">合并 C3 和 C4</button>
+                            <button class="btn" onclick="resetHierarchical()">重置矩阵</button>
+                        </div>
+
+                        <div style="margin-bottom: 1rem;">
+                            <div style="font-weight: 600; margin-bottom: 0.5rem; font-size: 0.9rem;">邻近度矩阵 (Proximity Matrix)：</div>
+                            <div class="table-container" style="max-height: none;">
+                                <table id="hierarchical-table" style="text-align: center;">
+                                    <!-- 动态渲染 -->
+                                </table>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div>
+                    <div class="card">
+                        <div class="card-title"><span>📐</span> 更新细节与 Linkage 计算公式</div>
+                        
+                        <div id="hierarchical-linkage-panel" style="display: none; background: rgba(0,0,0,0.15); padding: 1rem; border-radius: 10px; margin-bottom: 1.5rem;">
+                            <div style="font-weight:600; margin-bottom: 0.5rem; font-size: 0.9rem;">选择距离度量方式 (Linkage Criteria)：</div>
+                            <div style="display: flex; gap: 0.5rem; margin-bottom: 1rem;">
+                                <button class="btn primary linkage-btn" id="btn-linkage-single" onclick="setLinkage('single')">Single (MIN)</button>
+                                <button class="btn linkage-btn" id="btn-linkage-complete" onclick="setLinkage('complete')">Complete (MAX)</button>
+                                <button class="btn linkage-btn" id="btn-linkage-average" onclick="setLinkage('average')">Average (AVG)</button>
+                            </div>
+
+                            <div class="formula-display" id="hierarchical-formula-desc" style="font-size: 0.88rem; line-height: 1.5;">
+                                <!-- 动态填充计算过程 -->
+                            </div>
+                        </div>
+
+                        <div class="help-box" id="hierarchical-answer-box">
+                            <h3 style="font-size: 0.95rem; margin-bottom: 0.5rem; color:#a5b4fc;">✍️ 考场标准回答话术（直接拿满分）</h3>
+                            <div class="calculator-step" style="background: rgba(30, 41, 59, 0.4); border-left-color: var(--primary); margin-top: 0.5rem;">
+                                <b>(1) Size & Entry representation:</b><br>
+                                <span style="color: var(--success);">The size of the proximity matrix is 5x5. Each entry (i, j) represents the proximity (distance or similarity) between cluster C_i and cluster C_j.</span>
+                            </div>
+                            <div class="calculator-step" style="background: rgba(30, 41, 59, 0.4); border-left-color: var(--success); margin-top: 0.5rem;">
+                                <b>(2) Rows & Columns update:</b><br>
+                                <span style="color: var(--success);">The rows and columns corresponding to C_3 and C_4 must be removed. A new row and column representing the merged cluster C_34 must be added, containing its distance to all other remaining clusters (C_1, C_2, C_5).</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- ==================== TAB 6: SOM VISUALIZATION ==================== -->
+        <div id="tab-som" class="tab-content">
+            <div class="grid-2col">
+                <div>
+                    <div class="card">
+                        <div class="card-title"><span>🧠</span> SOM (自组织映射) 维度与结构直观演示</div>
+                        <div class="question-box">
+                            <span class="question-tag">考点理解</span>
+                            <p><b>为什么 10x10 网格有 100 个 Codebook Vectors，且每个都是 20 维？</b><br>
+                            为了便于用屏幕（2D）展示，我们假设输入样本只有 <b>2 维特征</b> (X, Y)，投射到 <b>4x4 = 16 个神经元</b> 的网格上。<br>
+                            每一个网格格子（神经元）在 2D 特征空间中都对应着一个<b>“代表点” (即 Codebook Vector，包含 X, Y 两个坐标值)</b>。</p>
+                        </div>
+
+                        <div style="margin-bottom: 1rem; display: flex; gap: 0.5rem; flex-wrap: wrap;">
+                            <button class="btn primary" onclick="generateSomSample()">投射一个新样本 (Project Sample)</button>
+                            <button class="btn" onclick="resetSom()">重置网络</button>
+                        </div>
+
+                        <div style="background: rgba(0,0,0,0.15); padding: 0.8rem; border-radius: 8px; font-size: 0.85rem; color: var(--text-secondary); margin-bottom: 1rem;">
+                            💡 <b>交互指引</b>：在右侧<b>「2D 神经元网格」</b>上移动鼠标悬停，可以实时高亮左侧<b>「高维输入特征空间」</b>中对应的 Codebook Vector（代表坐标）。
+                        </div>
+                        
+                        <div style="text-align: center;">
+                            <div style="font-weight: 600; margin-bottom: 0.5rem; font-size: 0.9rem;">左：高维输入特征空间 (2D 空间，点坐标为 [X, Y])</div>
+                            <canvas id="som-space-canvas" width="360" height="360" style="margin: 0 auto; display: block; background: #080c14; border-radius: 12px; border: 1px solid rgba(255, 255, 255, 0.05);"></canvas>
+                        </div>
+                    </div>
+                </div>
+
+                <div>
+                    <div class="card" style="text-align: center;">
+                        <div class="card-title"><span>🕸️</span> 右：2D 神经元网格 (4x4 = 16 个神经元)</div>
+                        
+                        <div id="som-grid-container" style="display: grid; grid-template-columns: repeat(4, 1fr); gap: 10px; max-width: 280px; margin: 2rem auto;">
+                            <!-- 16个神经元格子 -->
+                        </div>
+
+                        <div class="calculator-step" style="text-align: left; margin-top: 1rem;">
+                            <div style="font-weight:600; margin-bottom: 0.3rem;">当前选择神经元信息：</div>
+                            <div id="som-status-desc" style="font-size: 0.88rem; font-family: monospace; color: var(--warning);">
+                                悬停在右侧网格上查看...
+                            </div>
+                        </div>
+
+                        <div class="help-box" style="text-align: left; margin-top: 1.5rem;">
+                            <h3 style="font-size: 0.95rem; margin-bottom: 0.5rem; color:#a5b4fc;">💡 核心考点白话归纳</h3>
+                            <ul class="list-unstyled">
+                                <li>
+                                    <span><b>1. Codebook Vector 个数：</b></span>
+                                    <span style="color: var(--success);">等于右边神经元网格的格子总数（此处为 4x4 = 16 个）。若真题是 10x10，那就是 100 个。与输入样本数<b>完全无关</b>！</span>
+                                </li>
+                                <li style="margin-top: 0.5rem;">
+                                    <span><b>2. Codebook Vector 维度：</b></span>
+                                    <span style="color: var(--success);">等于左边输入空间的维度。因为要算欧氏距离，所以左边的样本是几维，右边格子的权重向量就必须是几维（此处空间是 2D，所以是 2 维。真题特征数是 20，所以是 20 维）。</span>
+                                </li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+    </div>
+
+    <script>
+        // Tab 切换逻辑
+        function switchTab(evt, tabId) {
+            const contents = document.querySelectorAll('.tab-content');
+            contents.forEach(c => c.classList.remove('active'));
+
+            const buttons = document.querySelectorAll('.tab-btn');
+            buttons.forEach(b => b.classList.remove('active'));
+
+            document.getElementById(tabId).classList.add('active');
+            evt.currentTarget.classList.add('active');
+
+            if (tabId === 'tab-roc') {
+                updateROC(document.getElementById('roc-threshold-slider').value);
+            } else if (tabId === 'tab-kmeans') {
+                drawKMeans();
+            } else if (tabId === 'tab-hierarchical') {
+                resetHierarchical();
+            } else if (tabId === 'tab-som') {
+                resetSom();
+            }
+        }
+
+        // ==================== TAB 1: ROC & AUC JS ====================
+        const rocData = [
+            { id: 3, prob: 0.99, label: 'Positive' },
+            { id: 2, prob: 0.75, label: 'Positive' },
+            { id: 9, prob: 0.67, label: 'Negative' },
+            { id: 8, prob: 0.61, label: 'Positive' },
+            { id: 5, prob: 0.52, label: 'Positive' },
+            { id: 10, prob: 0.34, label: 'Positive' },
+            { id: 1, prob: 0.19, label: 'Negative' },
+            { id: 6, prob: 0.11, label: 'Negative' },
+            { id: 4, prob: 0.07, label: 'Negative' },
+            { id: 7, prob: 0.06, label: 'Negative' }
+        ];
+        const mPos = 5, nNeg = 5;
+
+        function initRocDots() {
+            const band = document.getElementById('roc-dist-band');
+            // 只在未生成过点时生成
+            if (band.children.length <= 1) {
+                rocData.forEach(d => {
+                    const dot = document.createElement('div');
+                    dot.className = `dot ${d.label === 'Positive' ? 'pos' : 'neg'}`;
+                    dot.style.left = `${d.prob * 100}%`;
+                    band.appendChild(dot);
+                });
+            }
+        }
+
+        function updateROC(val) {
+            document.getElementById('roc-threshold-val').textContent = Number(val).toFixed(2);
+            document.getElementById('roc-thresh-line').style.left = `${val * 100}%`;
+
+            let tp = 0, fp = 0, fn = 0, tn = 0;
+            const tbody = document.querySelector('#roc-table tbody');
+            tbody.innerHTML = '';
+
+            rocData.forEach((d, idx) => {
+                const pred = d.prob >= val;
+                let outcome = '';
+                if (d.label === 'Positive') {
+                    if (pred) { tp++; outcome = '<span class="badge pos">TP (真阳)</span>'; }
+                    else { fn++; outcome = '<span class="badge neg">FN (假阴)</span>'; }
+                } else {
+                    if (pred) { fp++; outcome = '<span class="badge neg">FP (假阳)</span>'; }
+                    else { tn++; outcome = '<span class="badge pos">TN (真阴)</span>'; }
+                }
+
+                const tr = document.createElement('tr');
+                tr.style.background = pred ? 'rgba(16, 185, 129, 0.04)' : 'rgba(239, 68, 68, 0.04)';
+                
+                // 临界行高亮
+                const isBorder = (idx < rocData.length - 1 && rocData[idx].prob >= val && rocData[idx+1].prob < val);
+                if (isBorder || (idx === rocData.length-1 && val === 0.0) || (idx === 0 && val > d.prob)) {
+                    tr.className = 'active-row';
+                }
+
+                tr.innerHTML = `
+                    <td>${idx+1}</td>
+                    <td>${d.id}</td>
+                    <td style="font-family:monospace; font-weight:bold;">${d.prob.toFixed(2)}</td>
+                    <td>${d.label === 'Positive' ? '🔴 Positive' : '🟢 Negative'}</td>
+                    <td>${outcome}</td>
+                `;
+                tbody.appendChild(tr);
+            });
+
+            // 绘图
+            const tpr = tp / mPos;
+            const fpr = fp / nNeg;
+            drawRocCanvas(fpr, tpr);
+        }
+
+        function drawRocCanvas(currFpr, currTpr) {
+            const canvas = document.getElementById('roc-canvas');
+            const ctx = canvas.getContext('2d');
+            const padding = 40;
+            const w = canvas.width - 2 * padding;
+            const h = canvas.height - 2 * padding;
+
+            ctx.clearRect(0,0,canvas.width,canvas.height);
+
+            // 背景网格
+            ctx.strokeStyle = '#1e293b';
+            ctx.lineWidth = 1;
+            for(let i=0; i<=5; i++) {
+                const ratio = i/5;
+                // 竖线
+                ctx.beginPath();
+                ctx.moveTo(padding + ratio*w, padding);
+                ctx.lineTo(padding + ratio*w, canvas.height - padding);
+                ctx.stroke();
+                // 横线
+                ctx.beginPath();
+                ctx.moveTo(padding, padding + ratio*h);
+                ctx.lineTo(canvas.width - padding, padding + ratio*h);
+                ctx.stroke();
+            }
+
+            // 对角虚线
+            ctx.strokeStyle = 'rgba(148,163,184,0.3)';
+            ctx.setLineDash([4, 4]);
+            ctx.beginPath();
+            ctx.moveTo(padding, canvas.height - padding);
+            ctx.lineTo(canvas.width - padding, padding);
+            ctx.stroke();
+            ctx.setLineDash([]);
+
+            // ROC 连线坐标
+            const pts = [{f:0, t:0}];
+            let runningTp = 0, runningFp = 0;
+            rocData.forEach(d => {
+                if(d.label === 'Positive') runningTp++;
+                else runningFp++;
+                pts.push({ f: runningFp/nNeg, t: runningTp/mPos });
+            });
+
+            // 填充 AUC 面积
+            ctx.fillStyle = 'rgba(99,102,241,0.06)';
+            ctx.beginPath();
+            ctx.moveTo(padding, canvas.height - padding);
+            pts.forEach(p => {
+                ctx.lineTo(padding + p.f*w, padding + (1-p.t)*h);
+            });
+            ctx.lineTo(canvas.width - padding, canvas.height - padding);
+            ctx.fill();
+
+            // 画折线
+            ctx.strokeStyle = '#6366f1';
+            ctx.lineWidth = 3;
+            ctx.beginPath();
+            pts.forEach((p, idx) => {
+                if(idx === 0) ctx.moveTo(padding + p.f*w, padding + (1-p.t)*h);
+                else ctx.lineTo(padding + p.f*w, padding + (1-p.t)*h);
+            });
+            ctx.stroke();
+
+            // 画小拐点
+            ctx.fillStyle = '#8b5cf6';
+            pts.forEach(p => {
+                ctx.beginPath();
+                ctx.arc(padding + p.f*w, padding + (1-p.t)*h, 3.5, 0, Math.PI*2);
+                ctx.fill();
+            });
+
+            // 当前点标记
+            const cx = padding + currFpr*w;
+            const cy = padding + (1-currTpr)*h;
+            ctx.fillStyle = '#f59e0b';
+            ctx.shadowColor = '#f59e0b';
+            ctx.shadowBlur = 10;
+            ctx.beginPath();
+            ctx.arc(cx, cy, 6, 0, Math.PI*2);
+            ctx.fill();
+            ctx.shadowBlur = 0;
+
+            // 画轴刻度
+            ctx.fillStyle = '#94a3b8';
+            ctx.font = '10px Outfit';
+            ctx.textAlign = 'center';
+            for(let i=0; i<=5; i++) {
+                ctx.fillText((i/5).toFixed(1), padding + (i/5)*w, canvas.height - padding + 12);
+            }
+            ctx.textAlign = 'right';
+            for(let i=0; i<=5; i++) {
+                ctx.fillText((i/5).toFixed(1), padding - 6, padding + (1 - i/5)*h + 3);
+            }
+        }
+
+        // ==================== TAB 2: ENTROPY JS ====================
+        function calcEntropyRealtime() {
+            const l1 = Math.max(0, parseInt(document.getElementById('ent-l1').value) || 0);
+            const l2 = Math.max(0, parseInt(document.getElementById('ent-l2').value) || 0);
+            const l3 = Math.max(0, parseInt(document.getElementById('ent-l3').value) || 0);
+            const r1 = Math.max(0, parseInt(document.getElementById('ent-r1').value) || 0);
+            const r2 = Math.max(0, parseInt(document.getElementById('ent-r2').value) || 0);
+            const r3 = Math.max(0, parseInt(document.getElementById('ent-r3').value) || 0);
+
+            const nLeft = l1 + l2 + l3;
+            const nRight = r1 + r2 + r3;
+            const nTotal = nLeft + nRight;
+
+            const p1 = l1 + r1;
+            const p2 = l2 + r2;
+            const p3 = l3 + r3;
+
+            // 计算熵辅助函数
+            function entropy(a, b, c) {
+                const sum = a + b + c;
+                if (sum === 0) return 0;
+                let ent = 0;
+                [a, b, c].forEach(v => {
+                    if (v > 0) {
+                        const p = v / sum;
+                        ent -= p * Math.log2(p);
+                    }
+                });
+                return ent;
+            }
+
+            const hParent = entropy(p1, p2, p3);
+            const hLeft = entropy(l1, l2, l3);
+            const hRight = entropy(r1, r2, r3);
+            const hChildren = nTotal > 0 ? ((nLeft/nTotal)*hLeft + (nRight/nTotal)*hRight) : 0;
+            const gain = hParent - hChildren;
+
+            // 显示输出
+            document.getElementById('out-ent-parent').innerHTML = `<b>H(parent)</b> = -[ (${p1}/${nTotal})log₂(${p1}/${nTotal}) + ... ] = <b>${hParent.toFixed(3)}</b>`;
+            document.getElementById('out-ent-left').innerHTML = `<b>H(left)</b> = -[ (${l1}/${nLeft})log₂(${l1}/${nLeft}) + ... ] = <b>${hLeft.toFixed(3)}</b>`;
+            document.getElementById('out-ent-right').innerHTML = `<b>H(right)</b> = -[ (${r1}/${nRight})log₂(${r1}/${nRight}) + ... ] = <b>${hRight.toFixed(3)}</b>`;
+            
+            document.getElementById('out-ent-gain').innerHTML = `
+                <b>H(children)</b> = (${nLeft}/${nTotal}) * ${hLeft.toFixed(3)} + (${nRight}/${nTotal}) * ${hRight.toFixed(3)} = <b>${hChildren.toFixed(3)}</b><br>
+                <span style="font-size:1.1rem; color:var(--warning);"><b>Entropy Gain</b> = ${hParent.toFixed(3)} - ${hChildren.toFixed(3)} = <b>${gain.toFixed(3)}</b></span>
+            `;
+        }
+
+        function resetEntropyData() {
+            document.getElementById('ent-l1').value = 4;
+            document.getElementById('ent-l2').value = 3;
+            document.getElementById('ent-l3').value = 4;
+            document.getElementById('ent-r1').value = 6;
+            document.getElementById('ent-r2').value = 7;
+            document.getElementById('ent-r3').value = 6;
+            calcEntropyRealtime();
+        }
+
+        // ==================== TAB 3: REGRESSION JS ====================
+        function calcRegRealtime() {
+            const hours = parseFloat(document.getElementById('reg-hours').value) || 0;
+            const minutes = hours * 60;
+            const coef = -0.1659;
+            const deltaSleep = minutes * coef;
+
+            document.getElementById('out-reg-calc').innerHTML = `
+                换算分钟: ${hours} 小时 * 60 分钟 = ${minutes} 分钟<br>
+                预测睡眠变化: ${minutes} * (${coef}) = <span style="font-size:1.2rem; color:var(--danger);">${deltaSleep.toFixed(2)} 分钟</span>
+            `;
+        }
+
+        // ==================== TAB 4: K-MEANS JS ====================
+        const kmPoints = [
+            { name: 'A', x: 1, y: 1 },
+            { name: 'B', x: 2, y: 1 },
+            { name: 'C', x: 4, y: 3 },
+            { name: 'D', x: 5, y: 4 },
+            { name: 'E', x: 5, y: 5 }
+        ];
+        
+        let c1 = { x: 1, y: 1 };
+        let c2 = { x: 5, y: 4 };
+        let kmStepCount = 0;
+        let kmAssignments = [];
+        let isKMeansConverged = false;
+
+        function resetKMeans() {
+            c1 = { x: 1, y: 1 };
+            c2 = { x: 5, y: 4 };
+            kmStepCount = 0;
+            kmAssignments = [];
+            isKMeansConverged = false;
+            
+            document.getElementById('kmeans-status-desc').textContent = "初始状态：质心设在 A(1,1) 和 D(5,4)。点击“运行下一步”开始。";
+            
+            // 清空表格
+            const tbody = document.querySelector('#kmeans-table tbody');
+            tbody.innerHTML = kmPoints.map(p => `
+                <tr>
+                    <td><b>${p.name}</b> (${p.x}, ${p.y})</td>
+                    <td>-</td>
+                    <td>-</td>
+                    <td>-</td>
+                </tr>
+            `).join('');
+
+            drawKMeans();
+        }
+
+        function stepKMeans() {
+            if (isKMeansConverged) {
+                alert("聚类已完全收敛，无需继续迭代！");
+                return;
+            }
+
+            kmStepCount++;
+            const newAssignments = [];
+            const tbody = document.querySelector('#kmeans-table tbody');
+            tbody.innerHTML = '';
+
+            kmPoints.forEach(p => {
+                // 计算欧氏距离平方
+                const dist1 = Math.sqrt((p.x - c1.x)**2 + (p.y - c1.y)**2);
+                const dist2 = Math.sqrt((p.x - c2.x)**2 + (p.y - c2.y)**2);
+                const cluster = dist1 < dist2 ? 1 : 2;
+                newAssignments.push(cluster);
+
+                const tr = document.createElement('tr');
+                tr.innerHTML = `
+                    <td><b>${p.name}</b> (${p.x}, ${p.y})</td>
+                    <td style="font-family:monospace;">${dist1.toFixed(3)}</td>
+                    <td style="font-family:monospace;">${dist2.toFixed(3)}</td>
+                    <td><span class="badge ${cluster === 1 ? 'pos' : 'neg'}">簇 ${cluster}</span></td>
+                `;
+                tbody.appendChild(tr);
+            });
+
+            // 计算新质心
+            let sumX1 = 0, sumY1 = 0, count1 = 0;
+            let sumX2 = 0, sumY2 = 0, count2 = 0;
+
+            newAssignments.forEach((c, idx) => {
+                const pt = kmPoints[idx];
+                if (c === 1) {
+                    sumX1 += pt.x; sumY1 += pt.y; count1++;
+                } else {
+                    sumX2 += pt.x; sumY2 += pt.y; count2++;
+                }
+            });
+
+            const newC1 = { x: sumX1 / count1, y: sumY1 / count1 };
+            const newC2 = { x: sumX2 / count2, y: sumY2 / count2 };
+
+            // 检查收敛
+            if (newC1.x === c1.x && newC1.y === c1.y && newC2.x === c2.x && newC2.y === c2.y) {
+                isKMeansConverged = true;
+                document.getElementById('kmeans-status-desc').innerHTML = `
+                    🎉 <b>迭代第 ${kmStepCount} 步：算法收敛！</b><br>
+                    质心位置未改变。最终质心位置：<br>
+                    簇 1 质心：(${c1.x.toFixed(2)}, ${c1.y.toFixed(2)})<br>
+                    簇 2 质心：(${c2.x.toFixed(2)}, ${c2.y.toFixed(2)})
+                `;
+            } else {
+                document.getElementById('kmeans-status-desc').innerHTML = `
+                    <b>第 ${kmStepCount} 步完成：重新计算质心：</b><br>
+                    • 旧质心 1: (${c1.x.toFixed(2)}, ${c1.y.toFixed(2)}) → <b>新质心 1</b>: (${newC1.x.toFixed(2)}, ${newC1.y.toFixed(2)})<br>
+                    • 旧质心 2: (${c2.x.toFixed(2)}, ${c2.y.toFixed(2)}) → <b>新质心 2</b>: (${newC2.x.toFixed(2)}, ${newC2.y.toFixed(2)})
+                `;
+                c1 = newC1;
+                c2 = newC2;
+            }
+
+            kmAssignments = newAssignments;
+            drawKMeans();
+        }
+
+        function drawKMeans() {
+            const canvas = document.getElementById('kmeans-canvas');
+            const ctx = canvas.getContext('2d');
+            const padding = 30;
+            const w = canvas.width - 2*padding;
+            const h = canvas.height - 2*padding;
+
+            ctx.clearRect(0,0,canvas.width,canvas.height);
+
+            // 画轴和网格 (X和Y坐标范围为 0 到 6)
+            ctx.strokeStyle = '#1e293b';
+            ctx.lineWidth = 1;
+            for(let i=0; i<=6; i++) {
+                const x = padding + (i/6)*w;
+                const y = padding + (1 - i/6)*h;
+                
+                ctx.beginPath();
+                ctx.moveTo(x, padding);
+                ctx.lineTo(x, canvas.height - padding);
+                ctx.stroke();
+
+                ctx.beginPath();
+                ctx.moveTo(padding, y);
+                ctx.lineTo(canvas.width - padding, y);
+                ctx.stroke();
+            }
+
+            // 绘制数据点
+            kmPoints.forEach((p, idx) => {
+                const cx = padding + (p.x/6)*w;
+                const cy = padding + (1 - p.y/6)*h;
+                
+                // 默认没有分配时是灰色，分配后上色
+                const color = kmAssignments[idx] === 1 ? '#10b981' : (kmAssignments[idx] === 2 ? '#ef4444' : '#94a3b8');
+                ctx.fillStyle = color;
+                ctx.beginPath();
+                ctx.arc(cx, cy, 6, 0, Math.PI*2);
+                ctx.fill();
+
+                ctx.fillStyle = '#f8fafc';
+                ctx.font = 'bold 11px Outfit';
+                ctx.textAlign = 'center';
+                ctx.fillText(p.name, cx, cy - 10);
+            });
+
+            // 绘制两个质心 (以叉表示)
+            const drawCross = (centroid, color, label) => {
+                const cx = padding + (centroid.x/6)*w;
+                const cy = padding + (1 - centroid.y/6)*h;
+
+                ctx.strokeStyle = color;
+                ctx.lineWidth = 3;
+                ctx.beginPath();
+                ctx.moveTo(cx - 8, cy - 8);
+                ctx.lineTo(cx + 8, cy + 8);
+                ctx.stroke();
+
+                ctx.beginPath();
+                ctx.moveTo(cx + 8, cy - 8);
+                ctx.lineTo(cx - 8, cy + 8);
+                ctx.stroke();
+
+                ctx.fillStyle = color;
+                ctx.font = 'bold 11px Outfit';
+                ctx.fillText(label, cx, cy - 12);
+            };
+
+            drawCross(c1, '#34d399', 'C1');
+            drawCross(c2, '#f87171', 'C2');
+
+            // 轴名称和刻度
+            ctx.fillStyle = '#94a3b8';
+            ctx.font = '9px Outfit';
+            ctx.textAlign = 'center';
+            for(let i=0; i<=6; i++) {
+                ctx.fillText(i, padding + (i/6)*w, canvas.height - padding + 10);
+            }
+            ctx.textAlign = 'right';
+            for(let i=0; i<=6; i++) {
+                ctx.fillText(i, padding - 5, padding + (1 - i/6)*h + 3);
+            }
+        }
+
+        // ==================== TAB 5: HIERARCHICAL CLUSTERING JS ====================
+        let hcClusters = ['C1', 'C2', 'C3', 'C4', 'C5'];
+        const hcInitMatrix = {
+            'C1': { 'C1': 0, 'C2': 2.5, 'C3': 3.0, 'C4': 4.8, 'C5': 5.0 },
+            'C2': { 'C1': 2.5, 'C2': 0, 'C3': 4.0, 'C4': 3.5, 'C5': 6.0 },
+            'C3': { 'C1': 3.0, 'C2': 4.0, 'C3': 0, 'C4': 1.5, 'C5': 4.2 },
+            'C4': { 'C1': 4.8, 'C2': 3.5, 'C3': 1.5, 'C4': 0, 'C5': 3.8 },
+            'C5': { 'C1': 5.0, 'C2': 6.0, 'C3': 4.2, 'C4': 3.8, 'C5': 0 }
+        };
+
+        let hcCurrentMatrix = JSON.parse(JSON.stringify(hcInitMatrix));
+        let hcIsMerged = false;
+        let hcLinkage = 'single'; // 'single', 'complete', 'average'
+
+        function resetHierarchical() {
+            hcCurrentMatrix = JSON.parse(JSON.stringify(hcInitMatrix));
+            hcClusters = ['C1', 'C2', 'C3', 'C4', 'C5'];
+            hcIsMerged = false;
+            document.getElementById('hierarchical-linkage-panel').style.display = 'none';
+            renderHierarchicalMatrix();
+        }
+
+        function mergeC3C4() {
+            if (hcIsMerged) return;
+            hcIsMerged = true;
+            document.getElementById('hierarchical-linkage-panel').style.display = 'block';
+            
+            const table = document.getElementById('hierarchical-table');
+            const rows = table.querySelectorAll('tr');
+            
+            // 找到 C3, C4 并高亮删除
+            if (rows.length >= 5) {
+                rows[3].style.background = 'rgba(239, 68, 68, 0.2)';
+                rows[3].style.textDecoration = 'line-through';
+                rows[3].style.color = '#ef4444';
+                
+                rows[4].style.background = 'rgba(239, 68, 68, 0.2)';
+                rows[4].style.textDecoration = 'line-through';
+                rows[4].style.color = '#ef4444';
+
+                rows.forEach(r => {
+                    const cells = r.querySelectorAll('td, th');
+                    if (cells.length > 4) {
+                        cells[3].style.background = 'rgba(239, 68, 68, 0.1)';
+                        cells[4].style.background = 'rgba(239, 68, 68, 0.1)';
+                    }
+                });
+            }
+
+            setTimeout(() => {
+                calculateMergedMatrix();
+            }, 1000);
+        }
+
+        function setLinkage(type) {
+            hcLinkage = type;
+            document.querySelectorAll('.linkage-btn').forEach(btn => btn.classList.remove('primary'));
+            if (type === 'single') document.getElementById('btn-linkage-single').classList.add('primary');
+            if (type === 'complete') document.getElementById('btn-linkage-complete').classList.add('primary');
+            if (type === 'average') document.getElementById('btn-linkage-average').classList.add('primary');
+
+            calculateMergedMatrix();
+        }
+
+        function calculateMergedMatrix() {
+            if (!hcIsMerged) return;
+            
+            hcClusters = ['C1', 'C2', 'C5', 'C34'];
+            const d3 = hcInitMatrix['C3'];
+            const d4 = hcInitMatrix['C4'];
+            
+            const newCol = {};
+            const others = ['C1', 'C2', 'C5'];
+            let details = `<b>合并簇 $C_{34}$ 后的计算步骤（Linkage: ${hcLinkage.toUpperCase()}）：</b><br>`;
+
+            others.forEach(c => {
+                const distC3 = d3[c];
+                const distC4 = d4[c];
+                let finalDist = 0;
+                
+                if (hcLinkage === 'single') {
+                    finalDist = Math.min(distC3, distC4);
+                    details += `• d(C₃₄, ${c}) = min(d(C₃, ${c}), d(C₄, ${c})) = min(${distC3}, ${distC4}) = <b>${finalDist.toFixed(1)}</b><br>`;
+                } else if (hcLinkage === 'complete') {
+                    finalDist = Math.max(distC3, distC4);
+                    details += `• d(C₃₄, ${c}) = max(d(C₃, ${c}), d(C₄, ${c})) = max(${distC3}, ${distC4}) = <b>${finalDist.toFixed(1)}</b><br>`;
+                } else {
+                    finalDist = (distC3 + distC4) / 2;
+                    details += `• d(C₃₄, ${c}) = avg(d(C₃, ${c}), d(C₄, ${c})) = (${distC3} + ${distC4}) / 2 = <b>${finalDist.toFixed(1)}</b><br>`;
+                }
+                newCol[c] = finalDist;
+            });
+            newCol['C34'] = 0;
+
+            hcCurrentMatrix = {
+                'C1': { 'C1': 0, 'C2': 2.5, 'C5': 5.0, 'C34': newCol['C1'] },
+                'C2': { 'C1': 2.5, 'C2': 0, 'C5': 6.0, 'C34': newCol['C2'] },
+                'C5': { 'C1': 5.0, 'C2': 6.0, 'C5': 0, 'C34': newCol['C5'] },
+                'C34': { 'C1': newCol['C1'], 'C2': newCol['C2'], 'C5': newCol['C5'], 'C34': 0 }
+            };
+
+            renderHierarchicalMatrix();
+            document.getElementById('hierarchical-formula-desc').innerHTML = details;
+            
+            if (typeof MathJax !== 'undefined' && MathJax.typeset) {
+                MathJax.typeset();
+            }
+        }
+
+        function renderHierarchicalMatrix() {
+            const table = document.getElementById('hierarchical-table');
+            table.innerHTML = '';
+
+            const thead = document.createElement('thead');
+            const hr = document.createElement('tr');
+            hr.innerHTML = '<th>簇 (Clusters)</th>' + hcClusters.map(c => `<th style="${c === 'C34' ? 'color: var(--success); font-weight:bold;' : ''}">${c}</th>`).join('');
+            thead.appendChild(hr);
+            table.appendChild(thead);
+
+            const tbody = document.createElement('tbody');
+            hcClusters.forEach(rowName => {
+                const tr = document.createElement('tr');
+                if (rowName === 'C34') {
+                    tr.style.background = 'rgba(16, 185, 129, 0.08)';
+                }
+
+                let rowHtml = `<td style="font-weight:bold; ${rowName === 'C34' ? 'color: var(--success);' : ''}">${rowName}</td>`;
+                hcClusters.forEach(colName => {
+                    const val = hcCurrentMatrix[rowName][colName];
+                    const isNewValue = (rowName === 'C34' || colName === 'C34') && (rowName !== colName);
+                    rowHtml += `<td style="font-family: monospace; ${isNewValue ? 'color: var(--success); font-weight:bold;' : ''}">${val.toFixed(1)}</td>`;
+                });
+                tr.innerHTML = rowHtml;
+                tbody.appendChild(tr);
+            });
+            table.appendChild(tbody);
+        }
+
+        // ==================== TAB 6: SOM VISUALIZATION JS ====================
+        let somNeurons = [];
+        const somGridSize = 4; // 4x4
+        let somSample = null;
+        let somWinnerIndex = -1;
+        let somHoverIndex = -1;
+
+        function resetSom() {
+            somNeurons = [];
+            somSample = null;
+            somWinnerIndex = -1;
+            somHoverIndex = -1;
+
+            // 1. 初始化 4x4 个神经元坐标（在特征空间里分布成一个稍微扭曲的网格）
+            for (let r = 0; r < somGridSize; r++) {
+                for (let c = 0; c < somGridSize; c++) {
+                    // 理论均匀坐标
+                    const tx = 0.2 + 0.6 * (c / (somGridSize - 1));
+                    const ty = 0.2 + 0.6 * (r / (somGridSize - 1));
+                    // 加入少许随机抖动，表现出初始未训练状态
+                    const x = tx + (Math.random() - 0.5) * 0.08;
+                    const y = ty + (Math.random() - 0.5) * 0.08;
+                    somNeurons.push({ x: x, y: y, row: r, col: c });
+                }
+            }
+
+            // 2. 渲染右侧的 16 个格子 DOM
+            const container = document.getElementById('som-grid-container');
+            container.innerHTML = '';
+            for (let i = 0; i < somNeurons.length; i++) {
+                const n = somNeurons[i];
+                const div = document.createElement('div');
+                div.className = 'som-neuron';
+                div.textContent = `N(${n.row},${n.col})`;
+                div.id = `som-n-${i}`;
+
+                // 悬停监听
+                div.onmouseenter = function() {
+                    somHoverIndex = i;
+                    document.getElementById('som-status-desc').innerHTML = `
+                        <b>当前悬停神经元：</b> N(${n.row}, ${n.col})<br>
+                        <b>Codebook Vector (参考向量坐标)：</b><br>
+                        [ X: <span style="color:var(--success); font-weight:bold;">${n.x.toFixed(3)}</span>, Y: <span style="color:var(--success); font-weight:bold;">${n.y.toFixed(3)}</span> ]
+                    `;
+                    drawSomSpace();
+                };
+                div.onmouseleave = function() {
+                    somHoverIndex = -1;
+                    if (somWinnerIndex !== -1) {
+                        const win = somNeurons[somWinnerIndex];
+                        document.getElementById('som-status-desc').innerHTML = `
+                            <b>最近一次 Winner (BMU)：</b> N(${win.row}, ${win.col})<br>
+                            <b>Codebook Vector (参考向量坐标)：</b><br>
+                            [ X: ${win.x.toFixed(3)}, Y: ${win.y.toFixed(3)} ]
+                        `;
+                    } else {
+                        document.getElementById('som-status-desc').textContent = "悬停在右侧网格上查看...";
+                    }
+                    drawSomSpace();
+                };
+
+                container.appendChild(div);
+            }
+
+            document.getElementById('som-status-desc').textContent = "网络已重置。请点击左侧「投射新样本」按钮。";
+            drawSomSpace();
+        }
+
+        function generateSomSample() {
+            somSample = {
+                x: 0.15 + Math.random() * 0.7,
+                y: 0.15 + Math.random() * 0.7
+            };
+
+            let minDistance = Infinity;
+            let winnerIdx = -1;
+
+            for (let i = 0; i < somNeurons.length; i++) {
+                const n = somNeurons[i];
+                const dist = Math.sqrt((somSample.x - n.x) ** 2 + (somSample.y - n.y) ** 2);
+                if (dist < minDistance) {
+                    minDistance = dist;
+                    winnerIdx = i;
+                }
+            }
+
+            somWinnerIndex = winnerIdx;
+
+            // BMU 移动 30%，邻居（网格距离为 1 的）移动 12%
+            const winner = somNeurons[winnerIdx];
+            for (let i = 0; i < somNeurons.length; i++) {
+                const n = somNeurons[i];
+                const gridDist = Math.abs(n.row - winner.row) + Math.abs(n.col - winner.col);
+                
+                let lr = 0;
+                if (gridDist === 0) {
+                    lr = 0.3;
+                } else if (gridDist === 1) {
+                    lr = 0.12;
+                }
+
+                if (lr > 0) {
+                    n.x = n.x + lr * (somSample.x - n.x);
+                    n.y = n.y + lr * (somSample.y - n.y);
+                }
+            }
+
+            document.querySelectorAll('.som-neuron').forEach((el, idx) => {
+                el.classList.remove('winner');
+                if (idx === winnerIdx) {
+                    el.classList.add('winner');
+                }
+            });
+
+            const win = somNeurons[winnerIdx];
+            document.getElementById('som-status-desc').innerHTML = `
+                🎯 <b>新输入样本坐标：</b> [ X: ${somSample.x.toFixed(3)}, Y: ${somSample.y.toFixed(3)} ]<br>
+                🏆 <b>最近的 Winner (BMU)：</b> N(${win.row}, ${win.col})<br>
+                <b>已将该神经元及其邻居向样本拉近！</b><br>
+                <b>更新后的 Codebook Vector：</b> [ X: ${win.x.toFixed(3)}, Y: ${win.y.toFixed(3)} ]
+            `;
+
+            drawSomSpace();
+        }
+
+        function drawSomSpace() {
+            const canvas = document.getElementById('som-space-canvas');
+            if (!canvas) return;
+            const ctx = canvas.getContext('2d');
+            const padding = 30;
+            const w = canvas.width - 2 * padding;
+            const h = canvas.height - 2 * padding;
+
+            ctx.clearRect(0, 0, canvas.width, canvas.height);
+
+            // 绘制网格背景
+            ctx.strokeStyle = '#1e293b';
+            ctx.lineWidth = 1;
+            for (let i = 0; i <= 5; i++) {
+                const x = padding + (i / 5) * w;
+                const y = padding + (1 - i / 5) * h;
+                ctx.beginPath(); ctx.moveTo(x, padding); ctx.lineTo(x, canvas.height - padding); ctx.stroke();
+                ctx.beginPath(); ctx.moveTo(padding, y); ctx.lineTo(canvas.width - padding, y); ctx.stroke();
+            }
+
+            // 绘制网格拓扑连线
+            ctx.strokeStyle = 'rgba(99, 102, 241, 0.25)';
+            ctx.lineWidth = 1.5;
+            for (let r = 0; r < somGridSize; r++) {
+                for (let c = 0; c < somGridSize; c++) {
+                    const idx = r * somGridSize + c;
+                    const n = somNeurons[idx];
+                    const cx = padding + n.x * w;
+                    const cy = padding + (1 - n.y) * h;
+
+                    if (c < somGridSize - 1) {
+                        const rightN = somNeurons[idx + 1];
+                        ctx.beginPath();
+                        ctx.moveTo(cx, cy);
+                        ctx.lineTo(padding + rightN.x * w, padding + (1 - rightN.y) * h);
+                        ctx.stroke();
+                    }
+                    if (r < somGridSize - 1) {
+                        const downN = somNeurons[idx + somGridSize];
+                        ctx.beginPath();
+                        ctx.moveTo(cx, cy);
+                        ctx.lineTo(padding + downN.x * w, padding + (1 - downN.y) * h);
+                        ctx.stroke();
+                    }
+                }
+            }
+
+            // 绘制 Codebook Vectors
+            for (let i = 0; i < somNeurons.length; i++) {
+                const n = somNeurons[i];
+                const cx = padding + n.x * w;
+                const cy = padding + (1 - n.y) * h;
+
+                let size = 5;
+                let color = '#10b981';
+                let shadow = false;
+
+                if (i === somWinnerIndex) {
+                    color = '#f59e0b';
+                    size = 7;
+                    shadow = true;
+                }
+                if (i === somHoverIndex) {
+                    color = '#6366f1';
+                    size = 8;
+                    shadow = true;
+                }
+
+                if (shadow) {
+                    ctx.shadowColor = color;
+                    ctx.shadowBlur = 8;
+                }
+                ctx.fillStyle = color;
+                ctx.beginPath();
+                ctx.arc(cx, cy, size, 0, Math.PI * 2);
+                ctx.fill();
+                ctx.shadowBlur = 0;
+
+                ctx.fillStyle = '#94a3b8';
+                ctx.font = '8px monospace';
+                ctx.textAlign = 'center';
+                ctx.fillText(`N${n.row}${n.col}`, cx, cy - 8);
+            }
+
+            // 绘制输入样本
+            if (somSample) {
+                const sx = padding + somSample.x * w;
+                const sy = padding + (1 - somSample.y) * h;
+
+                ctx.fillStyle = '#ef4444';
+                ctx.shadowColor = '#ef4444';
+                ctx.shadowBlur = 10;
+                ctx.beginPath();
+                ctx.arc(sx, sy, 7, 0, Math.PI * 2);
+                ctx.fill();
+                ctx.shadowBlur = 0;
+
+                ctx.fillStyle = '#f8fafc';
+                ctx.font = 'bold 9px Outfit';
+                ctx.fillText('Sample', sx, sy - 10);
+
+                if (somWinnerIndex !== -1) {
+                    const win = somNeurons[somWinnerIndex];
+                    ctx.strokeStyle = 'rgba(245, 158, 11, 0.5)';
+                    ctx.lineWidth = 1.5;
+                    ctx.setLineDash([4, 4]);
+                    ctx.beginPath();
+                    ctx.moveTo(sx, sy);
+                    ctx.lineTo(padding + win.x * w, padding + (1 - win.y) * h);
+                    ctx.stroke();
+                    ctx.setLineDash([]);
+                }
+            }
+
+            // 刻度
+            ctx.fillStyle = '#94a3b8';
+            ctx.font = '9px Outfit';
+            ctx.textAlign = 'center';
+            for (let i = 0; i <= 5; i++) {
+                ctx.fillText((i / 5).toFixed(1), padding + (i / 5) * w, canvas.height - padding + 10);
+            }
+            ctx.textAlign = 'right';
+            for (let i = 0; i <= 5; i++) {
+                ctx.fillText((i / 5).toFixed(1), padding - 5, padding + (1 - i / 5) * h + 3);
+            }
+        }
+
+        // ==================== 初始化 ====================
+        window.onload = function() {
+            initRocDots();
+            updateROC(0.50);
+            calcEntropyRealtime();
+            calcRegRealtime();
+            resetKMeans();
+            resetHierarchical();
+            resetSom();
+        };
+    </script>
+
+</body>
+</html>

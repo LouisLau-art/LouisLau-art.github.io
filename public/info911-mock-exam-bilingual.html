@@ -1,0 +1,1657 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>INFO911 Data Mining Bilingual Mock Exam & Revision Portal</title>
+    <meta name="description" content="INFO911 数据挖掘中英双语期末模拟卷与通关宝典">
+    
+    <!-- 引入 Outfit 和 Noto Sans SC 字体 -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700&family=Noto+Sans+SC:wght@300;400;500;700&display=swap" rel="stylesheet">
+    
+    <!-- 启用 MathJax 以渲染 LaTeX 数学公式 -->
+    <script>
+    MathJax = {
+      tex: {
+        inlineMath: [['$', '$'], ['\\(', '\\)']],
+        displayMath: [['$$', '$$'], ['\\[', '\\]']]
+      }
+    };
+    </script>
+    <script id="MathJax-script" async src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
+    
+    <style>
+        :root {
+            --bg-color: #0b0f19;
+            --card-bg: rgba(22, 30, 49, 0.75);
+            --card-border: rgba(255, 255, 255, 0.06);
+            --text-primary: #f8fafc;
+            --text-secondary: #94a3b8;
+            --primary: #6366f1;
+            --primary-glow: rgba(99, 102, 241, 0.15);
+            --success: #10b981;
+            --success-glow: rgba(16, 185, 129, 0.15);
+            --danger: #ef4444;
+            --danger-glow: rgba(239, 68, 68, 0.15);
+            --warning: #f59e0b;
+            --warning-glow: rgba(245, 158, 11, 0.15);
+            --accent: #8b5cf6;
+            --font-family: 'Outfit', 'Noto Sans SC', -apple-system, BlinkMacSystemFont, sans-serif;
+        }
+
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+
+        body {
+            background-color: var(--bg-color);
+            background-image: 
+                radial-gradient(at 0% 0%, rgba(99, 102, 241, 0.08) 0px, transparent 50%),
+                radial-gradient(at 100% 100%, rgba(139, 92, 246, 0.08) 0px, transparent 50%);
+            color: var(--text-primary);
+            font-family: var(--font-family);
+            line-height: 1.6;
+            display: flex;
+            min-height: 100vh;
+        }
+
+        /* 侧边栏导航 */
+        .sidebar {
+            width: 280px;
+            background: rgba(15, 23, 42, 0.6);
+            border-right: 1px solid var(--card-border);
+            padding: 2rem 1rem;
+            display: flex;
+            flex-direction: column;
+            position: fixed;
+            top: 0;
+            bottom: 0;
+            left: 0;
+            z-index: 10;
+            backdrop-filter: blur(15px);
+        }
+
+        .sidebar-brand {
+            font-size: 1.25rem;
+            font-weight: 700;
+            background: linear-gradient(135deg, #a5b4fc 0%, #6366f1 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            margin-bottom: 2rem;
+            padding: 0 0.5rem;
+            letter-spacing: -0.02em;
+        }
+
+        .nav-list {
+            list-style: none;
+            display: flex;
+            flex-direction: column;
+            gap: 0.4rem;
+        }
+
+        .nav-item button {
+            width: 100%;
+            background: transparent;
+            border: none;
+            color: var(--text-secondary);
+            padding: 0.75rem 1rem;
+            text-align: left;
+            cursor: pointer;
+            border-radius: 8px;
+            font-size: 0.88rem;
+            font-weight: 500;
+            transition: all 0.2s ease;
+            font-family: var(--font-family);
+        }
+
+        .nav-item button:hover {
+            color: var(--text-primary);
+            background: rgba(255, 255, 255, 0.03);
+        }
+
+        .nav-item.active button {
+            color: var(--text-primary);
+            background: var(--primary);
+            box-shadow: 0 4px 12px rgba(99, 102, 241, 0.25);
+        }
+
+        /* 主体内容区域 */
+        .main-content {
+            margin-left: 280px;
+            flex: 1;
+            padding: 2.5rem;
+            max-width: 1100px;
+        }
+
+        header {
+            margin-bottom: 2rem;
+            border-bottom: 1px solid rgba(255,255,255,0.05);
+            padding-bottom: 1.5rem;
+        }
+
+        header h1 {
+            font-size: 2.2rem;
+            font-weight: 700;
+            margin-bottom: 0.5rem;
+        }
+
+        header p {
+            color: var(--text-secondary);
+            font-size: 0.95rem;
+        }
+
+        .exam-section {
+            display: none;
+            animation: fadeIn 0.4s ease-out;
+        }
+
+        .exam-section.active {
+            display: block;
+        }
+
+        /* 卡片样式 */
+        .card {
+            background: var(--card-bg);
+            border: 1px solid var(--card-border);
+            border-radius: 16px;
+            padding: 1.5rem;
+            backdrop-filter: blur(12px);
+            box-shadow: 0 10px 30px -10px rgba(0, 0, 0, 0.4);
+            margin-bottom: 1.5rem;
+        }
+
+        .card-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            border-bottom: 1px solid rgba(255,255,255,0.05);
+            padding-bottom: 0.8rem;
+            margin-bottom: 1.2rem;
+        }
+
+        .card-title {
+            font-size: 1.2rem;
+            font-weight: 600;
+            color: #a5b4fc;
+        }
+
+        .points-badge {
+            background: var(--primary-glow);
+            color: #a5b4fc;
+            padding: 0.15rem 0.5rem;
+            border-radius: 4px;
+            font-size: 0.75rem;
+            font-weight: 600;
+        }
+
+        /* 题干排版 */
+        .question-body {
+            margin-bottom: 1.5rem;
+        }
+
+        .lang-en {
+            font-size: 0.95rem;
+            font-weight: 500;
+            color: var(--text-primary);
+            margin-bottom: 0.8rem;
+            border-left: 3px solid var(--primary);
+            padding-left: 0.8rem;
+        }
+
+        .lang-zh {
+            font-size: 0.88rem;
+            color: var(--text-secondary);
+            margin-bottom: 1rem;
+            background: rgba(0,0,0,0.15);
+            padding: 0.6rem 0.8rem;
+            border-radius: 6px;
+        }
+
+        /* 术语悬浮翻译词表 */
+        .term {
+            border-bottom: 1px dashed var(--warning);
+            cursor: help;
+            color: var(--warning);
+            position: relative;
+            display: inline-block;
+        }
+
+        .term::after {
+            content: attr(data-translation);
+            position: absolute;
+            bottom: 125%;
+            left: 50%;
+            transform: translateX(-50%);
+            background: #1e293b;
+            color: #f8fafc;
+            padding: 0.3rem 0.6rem;
+            border-radius: 4px;
+            font-size: 0.75rem;
+            white-space: nowrap;
+            opacity: 0;
+            visibility: hidden;
+            transition: opacity 0.2s, visibility 0.2s;
+            box-shadow: 0 4px 10px rgba(0,0,0,0.3);
+            border: 1px solid rgba(255,255,255,0.1);
+            z-index: 100;
+        }
+
+        .term:hover::after {
+            opacity: 1;
+            visibility: visible;
+        }
+
+        /* 输入与交互区 */
+        .user-input-area {
+            background: rgba(0,0,0,0.2);
+            padding: 1.2rem;
+            border-radius: 8px;
+            margin-bottom: 1.2rem;
+            border: 1px solid rgba(255,255,255,0.03);
+        }
+
+        .text-input {
+            width: 100%;
+            background: #0f172a;
+            border: 1px solid rgba(255,255,255,0.1);
+            color: var(--text-primary);
+            padding: 0.6rem 0.8rem;
+            border-radius: 8px;
+            outline: none;
+            font-family: var(--font-family);
+            font-size: 0.9rem;
+            margin-bottom: 1rem;
+        }
+
+        .text-input:focus {
+            border-color: var(--primary);
+        }
+
+        /* 解析展示区 */
+        .solution-box {
+            display: none;
+            background: rgba(16, 185, 129, 0.03);
+            border: 1px solid rgba(16, 185, 129, 0.15);
+            border-radius: 8px;
+            padding: 1.2rem;
+            margin-top: 1rem;
+            animation: slideDown 0.3s ease-out;
+        }
+
+        .solution-box.active {
+            display: block;
+        }
+
+        .solution-header {
+            font-size: 0.9rem;
+            font-weight: 600;
+            color: #34d399;
+            margin-bottom: 0.8rem;
+            display: flex;
+            align-items: center;
+            gap: 0.4rem;
+        }
+
+        .solution-english-template {
+            background: #0b0f19;
+            border: 1px solid rgba(255,255,255,0.05);
+            border-radius: 6px;
+            padding: 0.8rem;
+            font-family: monospace;
+            font-size: 0.88rem;
+            color: #38bdf8;
+            margin: 0.5rem 0 1rem 0;
+            white-space: pre-wrap;
+            user-select: all; /* 方便复制 */
+            border-left: 3px solid #38bdf8;
+        }
+
+        .btn {
+            background: #1e293b;
+            color: var(--text-primary);
+            border: 1px solid rgba(255, 255, 255, 0.08);
+            padding: 0.5rem 1rem;
+            border-radius: 8px;
+            cursor: pointer;
+            font-size: 0.85rem;
+            transition: all 0.2s;
+            font-family: var(--font-family);
+        }
+
+        .btn:hover {
+            background: var(--primary);
+            border-color: var(--primary);
+        }
+
+        .btn.primary {
+            background: var(--primary);
+            border-color: var(--primary);
+        }
+
+        .btn.success {
+            background: var(--success);
+            border-color: var(--success);
+        }
+        .btn.success:hover {
+            background: #059669;
+        }
+
+        /* 矩阵、表格、计算器步骤排版 */
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            font-size: 0.82rem;
+            margin-bottom: 1.2rem;
+        }
+
+        th, td {
+            padding: 0.5rem 0.6rem;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.05);
+            text-align: left;
+        }
+
+        th {
+            background: #1e293b;
+            color: var(--text-secondary);
+        }
+
+        .calculator-keys {
+            background: #0f172a;
+            color: #f59e0b;
+            padding: 0.2rem 0.4rem;
+            border-radius: 4px;
+            font-family: monospace;
+            font-weight: bold;
+            font-size: 0.85rem;
+            border: 1px solid rgba(245, 158, 11, 0.2);
+        }
+
+        .formula-display {
+            font-family: monospace;
+            background: rgba(0,0,0,0.2);
+            padding: 0.8rem;
+            border-radius: 6px;
+            margin: 0.5rem 0;
+            font-size: 0.85rem;
+            border-left: 3px solid var(--warning);
+        }
+
+        /* 动画 */
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(5px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        @keyframes slideDown {
+            from { opacity: 0; max-height: 0; overflow: hidden; }
+            to { opacity: 1; max-height: 1000px; }
+        }
+    </style>
+</head>
+<body>
+
+    <!-- 侧边栏导航 -->
+    <nav class="sidebar">
+        <div class="sidebar-brand">INFO911 双语通关卷</div>
+        <ul class="nav-list">
+            <li class="nav-item active" onclick="switchSection(event, 'sec-q1')"><button>Q1: 预处理与概念基础</button></li>
+            <li class="nav-item" onclick="switchSection(event, 'sec-q2')"><button>Q2: 层次聚类与 SOM 参数</button></li>
+            <li class="nav-item" onclick="switchSection(event, 'sec-q3')"><button>Q3: k-NN, MLP 与 ROC-AUC</button></li>
+            <li class="nav-item" onclick="switchSection(event, 'sec-q4')"><button>Q4: Apriori 与置信度单调性</button></li>
+            <li class="nav-item" onclick="switchSection(event, 'sec-q5')"><button>Q5: 支持向量机 (SVM)</button></li>
+            <li class="nav-item" onclick="switchSection(event, 'sec-q6')"><button>Q6: 贝叶斯与决策树熵</button></li>
+            <li class="nav-item" onclick="switchSection(event, 'sec-q7')"><button>Q7: R回归系数解读</button></li>
+        </ul>
+    </nav>
+
+    <!-- 主体区域 -->
+    <main class="main-content">
+        
+        <header>
+            <h1 id="section-header-title">Question 1: Data Preprocessing & Basic Concepts</h1>
+            <p>鼠标悬浮在带虚下划线的黄色英文术语上（如 <span class="term" data-translation="信息熵">Entropy</span>）可查看中文翻译。输入答案后，点击“查看考场标答解析”获取满分答题模板与计算步骤。</p>
+        </header>
+
+        <!-- ==================== SECTION 1: QUESTION 1 ==================== -->
+        <section id="sec-q1" class="exam-section active">
+            
+            <!-- 1.1 Predictive vs Descriptive -->
+            <div class="card">
+                <div class="card-header">
+                    <h3 class="card-title">1.1 Task Classification</h3>
+                    <span class="points-badge">1 Mark</span>
+                </div>
+                <div class="question-body">
+                    <p class="lang-en">Explain clearly the differences between <span class="term" data-translation="预测任务">predictive tasks</span> and <span class="term" data-translation="描述任务">descriptive tasks</span> in data mining, and state one algorithm example for each task.</p>
+                    <p class="lang-zh">清晰解释数据挖掘中预测任务和描述任务的区别，并为每种任务列举一个算法例子。</p>
+                </div>
+                <div class="user-input-area">
+                    <textarea class="text-input" rows="3" placeholder="在此输入你的草稿或答案（考场上需要用英文作答）..."></textarea>
+                    <button class="btn primary" onclick="toggleSolution('sol-1-1')">查看考场标答解析</button>
+                </div>
+                <div id="sol-1-1" class="solution-box">
+                    <div class="solution-header">✔ 考场英语答题模板（复制背诵）</div>
+                    <div class="solution-english-template">1. Predictive tasks predict the value of a specific attribute (target variable) based on the values of other attributes. Example: k-NN, Decision Trees, or Linear Regression.
+2. Descriptive tasks find human-interpretable patterns and relationships that describe the underlying data without predicting a target. Example: K-Means clustering, Apriori association rules.</div>
+                    <div style="font-size: 0.85rem; color: var(--text-secondary);">
+                        <b>核心要点背诵</b>：Predictive 预测特定目标值（有 Label）；Descriptive 寻找数据内在关系（无 Label，找 Pattern）。
+                    </div>
+                </div>
+            </div>
+
+            <!-- 1.2 Preprocessing Calculation -->
+            <div class="card">
+                <div class="card-header">
+                    <h3 class="card-title">1.2 Normalization & Standardization</h3>
+                    <span class="points-badge">2 Marks</span>
+                </div>
+                <div class="question-body">
+                    <p class="lang-en">Given a dataset $X = \{3, 6, 8, 10, 18\}$. Compute:<br>
+                    (1) The <span class="term" data-translation="最小-最大归一化">Min-Max normalization</span> value of $8$ to the range $[0, 1]$.<br>
+                    (2) The <span class="term" data-translation="Z-Score 标准化">Z-score standardization</span> value of $18$ (using sample standard deviation $s$).</p>
+                    <p class="lang-zh">给定数据集 $X = \{3, 6, 8, 10, 18\}$。计算：<br>
+                    (1) 数值 8 在范围 $[0, 1]$ 内的最小-最大归一化值。<br>
+                    (2) 数值 18 的 Z-Score 标准化值（使用样本标准差 $s$）。</p>
+                </div>
+                <div class="user-input-area">
+                    <textarea class="text-input" rows="3" placeholder="在此输入你的草稿或答案..."></textarea>
+                    <button class="btn primary" onclick="toggleSolution('sol-1-2')">查看考场标答解析</button>
+                </div>
+                <div id="sol-1-2" class="solution-box">
+                    <div class="solution-header">✔ 手算步骤与计算器按键</div>
+                    
+                    <div style="font-size: 0.85rem; color: var(--text-secondary); margin-bottom: 0.8rem;">
+                        <b>(1) Min-Max 归一化计算：</b><br>
+                        公式：$x' = \frac{x - \min(X)}{\max(X) - \min(X)}$。此处 $\min = 3, \max = 18$。<br>
+                        对于 $x = 8$：
+                        <div class="formula-display">
+                            x' = (8 - 3) / (18 - 3) = 5 / 15 = 1/3 ≈ 0.333
+                        </div>
+                    </div>
+
+                    <div style="font-size: 0.85rem; color: var(--text-secondary);">
+                        <b>(2) Z-Score 标准化计算：</b><br>
+                        步骤 1：算均值 $\mu = \frac{3+6+8+10+18}{5} = \frac{45}{5} = 9$。<br>
+                        步骤 2：计算偏差平方和：
+                        $$\sum (x_i - \mu)^2 = (3-9)^2 + (6-9)^2 + (8-9)^2 + (10-9)^2 + (18-9)^2 = 128$$
+                        根据题目要求选择分母：<br>
+                        • <b>方法 A：使用样本标准差 $s$（分母用 $n-1 = 4$）</b>：
+                        $$s = \sqrt{\frac{128}{4}} = \sqrt{32} \approx 5.657$$
+                        $$Z_{18} = \frac{18 - 9}{5.657} \approx 1.59$$
+                        • <b>方法 B：使用总体标准差 $\sigma$（分母用 $N = 5$）</b>：
+                        $$\sigma = \sqrt{\frac{128}{5}} = \sqrt{25.6} \approx 5.060$$
+                        $$Z_{18} = \frac{18 - 9}{5.060} \approx 1.78$$
+                        *(注：在之前的 Handoff 记录中算出的 1.78 即为使用总体标准差的结果。考场上请根据题意决定使用方法 A 或方法 B。)*
+                    </div>
+                </div>
+            </div>
+
+            <!-- 1.3 Outliers -->
+            <div class="card">
+                <div class="card-header">
+                    <h3 class="card-title">1.3 Outliers Handling</h3>
+                    <span class="points-badge">1 Mark</span>
+                </div>
+                <div class="question-body">
+                    <p class="lang-en">What are <span class="term" data-translation="异常值">outliers</span>? State clearly under what circumstances we should remove them and when we should keep them.</p>
+                    <p class="lang-zh">什么是异常值？清晰指出什么情况下应当删除它们，什么情况下必须保留它们。</p>
+                </div>
+                <div class="user-input-area">
+                    <textarea class="text-input" rows="3" placeholder="在此输入你的草稿或答案..."></textarea>
+                    <button class="btn primary" onclick="toggleSolution('sol-1-3')">查看考场标答解析</button>
+                </div>
+                <div id="sol-1-3" class="solution-box">
+                    <div class="solution-header">✔ 考场英语答题模板（复制背诵）</div>
+                    <div class="solution-english-template">1. Outliers are data points that are significantly different from the remaining majority of the data.
+2. We should remove outliers if they are caused by errors (e.g., measurement errors, entry typos) which could distort the model's training.
+3. We must keep outliers if they represent genuine, rare events that are the focus of our study (e.g., fraud detection, network intrusion detection).</div>
+                </div>
+            </div>
+
+            <!-- 1.4 Data Visualization Choices (2021 Q1) -->
+            <div class="card">
+                <div class="card-header">
+                    <h3 class="card-title">1.4 Data Visualization Choices</h3>
+                    <span class="points-badge">5 Marks</span>
+                </div>
+                <div class="question-body">
+                    <p class="lang-en">For each of the following scenarios, identify the most appropriate <span class="term" data-translation="可视化图表">data visualization chart</span>:<br>
+                    (A) A single continuous variable (e.g., student height).<br>
+                    (B) A single categorical variable (e.g., day of the week).<br>
+                    (C) One continuous variable and one categorical variable (e.g., salary vs. department).<br>
+                    (D) Two continuous variables (e.g., height vs. weight).<br>
+                    (E) Two categorical variables (e.g., gender vs. job role).</p>
+                    <p class="lang-zh">针对以下每种数据场景，选择最合适的图表进行可视化：<br>
+                    (A) 单个连续型变量（如学生身高）。<br>
+                    (B) 单个分类型变量（如星期几）。<br>
+                    (C) 一个连续型和一个分类型变量（如工资与部门）。<br>
+                    (D) 两个连续型变量（如身高与体重）。<br>
+                    (E) 两个分类型变量（如性别与工作岗位）。</p>
+                </div>
+                <div class="user-input-area">
+                    <textarea class="text-input" rows="3" placeholder="在此输入你的草稿或答案..."></textarea>
+                    <button class="btn primary" onclick="toggleSolution('sol-1-4')">查看考场标答解析</button>
+                </div>
+                <div id="sol-1-4" class="solution-box">
+                    <div class="solution-header">✔ 考场英语答题模板（复制背诵）</div>
+                    <div class="solution-english-template">(A) Histogram (or density plot)
+(B) Bar plot (or Pie chart)
+(C) Box plots (or grouped bar plot)
+(D) Scatter plot
+(E) Stacked bar plot (or clustered bar plot)</div>
+                </div>
+            </div>
+
+        </section>
+
+        <!-- ==================== SECTION 2: QUESTION 2 ==================== -->
+        <section id="sec-q2" class="exam-section">
+            
+            <!-- 2.1 Hierarchical Matrix -->
+            <div class="card">
+                <div class="card-header">
+                    <h3 class="card-title">2.1 Hierarchical Clustering Matrix Update</h3>
+                    <span class="points-badge">2 Marks</span>
+                </div>
+                <div class="question-body">
+                    <p class="lang-en">In <span class="term" data-translation="层次聚类">hierarchical clustering</span>, suppose we currently have five clusters: $C_1, C_2, C_3, C_4, C_5$.<br>
+                    (1) What is the size of the <span class="term" data-translation="邻近度矩阵">proximity matrix</span> and what do its entries represent?<br>
+                    (2) If we merge $C_3$ and $C_4$ into a new single cluster, which rows and columns must be updated to continue the clustering process?</p>
+                    <p class="lang-zh">在层次聚类中，假设目前有五个簇：$C_1, C_2, C_3, C_4, C_5$。<br>
+                    (1) 此时邻近度矩阵的大小是多少？其中的条目代表什么？<br>
+                    (2) 如果我们将 $C_3$ 和 $C_4$ 合并为一个新簇，必须更新哪些行和列才能继续聚类过程？</p>
+                </div>
+                <div class="user-input-area">
+                    <textarea class="text-input" rows="3" placeholder="在此输入你的草稿或答案..."></textarea>
+                    <button class="btn primary" onclick="toggleSolution('sol-2-1')">查看考场标答解析</button>
+                </div>
+                <div id="sol-2-1" class="solution-box">
+                    <div class="solution-header">✔ 考场英语答题模板（复制背诵）</div>
+                    <div class="solution-english-template">(1) The size of the proximity matrix is 5x5. Each entry (i, j) represents the proximity (distance or similarity) between cluster C_i and cluster C_j.
+(2) After merging C_3 and C_4, the rows and columns corresponding to C_3 and C_4 must be removed. A new row and column representing the merged cluster C_34 must be added, containing its distance to all other remaining clusters (C_1, C_2, C_5).</div>
+                    <div style="font-size: 0.85rem; color: var(--text-secondary); margin-top: 0.5rem; border-top: 1px solid rgba(255,255,255,0.05); padding-top: 0.5rem;">
+                        <b>💡 手算提分避坑</b>：如果你记不清怎么算具体数值，请点击跳转 [手算期末通关宝典](file:///home/louis/homework/INFO911-Data-Mining/info911-exam-sprint-portal.html) 中的「📂 层次聚类更新」选项卡。你可以动态模拟合并 C3 和 C4，并一键切换 Single (MIN)、Complete (MAX)、Average (AVG) Linkage 的详细公式推导！
+                    </div>
+                </div>
+            </div>
+
+            <!-- 2.2 SOM Grid Parameters -->
+            <div class="card">
+                <div class="card-header">
+                    <h3 class="card-title">2.2 SOM Dimensions</h3>
+                    <span class="points-badge">2 Marks</span>
+                </div>
+                <div class="question-body">
+                    <p class="lang-en">Suppose we use a <span class="term" data-translation="自组织映射">Self-Organizing Map (SOM)</span> to map $1,000$ input samples (each has $20$ features) onto a $10 \times 10$ grid of neurons.<br>
+                    (1) How many <span class="term" data-translation="参考向量 / 权重向量">codebook vectors</span> will be learned in total?<br>
+                    (2) What is the dimensionality of each codebook vector?</p>
+                    <p class="lang-zh">假设我们使用自组织映射 (SOM) 将 1000 个输入样本（每个样本具有 20 个特征）映射到大小为 $10 \times 10$ 的神经元网格上。<br>
+                    (1) 总共将学习出多少个参考向量 (Codebook Vectors)？<br>
+                    (2) 每个参考向量的维度是多少？</p>
+                </div>
+                <div class="user-input-area">
+                    <textarea class="text-input" rows="3" placeholder="在此输入你的草稿或答案..."></textarea>
+                    <button class="btn primary" onclick="toggleSolution('sol-2-2')">查看考场标答解析</button>
+                </div>
+                <div id="sol-2-2" class="solution-box">
+                    <div class="solution-header">✔ 考场英语答题模板（复制背诵）</div>
+                    <div class="solution-english-template">(1) The number of codebook vectors is equal to the number of neurons, which is 10 x 10 = 100 codebook vectors.
+(2) The dimensionality of each codebook vector is equal to the input features dimensionality, which is 20-dimensional.</div>
+                    <div style="font-size: 0.85rem; color: var(--text-secondary); margin-top: 0.5rem; border-top: 1px solid rgba(255,255,255,0.05); padding-top: 0.5rem;">
+                        <b>💡 大白话秒懂 SOM 结构：</b><br>
+                        自组织映射 (SOM) 的本质，就是把<b>高维空间的点</b>投射到一个<b>2D的棋盘（神经元网格）</b>上进行无监督聚类。<br>
+                        <pre style="font-family: monospace; background: rgba(0,0,0,0.3); padding: 0.5rem; border-radius: 4px; margin: 0.3rem 0; color: #a5b4fc; font-size: 0.8rem; line-height: 1.2;">
+输入样本 (1000个)    --> 每个样本是 20 维向量 [x1, x2, ..., x20]
+       │
+       ▼ (计算距离)
+2D神经元网格 (10x10) --> 棋盘共有 100 个格子 (神经元)
+                        每个格子都持有一个 20 维的 "代表向量" (Codebook Vector)
+                        用来和输入样本算距离，谁近就判给谁！</pre>
+                        <b>一句话死记硬背公式：</b><br>
+                        1. <b>Codebook Vector 的个数</b> = 神经元总个数 = 网格行数 × 网格列数（此题 $10 \times 10 = 100$）。与输入样本数（$1000$）<b>完全无关</b>！<br>
+                        2. <b>Codebook Vector 的维度</b> = 输入样本的特征数（此题 $20$ 维）。因为它们需要计算欧氏距离，维度必须一模一样！
+                        
+                        <div style="margin-top: 0.8rem; padding-top: 0.8rem; border-top: 1px dashed rgba(255,255,255,0.08);">
+                            <b>🧠 SOM 考前必看核心考点清单（防简答题）：</b><br>
+                            1. <b>它是干嘛的？</b><br>
+                                它是一个<b>无监督的聚类与降维 (Unsupervised Clustering and Dimension Reduction)</b> 算法。主要用于将看不见的高维数据分布在 2D 棋盘上做可视化展示。<br>
+                            2. <b>它的核心特征是什么？</b><br>
+                                <b>保留拓扑结构 (Preserve Topology)</b>：在高维空间中离得近的样本，映射到 SOM 网格（棋盘）上也必然靠得很近。<br>
+                            3. <b>它的训练过程 (3个核心词，默写模板)：</b><br>
+                                • <b>Competition (竞争)</b>: 计算样本到所有神经元的距离，选出最近的作为胜者 <b>BMU (Best Matching Unit)</b>。<br>
+                                • <b>Cooperation (协作)</b>: 确定以 BMU 为中心的邻域范围，周围神经元一起被激活。<br>
+                                • <b>Adaptation (更新)</b>: 调整 BMU 及其邻域内的神经元权重，使它们都向输入点靠近。<br>
+                                * 随着训练进行，<b>学习率</b>和<b>邻域大小</b>都会<b>逐渐衰减 (Decay/Shrink)</b>。
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- 2.3 Evaluating Clustering Results (2021 Q2) -->
+            <div class="card">
+                <div class="card-header">
+                    <h3 class="card-title">2.3 Evaluating K-Means Clustering Results</h3>
+                    <span class="points-badge">1 Mark</span>
+                </div>
+                <div class="question-body">
+                    <p class="lang-en">Explain clearly how we can compare and evaluate the clustering results of two different runs of the $k$-means algorithm on the same dataset.</p>
+                    <p class="lang-zh">清晰解释我们应该如何比较和评估在同一数据集上两次不同运行的 $k$-means 聚类算法的结果。</p>
+                </div>
+                <div class="user-input-area">
+                    <textarea class="text-input" rows="3" placeholder="在此输入你的草稿或答案..."></textarea>
+                    <button class="btn primary" onclick="toggleSolution('sol-2-3')">查看考场标答解析</button>
+                </div>
+                <div id="sol-2-3" class="solution-box">
+                    <div class="solution-header">✔ 考场英语答题模板（复制背诵）</div>
+                    <div class="solution-english-template">1. We can calculate and compare the Sum of Squared Errors (SSE) for both runs. SSE measures the sum of squared distances from each data point to its assigned cluster centroid. The run with a smaller SSE represents a better clustering result.
+2. Alternatively, we can use the Silhouette Coefficient. A higher average Silhouette Coefficient (closer to +1) indicates better-defined clusters.</div>
+                </div>
+            </div>
+
+        </section>
+
+        <!-- ==================== SECTION 3: QUESTION 3 ==================== -->
+        <section id="sec-q3" class="exam-section">
+            
+            <!-- 3.1 k-NN Parameter Selection -->
+            <div class="card">
+                <div class="card-header">
+                    <h3 class="card-title">3.1 Choosing k in k-NN</h3>
+                    <span class="points-badge">1 Mark</span>
+                </div>
+                <div class="question-body">
+                    <p class="lang-en">Explain how to choose the best parameter $k$ value in the $k$-NN classifier using training data.</p>
+                    <p class="lang-zh">说明如何利用训练数据在 $k$-NN 分类器中选择最佳的参数 $k$ 值。</p>
+                </div>
+                <div class="user-input-area">
+                    <textarea class="text-input" rows="3" placeholder="在此输入你的草稿或答案..."></textarea>
+                    <button class="btn primary" onclick="toggleSolution('sol-3-1')">查看考场标答解析</button>
+                </div>
+                <div id="sol-3-1" class="solution-box">
+                    <div class="solution-header">✔ 考场英语答题模板（复制背诵）</div>
+                    <div class="solution-english-template">We can choose the best k value using Cross-Validation (e.g., 10-fold cross-validation) on the training set. We test different odd values of k (e.g., 1, 3, 5, 7...), evaluate their average validation accuracy, and select the k that yields the highest validation accuracy.</div>
+                </div>
+            </div>
+
+            <!-- 3.2 MLP Parameter Count -->
+            <div class="card">
+                <div class="card-header">
+                    <h3 class="card-title">3.2 Neural Network Weights Parameter Count</h3>
+                    <span class="points-badge">2 Marks</span>
+                </div>
+                <div class="question-body">
+                    <p class="lang-en">For a fully connected <span class="term" data-translation="多层感知机">Multilayer Perceptron (MLP)</span> with:<br>
+                    • Input layer dimension: $D_1$<br>
+                    • Output layer dimension: $D_2$<br>
+                    • Two hidden layers with neuron counts: $L_1$ and $L_2$ respectively.<br>
+                    Compute the total number of connection <span class="term" data-translation="权重">weights</span> parameters in this network (excluding bias parameters). Does this count depend on the number of training samples $N$ or the training iterations $T$?</p>
+                    <p class="lang-zh">对于一个全连接多层感知机 (MLP)：<br>
+                    • 输入层维度为 $D_1$，输出层维度为 $D_2$。<br>
+                    • 包含两个隐藏层，神经元个数分别为 $L_1$ 和 $L_2$。<br>
+                    计算该网络中连接权重参数的总数（不包含偏置 bias ）。该参数量是否取决于训练样本数 $N$ 或训练迭代次数 $T$？</p>
+                </div>
+                <div class="user-input-area">
+                    <textarea class="text-input" rows="3" placeholder="在此输入你的草稿或答案..."></textarea>
+                    <button class="btn primary" onclick="toggleSolution('sol-3-2')">查看考场标答解析</button>
+                </div>
+                <div id="sol-3-2" class="solution-box">
+                    <div class="solution-header">✔ 考场英语答题模板（复制背诵）</div>
+                    <div class="solution-english-template">1. The total number of connection weight parameters is: (D_1 * L_1) + (L_1 * L_2) + (L_2 * D_2).
+2. No. The number of parameters depends purely on the network architecture, and is independent of the number of training samples N or training iterations T.</div>
+                    <div style="font-size: 0.85rem; color: var(--text-secondary); margin-top: 0.5rem; border-top: 1px solid rgba(255,255,255,0.05); padding-top: 0.5rem;">
+                        <b>💡 大白话秒懂神经网络参数计算：</b><br>
+                        神经网络的“全连接”意味着：<b>前一层的每一个节点，都要跟后一层的每一个节点连一条线。</b> 每一条连线就代表一个权重（Weight）。<br>
+                        这个网络可以看作有 4 层，它们是一节一节连起来的火车车厢：
+                        <pre style="font-family: monospace; background: rgba(0,0,0,0.3); padding: 0.5rem; border-radius: 4px; margin: 0.3rem 0; color: #a5b4fc; font-size: 0.8rem; line-height: 1.2;">
+输入层 (D1个点)  =======> 隐藏层1 (L1个点) =======> 隐藏层2 (L2个点) =======> 输出层 (D2个点)
+               [D1 * L1 条线]             [L1 * L2 条线]             [L2 * D2 条线]</pre>
+                        把三段连线数加在一起，就是总连接数：$(D_1 \times L_1) + (L_1 \times L_2) + (L_2 \times D_2)$。<br><br>
+                        <b>🧱 物理直观比喻（为什么不取决于 N 和 T）：</b><br>
+                        *   <b>网络参数</b>（权重和偏置）就像是<b>大楼结构里的螺丝钉</b>。当设计图纸画完（$D_1, L_1, L_2, D_2$ 确定）之后，螺丝钉的总数就已经被完全焊死了。<br>
+                        *   <b>训练样本数 $N$</b> 就像是<b>“要进出这栋大楼的人流量”</b>。不管来 1 个人还是 1 万个人，大楼里的螺丝钉数量都不会增加或减少。<br>
+                        *   <b>迭代次数 $T$</b> 就像是<b>“清洁工打扫这栋大楼的次数”</b>。打扫 1 遍和打扫 10 遍，同样不会改变钢筋里的螺丝钉个数。<br>
+                        *   <b>所以，参数量只与网络架构有关，与 $N$ 和 $T$ 毫无关系。</b>
+                    </div>
+                </div>
+            </div>
+
+            <!-- 3.3 ROC AUC calculation -->
+            <div class="card">
+                <div class="card-header">
+                    <h3 class="card-title">3.3 2022 真题手算 ROC & AUC 大题</h3>
+                    <span class="points-badge">4 Marks</span>
+                </div>
+                <div class="question-body">
+                    <p class="lang-en">Construct a Receiver Operating Characteristic (ROC) curve and compute the Area Under the Curve (AUC) based on the following 10-sample classification results:</p>
+                    <p class="lang-zh">根据以下 10 个样本的分类结果，构造 ROC 曲线并计算其 AUC 面积（注意：表格是乱序的！）：</p>
+                    
+                    <table style="max-width: 500px; margin: 1rem 0;">
+                        <thead>
+                            <tr>
+                                <th>Sample ID</th>
+                                <th>Predicted probability for positive class</th>
+                                <th>True label of this sample</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr><td>1</td><td>0.19</td><td>Negative</td></tr>
+                            <tr><td>2</td><td>0.75</td><td>Positive</td></tr>
+                            <tr><td>3</td><td>0.99</td><td>Positive</td></tr>
+                            <tr><td>4</td><td>0.07</td><td>Negative</td></tr>
+                            <tr><td>5</td><td>0.52</td><td>Positive</td></tr>
+                            <tr><td>6</td><td>0.11</td><td>Negative</td></tr>
+                            <tr><td>7</td><td>0.06</td><td>Negative</td></tr>
+                            <tr><td>8</td><td>0.61</td><td>Positive</td></tr>
+                            <tr><td>9</td><td>0.67</td><td>Negative</td></tr>
+                            <tr><td>10</td><td>0.34</td><td>Positive</td></tr>
+                        </tbody>
+                    </table>
+                </div>
+                <div class="user-input-area">
+                    <textarea class="text-input" rows="3" placeholder="在此输入你的草稿或答案..."></textarea>
+                    <button class="btn primary" onclick="toggleSolution('sol-3-3')">查看考场标答解析</button>
+                </div>
+                <div id="sol-3-3" class="solution-box">
+                    <div class="solution-header">✔ 考场步骤与答题模板（可复制）</div>
+                    <div class="solution-english-template">Step 1: Sort the samples by predicted probability in descending order:
+1. ID 3 (Prob=0.99) - Positive (True)
+2. ID 2 (Prob=0.75) - Positive (True)
+3. ID 9 (Prob=0.67) - Negative (False)
+4. ID 8 (Prob=0.61) - Positive (True)
+5. ID 5 (Prob=0.52) - Positive (True)
+6. ID 10 (Prob=0.34) - Positive (True)
+7. ID 1 (Prob=0.19) - Negative (False)
+8. ID 6 (Prob=0.11) - Negative (False)
+9. ID 4 (Prob=0.07) - Negative (False)
+10. ID 7 (Prob=0.06) - Negative (False)
+
+Step 2: Total Positive samples M = 5, Total Negative samples N = 5.
+Plot points starting from (0,0):
+- Sample 3 (Pos) → move up to (0, 0.2)
+- Sample 2 (Pos) → move up to (0, 0.4)
+- Sample 9 (Neg) → move right to (0.2, 0.4)
+- Sample 8 (Pos) → move up to (0.2, 0.6)
+- Sample 5 (Pos) → move up to (0.2, 0.8)
+- Sample 10 (Pos) → move up to (0.2, 1.0)
+- Samples 1, 6, 4, 7 (Neg) → move right to (1.0, 1.0)
+
+Step 3: Calculate AUC using the area of columns:
+Column 1 (width 0.2, height 0.4): Area = 0.2 * 0.4 = 0.08
+Columns 2 to 5 (width 0.8, height 1.0): Area = 0.8 * 1.0 = 0.80
+Total AUC = 0.08 + 0.80 = 0.880.</div>
+                </div>
+            </div>
+
+            <!-- 3.4 Proof: Linear Activation in Multi-layer Network (2021 Q4) -->
+            <div class="card">
+                <div class="card-header">
+                    <h3 class="card-title">3.4 Proof: Linear Activation in Multi-layer Network</h3>
+                    <span class="points-badge">2 Marks</span>
+                </div>
+                <div class="question-body">
+                    <p class="lang-en">Prove mathematically that a multi-layer neural network with multiple hidden layers will collapse into a single linear model if all activation functions are linear.</p>
+                    <p class="lang-zh">在数学上证明：如果所有激活函数都是线性的，那么具有多个隐藏层的多层神经网络将退化为一个单一的线性模型。</p>
+                </div>
+                <div class="user-input-area">
+                    <textarea class="text-input" rows="3" placeholder="在此输入你的草稿或答案..."></textarea>
+                    <button class="btn primary" onclick="toggleSolution('sol-3-4')">查看考场标答解析</button>
+                </div>
+                <div id="sol-3-4" class="solution-box">
+                    <div class="solution-header">✔ 考场推导与答题模板（复制背诵）</div>
+                    <div class="solution-english-template">Let the linear activation function be f(z) = z.
+For a network with L hidden layers:
+- Layer 1 output: a_1 = W_1 * x + b_1
+- Layer 2 output: a_2 = W_2 * a_1 + b_2 = W_2 * (W_1 * x + b_1) + b_2 = (W_2 * W_1) * x + (W_2 * b_1 + b_2)
+By induction, the output of the final layer L+1 can be written as:
+y = (W_L+1 * ... * W_2 * W_1) * x + Constant_term
+Let W_total = W_L+1 * ... * W_2 * W_1 and b_total = Constant_term, we get:
+y = W_total * x + b_total
+which is a single linear model. Since the composition of linear functions is always linear, multiple hidden layers with linear activation are mathematically equivalent to a single linear layer.</div>
+                    <div style="font-size: 0.85rem; color: var(--text-secondary); margin-top: 0.5rem; border-top: 1px solid rgba(255,255,255,0.05); padding-top: 0.5rem;">
+                        <b>💡 大白话秒懂“线性叠加依然线性”：</b><br>
+                        很多同学看不懂这段证明，是因为被数学归纳法（By induction）标答唬住了。其实这只是<b>初中代数的代入消元法</b>！<br><br>
+                        我们假设一个只有 2 个隐藏层的极简网络：
+                        <pre style="font-family: monospace; background: rgba(0,0,0,0.3); padding: 0.5rem; border-radius: 4px; margin: 0.3rem 0; color: #a5b4fc; font-size: 0.8rem; line-height: 1.2;">
+第 1 层输出：a1 = W1 * x + b1  (因为激活函数是线性 f(z)=z，直接去掉激活函数 f)
+第 2 层输出：a2 = W2 * a1 + b2</pre>
+                        我们把第 1 层的 $a_1$ 结果<b>强行代入</b>第 2 层：
+                        $$a_2 = W_2 \times (W_1 \times x + b_1) + b_2$$
+                        把括号展开：
+                        $$a_2 = (W_2 \times W_1) \times x + (W_2 \times b_1 + b_2)$$
+                        由于<b>两个矩阵相乘依然是一个新矩阵</b>，我们可以令新权重 $W_{total} = W_2 \times W_1$；<br>
+                        由于<b>一堆常数和矩阵相乘相加依然是一个新偏置</b>，我们可以令新偏置 $b_{total} = W_2 \times b_1 + b_2$。<br>
+                        代入后式子就缩水成了：
+                        $$a_2 = W_{total} \times x + b_{total}$$
+                        这不就是一个最普通不过的<b>单层线性模型</b>（即没有隐藏层的线性回归）吗？！这说明即使加了隐藏层，网络仍然退化成了一个单一的线性模型。<br><br>
+                        <b>🧱 物理直观比喻：</b><br>
+                        *   <b>线性激活</b>：就像是“把苹果切块”，再“将苹果块榨成汁”。不管你重复套用多少层这套操作（切 10 次，榨 10 次），你做出来的依然只能是“苹果汁”（线性性质不变，无法解决复杂的分类任务）。<br>
+                        *   <b>非线性激活</b>（如 ReLU/Sigmoid）：就像是“把苹果拿去发酵酿成了酒”。这是一个质的变化（非线性），能拟合极其复杂、弯弯曲曲的非线性分类边界。
+                    </div>
+                </div>
+            </div>
+
+        </section>
+
+        <!-- ==================== SECTION 4: QUESTION 4 ==================== -->
+        <section id="sec-q4" class="exam-section">
+            
+            <!-- 4.1 Apriori Steps -->
+            <div class="card">
+                <div class="card-header">
+                    <h3 class="card-title">4.1 Apriori Main Steps</h3>
+                    <span class="points-badge">1 Mark</span>
+                </div>
+                <div class="question-body">
+                    <p class="lang-en">Describe the main steps of the Apriori algorithm for mining frequent itemsets. Explain how it generates and prunes candidate itemsets.</p>
+                    <p class="lang-zh">简述 Apriori 算法挖掘频繁项集的主要步骤。解释它是如何生成和剪枝候选项集的。</p>
+                </div>
+                <div class="user-input-area">
+                    <textarea class="text-input" rows="3" placeholder="在此输入你的草稿或答案..."></textarea>
+                    <button class="btn primary" onclick="toggleSolution('sol-4-1')">查看考场标答解析</button>
+                </div>
+                <div id="sol-4-1" class="solution-box">
+                    <div class="solution-header">✔ 考场英语答题模板（复制背诵）</div>
+                    <div class="solution-english-template">1. Generate frequent 1-itemsets (L1) by scanning the dataset.
+2. Self-join: Join L_k with itself to generate candidate (k+1)-itemsets (C_k+1).
+3. Pruning (Apriori Property): A candidate itemset is pruned if any of its subsets is not frequent.
+4. Support Counting: Scan the database to count the support of remaining candidates, and keep those meeting min_sup to form frequent (k+1)-itemsets (L_k+1).
+5. Repeat until no new frequent itemsets are found.</div>
+                    <div style="font-size: 0.85rem; color: var(--text-secondary); margin-top: 0.5rem; border-top: 1px solid rgba(255,255,255,0.05); padding-top: 0.5rem;">
+                        <b>💡 大白话秒懂 Apriori 的爆款组合筛选：</b><br>
+                        Apriori 算法的目标是：<b>从一堆超市购物小票里，找出大家最喜欢一起买的“商品爆款组合”</b>。<br><br>
+                        为了防止盲目组合导致计算量爆炸，它引入了两个名单：<br>
+                        •   <b>$C_k$ (Candidate 候补名单)</b>：待考察的候选组合（比如可能会火的 2 件套、3 件套组合）。<br>
+                        •   <b>$L_k$ (Frequent 频繁名单)</b>：经过数小票验证，真正达标的<b>爆款组合</b>。<br><br>
+                        <b>带入超市购物场景看这 5 步：</b><br>
+                        1.  <b>第 1 步：扫单品（生成 L1）</b>：<br>
+                            把所有小票扫一遍，数数每个单品被买了几次。把销量达标的单品留下来（比如 $\{$啤酒$\}$, $\{$尿不湿$\}$, $\{$面包$\}$ 销量合格，形成单品爆款榜 $L_1$）。<br>
+                        2.  <b>第 2 步：组队（Self-join，生成 C2 候补）</b>：<br>
+                            既然只有这三个单品是爆款，那两两组合才可能也是爆款。我们把 $L_1$ 里的商品两两组队，生成候选 2 件套榜单 $C_2$（包括 $\{啤酒, 尿不湿\}$，$\{啤酒, 面包\}$，$\{尿不湿, 面包\}$）。此时还没数销量，只是候补。<br>
+                        3.  <b>第 3 步：剪枝（Pruning，核心精髓）</b>：<br>
+                            *   <b>铁律（Apriori性质）</b>：“如果一个组合是频繁的，它的子集也必须是频繁的；反之，<b>如果一个单品根本不是爆款，包含它的任何大组合也绝对不可能成为爆款</b>”。<br>
+                            *   *例子*：你想生成候选 3 件套。如果 $\{$辣条$\}$ 根本不在单品爆款榜 $L_1$ 里，那么任何包含它的 3 件套组合（如 $\{啤酒, 尿不湿, 辣条\}$）<b>直接被划掉扔垃圾桶（剪枝）</b>，连去数小票的工夫都省了！<br>
+                        4.  <b>第 4 步：数小票（Support Counting，生成 L2 爆款）</b>：<br>
+                            把剩下的、没有被剪枝的候选 2 件套，去所有购物小票里数它们的销量。销量达标的，晋升为 2 件套爆款榜 $L_2$。<br>
+                        5.  <b>第 5 步：无限循环</b>：<br>
+                            拿着 2 件套爆款榜 $L_2$ 两两组合，生成候选 3 件套 $C_3 \to$ 剪枝 $\to$ 数小票得到 $L_3 \dots$ 一直循环，直到组不出新名单为止。
+                    </div>
+                    <div style="font-size: 0.85rem; color: var(--text-secondary); margin-top: 0.8rem; border-top: 1px dashed rgba(255,255,255,0.08); padding-top: 0.8rem;">
+                        <b>📝 极简手算推演案例（带你完整走一遍循环）：</b><br>
+                        假设我们有 <b>4 个交易事务</b> (购物小票)：<br>
+                        • T1: {A, B, C} &nbsp;&nbsp;&nbsp;&nbsp; • T2: {A, B, D}<br>
+                        • T3: {A, C} &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; • T4: {B, C, D}<br>
+                        并设定最低出现次数门槛：<b>$min\_sup = 2$ 次</b> (支持度为 50%)。<br><br>
+                        
+                        <b>第一轮循环 (寻找 1-项集)：</b><br>
+                        1.  数单品销量，形成候选名单 $C_1$:<br>
+                            &nbsp;&nbsp;&nbsp;&nbsp;{A}: 3次, &nbsp;{B}: 3次, &nbsp;{C}: 3次, &nbsp;{D}: 2次<br>
+                        2.  因为销量全部 $\ge 2$ 次，全部入选第一轮爆款榜 $L_1$:<br>
+                            &nbsp;&nbsp;&nbsp;&nbsp;$L_1 = \{ \{A\}, \{B\}, \{C\}, \{D\} \}$<br><br>
+                            
+                        <b>第二轮循环 (寻找 2-项集)：</b><br>
+                        1.  <b>连接组队 (Self-join)</b>: 把 $L_1$ 中的 4 个单品两两排列组合，形成候选名单 $C_2$:<br>
+                            &nbsp;&nbsp;&nbsp;&nbsp;$C_2 = \{ \{A,B\}, \{A,C\}, \{A,D\}, \{B,C\}, \{B,D\}, \{C,D\} \}$<br>
+                        2.  <b>剪枝 (Pruning)</b>: 无需剪枝（因为 A, B, C, D 本身全都在爆款榜上）。<br>
+                        3.  <b>翻小票数数 (Support Counting)</b>并过滤，留下销量 $\ge 2$ 的组合成为爆款榜 $L_2$:<br>
+                            &nbsp;&nbsp;&nbsp;&nbsp;• {A, B}: 2次 (出现在T1, T2) $\to$ 保留<br>
+                            &nbsp;&nbsp;&nbsp;&nbsp;• {A, C}: 2次 (出现在T1, T3) $\to$ 保留<br>
+                            &nbsp;&nbsp;&nbsp;&nbsp;• {A, D}: 1次 (出现在T2) &nbsp;&nbsp;&nbsp;&nbsp;&nbsp; $\to$ <b>小于2，淘汰！</b><br>
+                            &nbsp;&nbsp;&nbsp;&nbsp;• {B, C}: 2次 (出现在T1, T4) $\to$ 保留<br>
+                            &nbsp;&nbsp;&nbsp;&nbsp;• {B, D}: 2次 (出现在T2, T4) $\to$ 保留<br>
+                            &nbsp;&nbsp;&nbsp;&nbsp;• {C, D}: 1次 (出现在T4) &nbsp;&nbsp;&nbsp;&nbsp;&nbsp; $\to$ <b>小于2，淘汰！</b><br>
+                        4.  最终得到 2-项集爆款榜 $L_2$:<br>
+                            &nbsp;&nbsp;&nbsp;&nbsp;$L_2 = \{ \{A,B\}, \{A,C\}, \{B,C\}, \{B,D\} \}$<br><br>
+                            
+                        <b>第三轮循环 (寻找 3-项集，高频考点)：</b><br>
+                        1.  <b>连接组队 (Self-join)</b>: 只有<b>前缀相同</b>的 2-项集才能合体成 3-项集：<br>
+                            &nbsp;&nbsp;&nbsp;&nbsp;• $\{A, B\}$ 和 $\{A, C\}$ 前缀都是 A，合体 $\to \{A, B, C\}$<br>
+                            &nbsp;&nbsp;&nbsp;&nbsp;• $\{B, C\}$ 和 $\{B, D\}$ 前缀都是 B，合体 $\to \{B, C, D\}$<br>
+                            &nbsp;&nbsp;&nbsp;&nbsp;得出候选榜单 $C_3 = \{ \{A,B,C\}, \{B,C,D\} \}$。<br>
+                        2.  <b>剪枝 (Pruning，高光避坑步)</b>: 拆开查小弟在不在 $L_2$ 上：<br>
+                            &nbsp;&nbsp;&nbsp;&nbsp;• 对于候选 $\{A, B, C\}$: 子集有 $\{A,B\}$, $\{A,C\}$, $\{B,C\}$。经查，它们<b>全部都在爆款榜 $L_2$ 里</b>！说明安全，保留。<br>
+                            &nbsp;&nbsp;&nbsp;&nbsp;• 对于候选 $\{B, C, D\}$: 子集有 $\{B,C\}$, $\{B,D\}$, <b>$\{C,D\}$</b>。经查，因为上面的 $\{C, D\}$ 已经由于销量不足被淘汰了（<b>不在 $L_2$ 里</b>），所以<b>直接淘汰 $\{B, C, D\}$（剪枝）</b>，根本不用去数数了！<br>
+                            &nbsp;&nbsp;&nbsp;&nbsp;因此，候选 $C_3$ 里只剩下一个独苗：$\{A, B, C\}$。<br>
+                        3.  <b>翻小票数数 (Support Counting)</b>:<br>
+                            &nbsp;&nbsp;&nbsp;&nbsp;• {A, B, C}: 1次 (只出现在T1) $\to$ 小于 2，淘汰！<br>
+                        4.  最终得到 3-项集爆款榜 $L_3 = \emptyset$ (空)。<br><br>
+                        
+                        <b>循环结束！</b> 我们成功挖掘出所有的频繁组合为：$L_1$ 和 $L_2$。
+                    </div>
+                </div>
+            </div>
+
+            <!-- 4.2 Proof of anti-monotone -->
+            <div class="card">
+                <div class="card-header">
+                    <h3 class="card-title">4.2 Mathematical Proof: Anti-monotone of Confidence</h3>
+                    <span class="points-badge">2 Marks</span>
+                </div>
+                <div class="question-body">
+                    <p class="lang-en">Let $L = \{A,B,C,D\}$ denote a frequent itemset. Use it to mathematically show that <b>"confidence of rules generated from the same itemset has an anti-monotone property"</b>.</p>
+                    <p class="lang-zh">令 $L = \{A,B,C,D\}$ 代表一个频繁项集。用它在数学上证明：<b>“由同一个频繁项集生成的规则，其置信度具有反单调性”</b>（即规则前件越长，置信度越高；前件越短，置信度越低）。</p>
+                </div>
+                <div class="user-input-area">
+                    <textarea class="text-input" rows="3" placeholder="在此输入你的草稿或答案..."></textarea>
+                    <button class="btn primary" onclick="toggleSolution('sol-4-2')">查看考场标答解析</button>
+                </div>
+                <div id="sol-4-2" class="solution-box">
+                    <div class="solution-header">✔ 考场推导与答题模板（背诵公式）</div>
+                    <div class="solution-english-template">1. Let rule r1 be: X2 → L \ X2, and rule r2 be: X1 → L \ X1, where X1 ⊂ X2 ⊂ L.
+2. The confidence of r1 is: Conf(r1) = Support(L) / Support(X2).
+3. The confidence of r2 is: Conf(r2) = Support(L) / Support(X1).
+4. Since X1 ⊂ X2, by the anti-monotone property of support, we have: Support(X2) ≤ Support(X1).
+5. Since the numerator Support(L) is identical and the denominator Support(X2) ≤ Support(X1), we conclude:
+   Support(L) / Support(X2) ≥ Support(L) / Support(X1)
+   which means Conf(r1) ≥ Conf(r2).
+Thus, confidence is anti-monotone with respect to the length of the rule antecedent (LHS).</div>
+                    <div style="font-size: 0.85rem; color: var(--text-secondary); margin-top: 0.5rem; border-top: 1px solid rgba(255,255,255,0.05); padding-top: 0.5rem;">
+                        <b>💡 大白话秒懂“前件越长，置信度越高”：</b><br>
+                        这个定理是在说：<b>对于同一个频繁项集，你的前件（条件）包含的商品越多，规则的置信度就越高。</b><br><br>
+                        <b>推导核心：</b><br>
+                        *   置信度公式：$Conf(X \to Y) = \frac{Support(X \cup Y)}{Support(X)}$。<br>
+                        *   因为我们是从同一个频繁项集 $L$ 拆出来的规则，所以分子 $Support(X \cup Y) = Support(L)$ 是一个<b>固定不变的常数</b>。<br>
+                        *   既然分子固定，那么<b>置信度的大小完全由分母 $Support(X)$（即前件的支持度）决定</b>。<br>
+                        *   前件 $X_2$ 包含的商品比 $X_1$ 多（$X_1 \subset X_2$），根据支持度的反单调性（买大套餐的人肯定比买单品的人少），分母 $Support(X_2) \le Support(X_1)$。<br>
+                        *   <b>分母越小，分数反而越大</b>。所以 $Conf(r_1) \ge Conf(r_2)$。<br><br>
+                        <b>🛒 生活直白比喻：</b><br>
+                        假设频繁项集是 $\{啤酒, 尿不湿, 面包\}$：
+                        *   <b>规则 1（前件长，分母小，置信度高）</b>：买 $\{啤酒, 尿不湿\}$ 的人里，有多少人会买 $\{面包\}$？（条件极其精准苛刻，筛选出来的分母很小，所以在这个特定群体里买面包的概率很高）。
+                        *   <b>规则 2（前件短，分母大，置信度低）</b>：只买 $\{啤酒\}$ 的人里，有多少人会买 $\{尿不湿, 面包\}$？（条件非常宽泛，分母极大，在这个大群体里同时买另外两样东西的概率自然就变低了）。
+                    </div>
+                </div>
+            </div>
+
+            <!-- 4.3 Transaction Dataset Construction (2021 Q3) -->
+            <div class="card">
+                <div class="card-header">
+                    <h3 class="card-title">4.3 Constructing Dataset for Target Rule</h3>
+                    <span class="points-badge">2 Marks</span>
+                </div>
+                <div class="question-body">
+                    <p class="lang-en">Construct a small transaction dataset containing $10$ transactions for items $\{A, B, D, F, H\}$ such that the rule $\{A, D\} \Rightarrow \{F, H\}$ has a <span class="term" data-translation="支持度">support</span> of $0.3$ and a <span class="term" data-translation="置信度">confidence</span> of $0.6$. Show your calculations.</p>
+                    <p class="lang-zh">构造一个包含 10 个事务的简单数据集（涉及商品 $\{A, B, D, F, H\}$），使得规则 $\{A, D\} \Rightarrow \{F, H\}$ 的支持度为 0.3，置信度为 0.6。写出你的计算和构造过程。</p>
+                </div>
+                <div class="user-input-area">
+                    <textarea class="text-input" rows="3" placeholder="在此输入你的草稿或答案..."></textarea>
+                    <button class="btn primary" onclick="toggleSolution('sol-4-3')">查看考场标答解析</button>
+                </div>
+                <div id="sol-4-3" class="solution-box">
+                    <div class="solution-header">✔ 考场推导与答题模板（可复制）</div>
+                    <div class="solution-english-template">Calculations:
+1. Total transactions N = 10.
+2. Support({A, D} => {F, H}) = 0.3 → Number of transactions containing all items {A, D, F, H} must be: 10 * 0.3 = 3.
+3. Confidence = Support({A, D, F, H}) / Support({A, D}) = 0.6 → Support({A, D}) = 0.3 / 0.6 = 0.5.
+4. Therefore, the number of transactions containing {A, D} must be: 10 * 0.5 = 5.
+5. This leaves 5 - 3 = 2 transactions that contain {A, D} but do NOT contain {F, H}.
+
+Constructed Dataset:
+Transaction 1: {A, D, F, H}
+Transaction 2: {A, D, F, H}
+Transaction 3: {A, D, F, H}
+Transaction 4: {A, D, B}
+Transaction 5: {A, D}
+Transactions 6 to 10 (any items not violating the counts, e.g., no {A, D}):
+Transaction 6: {B, F}
+Transaction 7: {B, H}
+Transaction 8: {F, H}
+Transaction 9: {B}
+Transaction 10: {F}</div>
+                                <div id="sol-5-3" class="solution-box">
+                    <div class="solution-header">✔ 考场英语答题模板（复制背诵）</div>
+                    <div class="solution-english-template">Linear regression predicts continuous values that can fall outside the [0, 1] range, making it impossible to interpret the output directly as probabilities for binary or categorical classes.</div>
+                    
+                    <div style="font-size: 0.85rem; color: var(--text-secondary); margin-top: 0.5rem; border-top: 1px solid rgba(255,255,255,0.05); padding-top: 0.5rem;">
+                        <b>💡 大白话物理图像：</b><br>
+                        线性回归的本质是画一根<b>无限延伸的笔直铁轨</b> ($y = wx+b$)。
+                        <ul style="margin-left: 1.25rem; margin-top: 0.25rem; margin-bottom: 0.5rem;">
+                            <li><b>概率的底线：</b> 概率只能在 0 到 1 之间 (0% ~ 100%)。</li>
+                            <li><b>铁轨的尴尬：</b> 如果自变量 $x$ 极其大或极其小，线性回归预测出的值 $y$ 就会是 3.5 或者 -0.8。这在数学上完全没法解释成“有 350% 的概率”或者“有 -80% 的概率”属于某个类别。</li>
+                        </ul>
+                        
+                        <b>⚠️ Louis 避坑提问：既然深度学习都用 ReLU，为啥这里还要提 Sigmoid？</b><br>
+                        这是因为激活函数在<b>“隐藏层”</b>与<b>“输出层”</b>的分工完全不同：
+                        <ol style="margin-left: 1.25rem; margin-top: 0.25rem; margin-bottom: 0.5rem;">
+                            <li><b>中间隐藏层（负责提炼特征）：用 ReLU。</b> 它的公式是 $y = \max(0, x)$。因为网络很深，如果中间用 Sigmoid，数值太大或太小时导数（斜率）接近 0，会产生<b>梯度消失</b>导致模型学不动；而 ReLU 计算极快，且正半区斜率恒为 1，完美解决了这个问题。</li>
+                            <li><b>最后一层输出层（负责做二分类判决）：用 Sigmoid。</b> 哪怕你中间用 ReLU 提炼得再好，最后一层你依然需要给出一个 $0 \sim 1$ 之间的概率。ReLU 在正半区是无限延伸的（无法直接代表概率），所以必须在最后一层套一个 <b>Sigmoid</b>，强行把任何得分压缩到 $[0, 1]$ 之间。</li>
+                        </ol>
+                        <b>⚡️ 归纳口诀：</b><br>
+                        “隐藏层用 <b style="color: var(--primary);">ReLU</b> 当发动机（避免梯度消失，跑得快）；输出层用 <b style="color: var(--warning);">Sigmoid</b> 当裁判员（限流在 0 到 1 之间输出概率）。”
+                    </div>
+                </div>
+            </div>
+
+            <!-- 4.4 Drawback of Confidence & Lift (2021 Q3) -->
+            <div class="card">
+                <div class="card-header">
+                    <h3 class="card-title">4.4 Drawback of Confidence and Lift</h3>
+                    <span class="points-badge">1 Mark</span>
+                </div>
+                <div class="question-body">
+                    <p class="lang-en">Explain clearly the main issue of using only <span class="term" data-translation="置信度">confidence</span> to evaluate association rules and state how <span class="term" data-translation="提升度">lift</span> can solve this issue.</p>
+                    <p class="lang-zh">清晰解释仅使用置信度来评估关联规则存在的主要问题，并说明提升度（Lift）是如何解决该问题的。</p>
+                </div>
+                <div class="user-input-area">
+                    <textarea class="text-input" rows="3" placeholder="在此输入你的草稿或答案..."></textarea>
+                    <button class="btn primary" onclick="toggleSolution('sol-4-4')">查看考场标答解析</button>
+                </div>
+                <div id="sol-4-4" class="solution-box">
+                    <div class="solution-header">✔ 考场英语答题模板（复制背诵）</div>
+                    <div class="solution-english-template">1. The main drawback of confidence is that it can be misleadingly high if the consequent (Y) has a very high support in the dataset anyway. The rule X → Y appears strong just because Y is common, not because there is a genuine association.
+2. Lift solves this by normalizing confidence with the support of the consequent: Lift(X → Y) = Confidence(X → Y) / Support(Y). A Lift > 1 confirms a true positive correlation.</div>
+                </div>
+            </div>
+
+        </section>
+
+        <!-- ==================== SECTION 5: QUESTION 5 ==================== -->
+        <section id="sec-q5" class="exam-section">
+            
+            <!-- 5.1 Hard vs Soft Margin -->
+            <div class="card">
+                <div class="card-header">
+                    <h3 class="card-title">5.1 Maximal Margin vs Soft Margin</h3>
+                    <span class="points-badge">2 Marks</span>
+                </div>
+                <div class="question-body">
+                    <p class="lang-en">Explain clearly the differences between <span class="term" data-translation="最大间隔分类器">maximal margin classifier</span> and <span class="term" data-translation="软间隔分类器">soft margin classifier</span> in SVM.</p>
+                    <p class="lang-zh">清晰解释 SVM 中最大间隔分类器和软间隔分类器的区别。</p>
+                </div>
+                <div class="user-input-area">
+                    <textarea class="text-input" rows="3" placeholder="在此输入你的草稿或答案..."></textarea>
+                    <button class="btn primary" onclick="toggleSolution('sol-5-1')">查看考场标答解析</button>
+                </div>
+                <div id="sol-5-1" class="solution-box">
+                    <div class="solution-header">✔ 考场英语答题模板（复制背诵）</div>
+                    <div class="solution-english-template">1. Maximal margin classifier requires all training observations to be on the correct side of the margin with no errors allowed. It only works when data is linearly separable and is highly sensitive to outliers.
+2. Soft margin classifier (Support Vector Classifier) allows some observations to violate the margin or even be misclassified (using slack variables) to achieve better robustness and generalize to non-separable data.</div>
+                </div>
+            </div>
+
+            <!-- 5.2 Slack variables vs C -->
+            <div class="card">
+                <div class="card-header">
+                    <h3 class="card-title">5.2 Slack Variables & Tuning Parameter C</h3>
+                    <span class="points-badge">2 Marks</span>
+                </div>
+                <div class="question-body">
+                    <p class="lang-en">Explain the relationship between the <span class="term" data-translation="松弛变量">slack variables</span> $\epsilon_i$ and the <span class="term" data-translation="惩罚参数 / 调节参数">tuning parameter</span> $C$ in the soft margin classifier. How does $C$ affect model overfitting?</p>
+                    <p class="lang-zh">解释软间隔分类器中松弛变量 $\epsilon_i$ 与调节参数 $C$ 之间的关系。$C$ 的大小如何影响模型过拟合？</p>
+                </div>
+                <div class="user-input-area">
+                    <textarea class="text-input" rows="3" placeholder="在此输入你的草稿或答案..."></textarea>
+                    <button class="btn primary" onclick="toggleSolution('sol-5-2')">查看考场标答解析</button>
+                </div>
+                <div id="sol-5-2" class="solution-box">
+                    <div class="solution-header">✔ 考场英语答题模板（复制背诵）</div>
+                    <div class="solution-english-template">1. Slack variables epsilon_i measure the distance by which the i-th observation violates the margin.
+2. The parameter C limits the sum of slack variables (sum of epsilon_i <= C).
+3. If C is very large, we allow large margin violations, which leads to a wider margin, high bias but low variance (prevents overfitting).
+4. If C is very small, we enforce strict margins with minimal violations, which leads to a narrow margin, low bias but high variance (prone to overfitting).</div>
+                    <div style="font-size: 0.85rem; color: var(--text-secondary); margin-top: 0.5rem; border-top: 1px solid rgba(255,255,255,0.05); padding-top: 0.5rem;">
+                        <b>⚠️ SVM 考场最阴险地雷：C 到底控什么？</b><br>
+                        在做选择题或判断题时，一定要先看清题目中的 $C$ 放在了公式的什么位置！<br><br>
+                        <b>形式一：限制项约束形式（对应上面的英文标答）</b><br>
+                        限制公式为：$\sum \epsilon_i \le C$<br>
+                        *   <b>大白话</b>：此时 $C$ 是“犯错的上限总预算”。<br>
+                        *   <b>$C$ 极小（预算很紧）</b>：不允许任何人越界，必须严防死守。这等价于硬间隔，<b>容易过拟合 (Overfitting)</b>，方差高。<br>
+                        *   <b>$C$ 极大（预算很宽）</b>：随便犯错，越界也无所谓。这会导致间隔变得非常宽，<b>容易欠拟合 (Underfitting)</b>，偏差高。<br><br>
+                        <b>形式二：目标函数惩罚项形式（机器学习教材中最常见的写法，如 ISLR）</b><br>
+                        目标公式为：最小化 $\frac{1}{2}||w||^2 + C \sum \epsilon_i$<br>
+                        *   <b>大白话</b>：此时 $C$ 是“对于犯错的惩罚力度”。<br>
+                        *   <b>$C$ 极大（惩罚极重，铁面无私）</b>：谁犯错就狠狠罚谁。为了免受惩罚，模型必须严丝合缝地把所有点分类正确。这会导致间隔变窄，<b>容易过拟合 (Overfitting)</b>，方差高。<br>
+                        *   <b>$C$ 极小（惩罚极轻，得过且过）</b>：你犯错我也不怎么管。模型会为了让间隔更宽而无视一些错误。这会导致间隔变宽，<b>容易欠拟合 (Underfitting)</b>，偏差高。<br><br>
+                        <b>⚡️ 秒杀口诀：</b><br>
+                        “<b>作为预算</b>，C越大越宽容（防过拟合）；<b>作为惩罚</b>，C越大越严苛（易过拟合）。”
+                    </div>
+                </div>
+            </div>
+
+            <!-- 5.3 Linear Regression vs Binary Classification -->
+            <div class="card">
+                <div class="card-header">
+                    <h3 class="card-title">5.3 Regression vs Binary Classification</h3>
+                    <span class="points-badge">2 Marks</span>
+                </div>
+                <div class="question-body">
+                    <p class="lang-en">State one obvious reason why <span class="term" data-translation="线性回归">linear regression</span> is not appropriate for predicting a binary or categorical response variable.</p>
+                    <p class="lang-zh">指出线性回归不适合用来预测二分类或多分类目标变量的一个显而易见的原因。</p>
+                </div>
+                <div class="user-input-area">
+                    <textarea class="text-input" rows="3" placeholder="在此输入你的草稿或答案..."></textarea>
+                    <button class="btn primary" onclick="toggleSolution('sol-5-3')">查看考场标答解析</button>
+                </div>
+                                <div id="sol-5-3" class="solution-box">
+                    <div class="solution-header">✔ 考场英语答题模板（复制背诵）</div>
+                    <div class="solution-english-template">Linear regression predicts continuous values that can fall outside the [0, 1] range, making it impossible to interpret the output directly as probabilities for binary or categorical classes.</div>
+                    
+                    <div style="font-size: 0.85rem; color: var(--text-secondary); margin-top: 0.5rem; border-top: 1px solid rgba(255,255,255,0.05); padding-top: 0.5rem;">
+                        <b>💡 大白话物理图像：</b><br>
+                        线性回归的本质是画一根<b>无限延伸的笔直铁轨</b> ($y = wx+b$)。
+                        <ul style="margin-left: 1.25rem; margin-top: 0.25rem; margin-bottom: 0.5rem;">
+                            <li><b>概率的底线：</b> 概率只能在 0 到 1 之间 (0% ~ 100%)。</li>
+                            <li><b>铁轨的尴尬：</b> 如果自变量 $x$ 极其大或极其小，线性回归预测出的值 $y$ 就会是 3.5 或者 -0.8。这在数学上完全没法解释成“有 350% 的概率”或者“有 -80% 的概率”属于某个类别。</li>
+                        </ul>
+                        
+                        <b>⚠️ Louis 避坑提问：既然深度学习都用 ReLU，为啥这里还要提 Sigmoid？</b><br>
+                        这是因为激活函数在<b>“隐藏层”</b>与<b>“输出层”</b>的分工完全不同：
+                        <ol style="margin-left: 1.25rem; margin-top: 0.25rem; margin-bottom: 0.5rem;">
+                            <li><b>中间隐藏层（负责提炼特征）：用 ReLU。</b> 它的公式是 $y = \max(0, x)$。因为网络很深，如果中间用 Sigmoid，数值太大或太小时导数（斜率）接近 0，会产生<b>梯度消失</b>导致模型学不动；而 ReLU 计算极快，且正半区斜率恒为 1，完美解决了这个问题。</li>
+                            <li><b>最后一层输出层（负责做二分类判决）：用 Sigmoid。</b> 哪怕你中间用 ReLU 提炼得再好，最后一层你依然需要给出一个 $0 \sim 1$ 之间的概率。ReLU 在正半区是无限延伸的（无法直接代表概率），所以必须在最后一层套一个 <b>Sigmoid</b>，强行把任何得分压缩到 $[0, 1]$ 之间。</li>
+                        </ol>
+                        <b>⚡️ 归纳口诀：</b><br>
+                        “隐藏层用 <b style="color: var(--primary);">ReLU</b> 当发动机（避免梯度消失，跑得快）；输出层用 <b style="color: var(--warning);">Sigmoid</b> 当裁判员（限流在 0 到 1 之间输出概率）。”
+                    </div>
+                </div>
+            </div>
+
+            <!-- 5.4 Hold-out vs 10-fold Cross-Validation (2021 Q5) -->
+            <div class="card">
+                <div class="card-header">
+                    <h3 class="card-title">5.4 Hold-out vs 10-fold Cross-Validation</h3>
+                    <span class="points-badge">2 Marks</span>
+                </div>
+                <div class="question-body">
+                    <p class="lang-en">Compare the <span class="term" data-translation="留出法">hold-out method</span> and the <span class="term" data-translation="10折交叉验证">10-fold cross-validation</span> with respect to their strengths and weaknesses.</p>
+                    <p class="lang-zh">比较留出法和 10 折交叉验证的优缺点。</p>
+                </div>
+                <div class="user-input-area">
+                    <textarea class="text-input" rows="3" placeholder="在此输入你的草稿或答案..."></textarea>
+                    <button class="btn primary" onclick="toggleSolution('sol-5-4')">查看考场标答解析</button>
+                </div>
+                                <div id="sol-5-4" class="solution-box">
+                    <div class="solution-header">✔ 考场英语答题模板（复制背诵）</div>
+                    <div class="solution-english-template">1. Hold-out:
+- Strength: Simple and computationally fast.
+- Weakness: Results depend heavily on the random partition and can be highly unstable; wastes data.
+2. 10-fold Cross-Validation:
+- Strength: More stable and reliable because all observations are used for both training and testing; lowers variance.
+- Weakness: 10 times slower in computation.</div>
+                    
+                    <div style="font-size: 0.85rem; color: var(--text-secondary); margin-top: 0.5rem; border-top: 1px solid rgba(255,255,255,0.05); padding-top: 0.5rem;">
+                        <b>💡 大白话物理图像：</b><br>
+                        假设你手头有一本只有 100 页的学习材料（数据集）：
+                        <ul style="margin-left: 1.25rem; margin-top: 0.25rem; margin-bottom: 0.5rem;">
+                            <li><b>Hold-out (留出法) ＝ “随机撕书考试”：</b> 二话不说，随机撕下 30 页锁进抽屉作为考卷（测试集），剩下 70 页拿来复习（训练集）。考完就结束。
+                                <ul style="margin-left: 1.25rem;">
+                                    <li><b>优点：</b> 极其简单粗暴，模型只用训练 1 次，速度极快（Fast）。</li>
+                                    <li><b>缺点：</b> 
+                                        ① <b>不稳定</b>：要是运气不好，把最难的知识点全部撕到考卷里了，评估结果方差大。<br>
+                                        ② <b>浪费数据</b>：测试集数据在训练时一次都没看过，相当于浪费了 30% 的学习材料。
+                                    </li>
+                                </ul>
+                            </li>
+                            <li><b>10-fold CV (10折交叉验证) ＝ “轮流做考卷”：</b> 把 100 页书平均分成 10 份。第 1 轮用第 1~9 份复习、第 10 份考试；第 2 轮用第 1~8 和第 10 份复习、第 9 份考试…… 如此轮流考 10 次，最后算平均分。
+                                <ul style="margin-left: 1.25rem;">
+                                    <li><b>优点：</b> 每一页书都既参与了复习，又参与了考试。评估结果非常稳定、客观（Low Variance），不浪费任何数据。</li>
+                                    <li><b>缺点：</b> 模型必须老老实实训练 10 次，计算成本高，速度慢了 10 倍（Slow）。</li>
+                                </ul>
+                            </li>
+                        </ul>
+                        <b>⚡️ 秒杀对比表：</b><br>
+                        <table style="width:100%; border-collapse: collapse; margin-top: 5px; font-size: 0.85em; border: 1px solid var(--card-border);">
+                            <tr style="background-color: rgba(255, 255, 255, 0.03);">
+                                <th style="border: 1px solid var(--card-border); padding: 6px; text-align: left;">方法</th>
+                                <th style="border: 1px solid var(--card-border); padding: 6px; text-align: left;">计算速度</th>
+                                <th style="border: 1px solid var(--card-border); padding: 6px; text-align: left;">结果稳定性</th>
+                                <th style="border: 1px solid var(--card-border); padding: 6px; text-align: left;">数据利用率</th>
+                            </tr>
+                            <tr>
+                                <td style="border: 1px solid var(--card-border); padding: 6px; font-weight: bold; color: var(--text-primary);">Hold-out</td>
+                                <td style="border: 1px solid var(--card-border); padding: 6px; color: var(--success);">快 (1次训练)</td>
+                                <td style="border: 1px solid var(--card-border); padding: 6px; color: var(--danger);">不稳定 (方差高)</td>
+                                <td style="border: 1px solid var(--card-border); padding: 6px; color: var(--danger);">低 (浪费数据)</td>
+                            </tr>
+                            <tr>
+                                <td style="border: 1px solid var(--card-border); padding: 6px; font-weight: bold; color: var(--text-primary);">10-fold CV</td>
+                                <td style="border: 1px solid var(--card-border); padding: 6px; color: var(--danger);">慢 (10次训练)</td>
+                                <td style="border: 1px solid var(--card-border); padding: 6px; color: var(--success);">高 (方差低，稳定)</td>
+                                <td style="border: 1px solid var(--card-border); padding: 6px; color: var(--success);">高 (完全利用)</td>
+                            </tr>
+                        </table>
+                    </div>
+                </div>
+                </div>
+            </div>
+
+            <!-- 5.5 Random Forest (2021 Q5) -->
+            <div class="card">
+                <div class="card-header">
+                    <h3 class="card-title">5.5 Random Forest vs Single Decision Tree</h3>
+                    <span class="points-badge">2 Marks</span>
+                </div>
+                <div class="question-body">
+                    <p class="lang-en">Explain how <span class="term" data-translation="随机森林">Random Forest</span> works for regression tasks and discuss how it improves predictions compared to a single decision tree.</p>
+                    <p class="lang-zh">解释随机森林如何用于回归任务，并讨论相比于单棵决策树，它如何改进预测结果。</p>
+                </div>
+                <div class="user-input-area">
+                    <textarea class="text-input" rows="3" placeholder="在此输入你的草稿或答案..."></textarea>
+                    <button class="btn primary" onclick="toggleSolution('sol-5-5')">查看考场标答解析</button>
+                </div>
+                <div id="sol-5-5" class="solution-box">
+                    <div class="solution-header">✔ 考场英语答题模板（复制背诵）</div>
+                    <div class="solution-english-template">1. Random Forest constructs an ensemble of decision trees using bootstrap sampling of the training data and random subset feature selection at each node split. For regression, the final prediction is the average of all individual tree predictions.
+2. Random Forest improves predictions by significantly reducing model variance compared to a single tree, preventing overfitting, and smoothing out noise and outliers.</div>
+                </div>
+            </div>
+
+        </section>
+
+        <!-- ==================== SECTION 6: QUESTION 6 ==================== -->
+        <section id="sec-q6" class="exam-section">
+            
+            <!-- 6.1 Optimal vs Naive Bayes -->
+            <div class="card">
+                <div class="card-header">
+                    <h3 class="card-title">6.1 Optimal Bayes vs Naive Bayes</h3>
+                    <span class="points-badge">3 Marks</span>
+                </div>
+                <div class="question-body">
+                    <p class="lang-en">Explain what the <span class="term" data-translation="最优贝叶斯分类器">optimal Bayes classifier</span> is and state clearly one important difference between optimal Bayes and <span class="term" data-translation="朴素贝叶斯分类器">naïve Bayes classifiers</span>.</p>
+                    <p class="lang-zh">解释什么是最优贝叶斯分类器，并清晰说明最优贝叶斯和朴素贝叶斯分类器之间的一个重要区别。</p>
+                </div>
+                <div class="user-input-area">
+                    <textarea class="text-input" rows="3" placeholder="在此输入你的草稿或答案..."></textarea>
+                    <button class="btn primary" onclick="toggleSolution('sol-6-1')">查看考场标答解析</button>
+                </div>
+                <div id="sol-6-1" class="solution-box">
+                    <div class="solution-header">✔ 考场英语答题模板（复制背诵）</div>
+                    <div class="solution-english-template">1. The optimal Bayes classifier is a theoretical classifier that minimizes classification error by assigning observations to the class with the highest posterior probability using the true underlying joint probability distribution.
+2. The key difference is that Naive Bayes assumes class-conditional independence among features (i.e., features do not affect each other given the class), whereas the optimal Bayes classifier makes no such assumption and utilizes the full joint conditional probabilities.</div>
+                </div>
+            </div>
+
+            <!-- 6.2 Decision tree entropy gain calculation -->
+            <div class="card">
+                <div class="card-header">
+                    <h3 class="card-title">6.2 2022 真题手算决策树多分类熵</h3>
+                    <span class="points-badge">4 Marks</span>
+                </div>
+                <div class="question-body">
+                    <p class="lang-en">A classification task uses a decision tree. Suppose in the root node, you have 10 observations of class 1, 10 of class 2, and 10 of class 3. Following the first split, you have:<br>
+                    • Left Node: 4 class 1, 3 class 2, 4 class 3<br>
+                    • Right Node: 6 class 1, 7 class 2, 6 class 3<br>
+                    Compute the entropy gain or loss.</p>
+                    <p class="lang-zh">决策树分类任务中，根节点有 10 个类别1，10 个类别2，10 个类别3的样本。进行第一次分裂后得到：<br>
+                    • 左子节点：4个类1，3个类2，4个类3。<br>
+                    • 右子节点：6个类1，7个类2，6个类3。<br>
+                    计算这次分裂的熵增益 (Entropy Gain)。</p>
+                </div>
+                <div class="user-input-area">
+                    <textarea class="text-input" rows="3" placeholder="在此输入你的草稿或答案..."></textarea>
+                    <button class="btn primary" onclick="toggleSolution('sol-6-2')">查看考场标答解析</button>
+                </div>
+                <div id="sol-6-2" class="solution-box">
+                    <div class="solution-header">✔ 详细步骤与计算器公式</div>
+                    <div class="solution-english-template">Step 1: Compute Parent node entropy:
+H(parent) = -3 * (1/3)*log2(1/3) = log2(3) ≈ 1.585
+
+Step 2: Compute Left node entropy (4, 3, 4), N_left = 11:
+H(left) = log2(11) - (4*log2(4) + 3*log2(3) + 4*log2(4)) / 11
+Calculator keys: [ln(3)/ln(2)] = 1.585.
+Numerator = 4*2 + 3*1.585 + 4*2 = 20.755
+Divide by 11: 20.755 / 11 = 1.887
+Subtract from log2(11) [ln(11)/ln(2) = 3.459]:
+H(left) = 3.459 - 1.887 = 1.572
+
+Step 3: Compute Right node entropy (6, 7, 6), N_right = 19:
+H(right) = log2(19) - (6*log2(6) + 7*log2(7) + 6*log2(6)) / 19
+Calculator keys: [ln(6)/ln(2)] = 2.585, [ln(7)/ln(2)] = 2.807
+Numerator = 6*2.585 + 7*2.807 + 6*2.585 = 50.669
+Divide by 19: 50.669 / 19 = 2.667
+Subtract from log2(19) [ln(19)/ln(2) = 4.248]:
+H(right) = 4.248 - 2.667 = 1.581
+
+Step 4: Compute Entropy Gain:
+H(children) = (11/30)*H(left) + (19/30)*H(right) = (11/30)*1.572 + (19/30)*1.581 = 1.578
+Entropy Gain = H(parent) - H(children) = 1.585 - 1.578 = 0.007.</div>
+                </div>
+            </div>
+
+            <!-- 6.3 Regression Tree Prediction & MSE/MAE (2021 Q6) -->
+            <div class="card">
+                <div class="card-header">
+                    <h3 class="card-title">6.3 Regression Tree Prediction & MSE/MAE</h3>
+                    <span class="points-badge">3 Marks</span>
+                </div>
+                <div class="question-body">
+                    <p class="lang-en">Consider the following regression tree diagram representing sleep minutes:
+                    <pre style="background: rgba(0,0,0,0.3); padding: 0.8rem; border-radius: 6px; font-family: monospace; font-size: 0.8rem; margin: 1rem 0;">
+Root (n=706, sleep=3266.36)
+├─ totwrk >= 2256.5 (n=369, 3151.08)
+│  ├─ totwrk >= 3693.5 → 2747.50 *  (leaf)
+│  └─ totwrk < 3693.5 (n=349, 3174.21)
+│     ├─ totwrk >= 2622.5 (n=174, 3122.69)
+│     │  ├─ totwrk < 2784.5 → 2929.55 *  (leaf)
+│     │  └─ totwrk >= 2784.5 → 3194.17 *  (leaf)
+│     └─ totwrk < 2622.5 → 3225.43 *  (leaf)
+└─ totwrk < 2256.5 (n=337, 3392.58)
+   ├─ educ >= 7.5 (n=324, 3375.15)
+   │  ├─ totwrk >= 1174 → 3314.21 *  (leaf)
+   │  └─ totwrk < 1174 → 3485.90 *  (leaf)
+   └─ educ < 7.5 → 3827.00 *  (leaf)
+                    </pre>
+                    (1) Predict sleep for 3 test records:
+                    <br>• Record 1: totwrk = 2400, educ = 5
+                    <br>• Record 2: totwrk = 4000, educ = 5
+                    <br>• Record 3: totwrk = 1500, educ = 8
+                    <br>(2) Compute MSE and MAE if their true sleep values are [3220, 2745, 3320].</p>
+                    
+                    <p class="lang-zh">考虑以上回归树结构（用于预测睡眠时间）：<br>
+                    (1) 预测以下三个测试记录的睡眠值：<br>
+                    • Record 1: totwrk = 2400, educ = 5<br>
+                    • Record 2: totwrk = 4000, educ = 5<br>
+                    • Record 3: totwrk = 1500, educ = 8<br>
+                    (2) 如果它们的真实睡眠值分别是 [3220, 2745, 3320]，计算预测结果的 MSE 和 MAE。</p>
+                </div>
+                <div class="user-input-area">
+                    <textarea class="text-input" rows="3" placeholder="在此输入你的草稿或答案..."></textarea>
+                    <button class="btn primary" onclick="toggleSolution('sol-6-3')">查看考场标答解析</button>
+                </div>
+                <div id="sol-6-3" class="solution-box">
+                    <div class="solution-header">✔ 考场英语答题模板与计算步骤</div>
+                    <div class="solution-english-template">(1) Predictions from the tree:
+• Record 1: totwrk=2400 >= 2256.5 (left branch), then totwrk < 3693.5, then totwrk < 2622.5. Leaves value is 3225.43.
+• Record 2: totwrk=4000 >= 2256.5, then totwrk >= 3693.5. Leaves value is 2747.50.
+• Record 3: totwrk=1500 < 2256.5 (right branch), then educ=8 >= 7.5, then totwrk=1500 >= 1174. Leaves value is 3314.21.
+
+(2) MSE & MAE calculation:
+True = [3220, 2745, 3320], Pred = [3225.43, 2747.50, 3314.21]
+Errors = [+5.43, +2.50, -5.79]
+Squared Errors = [29.4849, 6.25, 33.5241]
+Absolute Errors = [5.43, 2.50, 5.79]
+
+- MAE = (5.43 + 2.50 + 5.79) / 3 = 13.72 / 3 ≈ 4.57
+- MSE = (29.48 + 6.25 + 33.52) / 3 = 69.25 / 3 ≈ 23.08</div>
+                    <div style="font-size: 0.85rem; color: var(--text-secondary); margin-top: 0.5rem; border-top: 1px solid rgba(255,255,255,0.05); padding-top: 0.5rem;">
+                        <b>📟 计算器手算 MSE / MAE 救命按键指南：</b><br>
+                        考场上算这些小数的差值、平方和极其容易因为紧张手抖按错。建议严格执行以下步骤：<br>
+                        1.  <b>第一步：算误差 (Errors)</b>：<br>
+                            $3225.43 - 3220 = 5.43$ (绝对值: $5.43$，平方: $29.485$)<br>
+                            $2747.50 - 2745 = 2.50$ (绝对值: $2.50$，平方: $6.25$)<br>
+                            $3314.21 - 3320 = -5.79$ (绝对值: $5.79$，平方: $33.524$)<br>
+                        2.  <b>第二步：计算 MAE（平均绝对误差）</b>：<br>
+                            直接求绝对值的平均值：<br>
+                            按键：<span class="calculator-keys">5.43 + 2.50 + 5.79</span> $= 13.72$<br>
+                            除以 3：<span class="calculator-keys">13.72 / 3</span> $\approx \mathbf{4.57}$<br>
+                        3.  <b>第三步：计算 MSE（均方误差）</b>：<br>
+                            先求平方和再除以 3：<br>
+                            按键：<span class="calculator-keys">5.43 x² + 2.5 x² + 5.79 x²</span> $= 69.259$<br>
+                            除以 3：<span class="calculator-keys">69.259 / 3</span> $\approx \mathbf{23.09}$
+                    </div>
+                </div>
+            </div>
+
+        </section>
+
+        <!-- ==================== SECTION 7: QUESTION 7 ==================== -->
+        <section id="sec-q7" class="exam-section">
+            
+            <!-- 7.1 R output -->
+            <div class="card">
+                <div class="card-header">
+                    <h3 class="card-title">7.1 Regression Analysis Sleep Model (2022 真题 Q7)</h3>
+                    <span class="points-badge">4 Marks</span>
+                </div>
+                <div class="question-body">
+                    <p class="lang-en">Given the sleep model: $sleep_i = \beta_0 + \beta_1 totwrk_i + \beta_2 age_i + \beta_3 male_i + \beta_4 educ_i + \beta_5 kid_i + \beta_6 inlf_i + e_i$<br>
+                    Here is the coefficient output from R software:</p>
+                    
+                    <pre style="background: rgba(0,0,0,0.3); padding: 0.8rem; border-radius: 6px; font-family: monospace; font-size: 0.8rem; margin: 1rem 0;">
+Coefficients:
+               Estimate  Std. Error  t value  Pr(>|t|)
+(Intercept)   3636.1751    119.0833   30.535   <2e-16 ***
+totwrk          -0.1659      0.0181   -9.164   <2e-16 ***
+age              2.0211      1.5246    1.326   0.1854
+factor(male)1   87.9292     34.8295    2.525   0.0118 *
+educ           -11.7273      5.8836   -1.993   0.0466 *
+factor(kid)1     4.4487     50.1296    0.089   0.9293
+factor(inlf)1    4.5419     36.9562    0.123   0.9022
+                    </pre>
+
+                    <p class="lang-en">
+                    (A) Is there evidence that there are differences in minutes sleep at night per week between men and women? Justify at $\alpha = 0.05$. (1 mark)<br>
+                    (B) Are there any variables you might exclude from the equation at 5% significance level? Why? (1 mark)<br>
+                    (C) If a person works four more hours per week, by how many minutes is sleep predicted to fall? (2 marks)
+                    </p>
+                    
+                    <p class="lang-zh">
+                    (A) 是否有证据表明男女每周睡眠时间存在差异？在 $\alpha = 0.05$ 水平下论证你的结果。(1分)<br>
+                    (B) 在 5% 的显著性水平下，有哪些变量你可能会从方程中排除？为什么？(1分)<br>
+                    (C) 如果一个人每周多工作 4 个小时，预测其睡眠时间会减少多少分钟？(2分)
+                    </p>
+                </div>
+                <div class="user-input-area">
+                    <textarea class="text-input" rows="3" placeholder="在此输入你的草稿或答案..."></textarea>
+                    <button class="btn primary" onclick="toggleSolution('sol-7-1')">查看考场标答解析</button>
+                </div>
+                <div id="sol-7-1" class="solution-box">
+                    <div class="solution-header">✔ 考场英语答题模板（直接抄即可拿满分）</div>
+                    <div class="solution-english-template">(A) Yes. The coefficient of factor(male)1 is 87.93 with a p-value of 0.0118. Since 0.0118 &lt; 0.05, the difference is statistically significant. Males sleep approximately 87.93 minutes more per week than females.
+(B) We should exclude age, factor(kid)1, and factor(inlf)1. Their p-values are 0.1854, 0.9293, and 0.9022 respectively, which are all greater than 0.05 (not statistically significant).
+(C) Change in work minutes: 4 hours * 60 = 240 minutes.
+    Predicted change in sleep: 240 * (-0.1659) = -39.816 minutes.
+    Sleep is predicted to fall by 39.82 minutes.</div>
+                </div>
+            </div>
+
+            <!-- 7.2 Precision, Recall, and Classifier Selection (2021 Q7) -->
+            <div class="card">
+                <div class="card-header">
+                    <h3 class="card-title">7.2 Precision, Recall & SVM Classifier Selection</h3>
+                    <span class="points-badge">3 Marks</span>
+                </div>
+                <div class="question-body">
+                    <p class="lang-en">Given the confusion matrices of three SVM classifiers:
+                    <br>• <b>Classifier 1 (Linear SVM)</b>: TN = 275, FP = 35, FN = 32, TP = 230.
+                    <br>• <b>Classifier 2 (RBF kernel, γ = 1)</b>: TN = 278, FP = 32, FN = 9, TP = 253.
+                    <br>• <b>Classifier 3 (RBF kernel, γ = 500)</b>: TN = 298, FP = 12, FN = 82, TP = 180.
+                    <br>(1) Compute the precision and recall for all three classifiers.
+                    <br>(2) Choose the best classifier and justify your decision.</p>
+                    
+                    <p class="lang-zh">给出三个 SVM 分类器的混淆矩阵：<br>
+                    • <b>分类器 1 (线性 SVM)</b>：TN = 275, FP = 35, FN = 32, TP = 230。<br>
+                    • <b>分类器 2 (RBF 核, γ = 1)</b>：TN = 278, FP = 32, FN = 9, TP = 253。<br>
+                    • <b>分类器 3 (RBF 核, γ = 500)</b>：TN = 298, FP = 12, FN = 82, TP = 180。<br>
+                    (1) 计算三个分类器的精确率 (Precision) 和召回率 (Recall)。<br>
+                    (2) 选择最好的一个分类器并给出合理解释。</p>
+                </div>
+                <div class="user-input-area">
+                    <textarea class="text-input" rows="3" placeholder="在此输入你的草稿或答案..."></textarea>
+                    <button class="btn primary" onclick="toggleSolution('sol-7-2')">查看考场标答解析</button>
+                </div>
+                <div id="sol-7-2" class="solution-box">
+                    <div class="solution-header">✔ 考场英语答题模板与计算步骤</div>
+                    <div class="solution-english-template">1. Precision and Recall Calculations:
+• Classifier 1:
+  Precision = 230 / (230 + 35) = 230 / 265 ≈ 86.79%
+  Recall = 230 / (230 + 32) = 230 / 262 ≈ 87.79%
+• Classifier 2:
+  Precision = 253 / (253 + 32) = 253 / 285 ≈ 88.77%
+  Recall = 253 / (253 + 9) = 253 / 262 ≈ 96.56%
+• Classifier 3:
+  Precision = 180 / (180 + 12) = 180 / 192 = 93.75%
+  Recall = 180 / (180 + 82) = 180 / 262 ≈ 68.70%
+
+2. Selection and Justification:
+Classifier 2 (RBF kernel, γ = 1) is the best.
+Reason: It achieves the highest recall (96.56%) while maintaining a high precision (88.77%), outperforming the other two classifiers on overall balance. Classifier 3 has high precision but unacceptably low recall (misses too many positive cases).</div>
+                    <div style="font-size: 0.85rem; color: var(--text-secondary); margin-top: 0.5rem; border-top: 1px solid rgba(255,255,255,0.05); padding-top: 0.5rem;">
+                        <b>💡 考场公式秒杀与对比技巧：</b><br>
+                        <b>1. 分子永远是 $TP$（预测和真实都是阳性，即真阳）</b>。<br>
+                        *   <b>Precision (精确率)</b>：量的是“你预测为正的数据里，有多少是猜对的”。<br>
+                            分母是**你预测为正的总数** $= TP + FP$（预测正且对 + 预测正却错）。<br>
+                        *   <b>Recall (召回率)</b>：量的是“真实世界里所有的正数据，你到底抓漏了多少”。<br>
+                            分母是**实际上为正的总数** $= TP + FN$（你抓到的正 + 你漏掉的正）。<br><br>
+                        <b>2. 为什么分类器 3 虽然 Precision 极高，但不是最好的？</b><br>
+                        *   分类器 3 虽然精确率高达 93.75%（极少抓错），但它的召回率只有 68.70%（漏掉了超过 30% 的真实正样本，即 $FN=82$ 太多了！）。这属于严重<b>欠拟合/漏报</b>。<br>
+                        *   分类器 2 实现了两者的**完美平衡 (Trade-off)**，它的 Recall 高达 96.56%（几乎把正样本一网打尽），且 Precision 依然保持在 88.77% 的高水平。<br>
+                        *   在 SVM 的 RBF 核中，<b>$\gamma$ 越大，模型越复杂（越容易过拟合）</b>。分类器 3 的 $\gamma = 500$ 显然太大，导致了极高的过拟合（训练集完美，测试集大范围漏报）。
+                    </div>
+                </div>
+            </div>
+
+        </section>
+
+    </main>
+
+    <script>
+        // 侧边栏及卡片显示隐藏切换
+        function switchSection(evt, secId) {
+            const sections = document.querySelectorAll('.exam-section');
+            sections.forEach(s => s.classList.remove('active'));
+
+            const items = document.querySelectorAll('.nav-item');
+            items.forEach(item => item.classList.remove('active'));
+
+            document.getElementById(secId).classList.add('active');
+            evt.currentTarget.classList.add('active');
+
+            // 动态修改 Header 大标题
+            const titleMap = {
+                'sec-q1': 'Question 1: Data Preprocessing & Basic Concepts',
+                'sec-q2': 'Question 2: Clustering & SOM Grid Parameters',
+                'sec-q3': 'Question 3: k-NN, MLP & ROC-AUC Calculation',
+                'sec-q4': 'Question 4: Apriori Steps & Confidence Monotonicity',
+                'sec-q5': 'Question 5: Support Vector Machine (SVM)',
+                'sec-q6': 'Question 6: Optimal Bayes & Decision Tree Entropy',
+                'sec-q7': 'Question 7: R Regression Summary Output Interpretation'
+            };
+            document.getElementById('section-header-title').textContent = titleMap[secId];
+
+            if (secId === 'sec-q3') {
+                initRocMode();
+            }
+        }
+
+        function toggleSolution(solId) {
+            const sol = document.getElementById(solId);
+            sol.classList.toggle('active');
+        }
+
+        // ==================== SECTION 3: ROC IN EXAM PORTAL ====================
+        const rocData = [
+            { id: 3, prob: 0.99, label: 'Positive' },
+            { id: 2, prob: 0.75, label: 'Positive' },
+            { id: 9, prob: 0.67, label: 'Negative' },
+            { id: 8, prob: 0.61, label: 'Positive' },
+            { id: 5, prob: 0.52, label: 'Positive' },
+            { id: 10, prob: 0.34, label: 'Positive' },
+            { id: 1, prob: 0.19, label: 'Negative' },
+            { id: 6, prob: 0.11, label: 'Negative' },
+            { id: 4, prob: 0.07, label: 'Negative' },
+            { id: 7, prob: 0.06, label: 'Negative' }
+        ];
+
+        function initRocMode() {
+            const band = document.getElementById('roc-dist-band');
+            if (band.children.length <= 1) {
+                rocData.forEach(d => {
+                    const dot = document.createElement('div');
+                    dot.className = `dot ${d.label === 'Positive' ? 'pos' : 'neg'}`;
+                    dot.style.left = `${d.prob * 100}%`;
+                    band.appendChild(dot);
+                });
+            }
+            updateROC(0.50);
+        }
+
+        function updateROC(val) {
+            document.getElementById('roc-threshold-val').textContent = Number(val).toFixed(2);
+            document.getElementById('roc-thresh-line').style.left = `${val * 100}%`;
+
+            let tp = 0, fp = 0, fn = 0, tn = 0;
+            const tbody = document.querySelector('#roc-table tbody');
+            tbody.innerHTML = '';
+
+            rocData.forEach((d, idx) => {
+                const pred = d.prob >= val;
+                let outcome = '';
+                if (d.label === 'Positive') {
+                    if (pred) { tp++; outcome = '<span class="badge pos">TP</span>'; }
+                    else { fn++; outcome = '<span class="badge neg">FN</span>'; }
+                } else {
+                    if (pred) { fp++; outcome = '<span class="badge neg">FP</span>'; }
+                    else { tn++; outcome = '<span class="badge pos">TN</span>'; }
+                }
+
+                const tr = document.createElement('tr');
+                tr.style.background = pred ? 'rgba(16, 185, 129, 0.04)' : 'rgba(239, 68, 68, 0.04)';
+                
+                const isBorder = (idx < rocData.length - 1 && rocData[idx].prob >= val && rocData[idx+1].prob < val);
+                if (isBorder || (idx === rocData.length-1 && val === 0.0) || (idx === 0 && val > d.prob)) {
+                    tr.className = 'active-row';
+                }
+
+                tr.innerHTML = `
+                    <td>${idx+1}</td>
+                    <td>${d.id}</td>
+                    <td style="font-family:monospace;">${d.prob.toFixed(2)}</td>
+                    <td>${d.label === 'Positive' ? '🔴 Positive' : '🟢 Negative'}</td>
+                    <td>${outcome}</td>
+                `;
+                tbody.appendChild(tr);
+            });
+
+            drawRocCanvas(fp/5, tp/5);
+        }
+
+        function drawRocCanvas(currFpr, currTpr) {
+            const canvas = document.getElementById('roc-canvas');
+            const ctx = canvas.getContext('2d');
+            const padding = 35;
+            const w = canvas.width - 2 * padding;
+            const h = canvas.height - 2 * padding;
+
+            ctx.clearRect(0,0,canvas.width,canvas.height);
+
+            // 背景网格
+            ctx.strokeStyle = '#1e293b';
+            ctx.lineWidth = 1;
+            for(let i=0; i<=5; i++) {
+                const r = i/5;
+                ctx.beginPath(); ctx.moveTo(padding + r*w, padding); ctx.lineTo(padding + r*w, canvas.height - padding); ctx.stroke();
+                ctx.beginPath(); ctx.moveTo(padding, padding + r*h); ctx.lineTo(canvas.width - padding, padding + r*h); ctx.stroke();
+            }
+
+            // 对角虚线
+            ctx.strokeStyle = 'rgba(148,163,184,0.3)';
+            ctx.setLineDash([4, 4]);
+            ctx.beginPath(); ctx.moveTo(padding, canvas.height - padding); ctx.lineTo(canvas.width - padding, padding); ctx.stroke();
+            ctx.setLineDash([]);
+
+            // ROC 实线
+            const pts = [{f:0, t:0}, {f:0, t:0.4}, {f:0.2, t:0.4}, {f:0.2, t:1.0}, {f:1.0, t:1.0}];
+            ctx.strokeStyle = '#6366f1';
+            ctx.lineWidth = 3;
+            ctx.beginPath();
+            pts.forEach((p, idx) => {
+                if(idx === 0) ctx.moveTo(padding + p.f*w, padding + (1-p.t)*h);
+                else ctx.lineTo(padding + p.f*w, padding + (1-p.t)*h);
+            });
+            ctx.stroke();
+
+            // 画折点
+            ctx.fillStyle = '#8b5cf6';
+            pts.forEach(p => {
+                ctx.beginPath(); ctx.arc(padding + p.f*w, padding + (1-p.t)*h, 4, 0, Math.PI*2); ctx.fill();
+            });
+
+            // 闪烁当前点
+            ctx.fillStyle = '#f59e0b';
+            ctx.beginPath(); ctx.arc(padding + currFpr*w, padding + (1-currTpr)*h, 6, 0, Math.PI*2); ctx.fill();
+
+            // 刻度
+            ctx.fillStyle = '#94a3b8';
+            ctx.font = '9px Outfit';
+            ctx.textAlign = 'center';
+            for(let i=0; i<=5; i++) ctx.fillText((i/5).toFixed(1), padding + (i/5)*w, canvas.height - padding + 10);
+            ctx.textAlign = 'right';
+            for(let i=0; i<=5; i++) ctx.fillText((i/5).toFixed(1), padding - 5, padding + (1 - i/5)*h + 3);
+        }
+    </script>
+</body>
+</html>
