@@ -30,6 +30,48 @@
   .step { background:#0f172a; border:1px solid #1e293b; border-radius:10px; padding:14px 18px; margin:10px 0; }
   .step b { color:#60a5fa; }
   code { background:#1e293b; padding:2px 6px; border-radius:4px; font-size:0.9em; color:#fbbf24; }
+  /* === XOR vs AND 可视化 === */
+  .gw-compare { border:1px solid #1e293b; border-radius:14px; background:#0a0f1e; padding:20px; margin:22px 0; }
+  .gw-compare h3.gw-title { color:#f59e0b; font-size:1.15em; margin:0 0 6px; border:none; padding:0; }
+  .gw-compare .gw-sub { color:#94a3b8; font-size:0.88em; margin-bottom:16px; }
+  .gw-grid { display:grid; grid-template-columns:1fr 1fr; gap:18px; }
+  @media(max-width:760px){ .gw-grid{grid-template-columns:1fr;} }
+  .gw-card { background:#0f172a; border:1px solid #1e293b; border-radius:14px; padding:16px; display:flex; flex-direction:column; }
+  .gw-card-head { display:flex; align-items:center; gap:10px; margin-bottom:12px; }
+  .gw-badge { font-size:0.78em; font-weight:700; padding:4px 10px; border-radius:20px; border:1px solid #1e293b; }
+  .gw-badge.xor { background:rgba(245,158,11,0.12); color:#fbbf24; border-color:rgba(245,158,11,0.3); }
+  .gw-badge.and { background:rgba(16,185,129,0.12); color:#6ee7b7; border-color:rgba(16,185,129,0.28); }
+  .gw-card h4 { font-size:1em; color:#e2e8f0; margin:0; }
+  .gw-card .gw-desc { font-size:0.82em; color:#94a3b8; margin:2px 0 0; }
+  .gw-svg-wrap { background:#0f172a; border:1px solid #1e293b; border-radius:10px; padding:10px; margin:10px 0 12px; position:relative; overflow:hidden; }
+  .gw-svg-wrap svg { width:100%; height:auto; display:block; }
+  .gw-legend { display:flex; gap:8px; flex-wrap:wrap; justify-content:center; margin:8px 0 10px; font-size:0.78em; color:#94a3b8; }
+  .gw-legend span { display:inline-flex; align-items:center; gap:6px; background:#1e293b; padding:4px 8px; border-radius:20px; }
+  .gw-legend i { width:10px; height:10px; border-radius:50%; display:inline-block; }
+  .gw-controls { display:flex; gap:8px; flex-wrap:wrap; justify-content:center; margin:6px 0 8px; }
+  .gw-btn { appearance:none; border:1px solid #334155; background:#1e293b; color:#e2e8f0; padding:7px 14px; border-radius:20px; font-size:0.85em; cursor:pointer; transition:all 0.2s; }
+  .gw-btn:hover { border-color:#60a5fa; color:#fff; transform:translateY(-1px); }
+  .gw-btn.active { background:#60a5fa; border-color:#60a5fa; color:#0a0f1e; font-weight:700; }
+  .gw-btn.and-btn.active { background:#10b981; border-color:#10b981; }
+  .gw-summary { background:#1e293b; border-radius:10px; padding:10px 12px; font-size:0.88em; line-height:1.6; margin-top:auto; }
+  .gw-summary .en { color:#93c5fd; display:block; }
+  .gw-summary .zh { color:#6ee7b7; display:block; margin-top:4px; }
+  .gw-table-wrap { overflow-x:auto; margin:18px 0 8px; }
+  .gw-table-wrap table { min-width:520px; }
+  .gw-table-wrap th { background:#1e293b; color:#f59e0b; font-size:0.88em; }
+  .gw-tip { background:#1e293b; border-left:4px solid #f59e0b; padding:12px 16px; border-radius:8px; margin:14px 0 4px; font-size:0.92em; }
+  .gw-tip b { color:#f59e0b; }
+  /* SVG token */
+  .gw-token { filter:drop-shadow(0 2px 6px rgba(96,165,250,0.6)); }
+  .gw-path { stroke:#334155; stroke-width:2.6; fill:none; stroke-linecap:round; stroke-linejoin:round; transition:stroke 0.35s, stroke-width 0.35s; }
+  .gw-path.active { stroke:#60a5fa; stroke-width:3.2; }
+  .gw-path.active-and { stroke:#10b981; stroke-width:3.2; }
+  .gw-path.dim { opacity:0.35; }
+  .gw-diamond { fill:#1e293b; stroke:#f59e0b; stroke-width:2; }
+  .gw-diamond.and-d { stroke:#10b981; }
+  .gw-task { fill:#1e293b; stroke:#334155; stroke-width:1.6; rx:10; }
+  .gw-task.active { stroke:#60a5fa; fill:#0f2a4a; }
+  .gw-task.active-and { stroke:#10b981; fill:#0a2e22; }
 </style>
 </head>
 <body>
@@ -71,6 +113,156 @@
 
     <h3>4. 示例图②：抵押贷款流程（Tutorial 2 场景2）</h3>
     <div class="diagram"><svg id="my-svg" width="100%" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" class="flowchart" style="max-width: 539.039px; background-color: transparent;" viewBox="0 0 539.0390625 1762.75" role="graphics-document document" aria-roledescription="flowchart-v2"><style>#my-svg{font-family:"trebuchet ms",verdana,arial,sans-serif;font-size:16px;fill:#333;}@keyframes edge-animation-frame{from{stroke-dashoffset:0;}}@keyframes dash{to{stroke-dashoffset:0;}}#my-svg .edge-animation-slow{stroke-dasharray:9,5!important;stroke-dashoffset:900;animation:dash 50s linear infinite;stroke-linecap:round;}#my-svg .edge-animation-fast{stroke-dasharray:9,5!important;stroke-dashoffset:900;animation:dash 20s linear infinite;stroke-linecap:round;}#my-svg .error-icon{fill:#552222;}#my-svg .error-text{fill:#552222;stroke:#552222;}#my-svg .edge-thickness-normal{stroke-width:1px;}#my-svg .edge-thickness-thick{stroke-width:3.5px;}#my-svg .edge-pattern-solid{stroke-dasharray:0;}#my-svg .edge-thickness-invisible{stroke-width:0;fill:none;}#my-svg .edge-pattern-dashed{stroke-dasharray:3;}#my-svg .edge-pattern-dotted{stroke-dasharray:2;}#my-svg .marker{fill:#333333;stroke:#333333;}#my-svg .marker.cross{stroke:#333333;}#my-svg svg{font-family:"trebuchet ms",verdana,arial,sans-serif;font-size:16px;}#my-svg p{margin:0;}#my-svg .label{font-family:"trebuchet ms",verdana,arial,sans-serif;color:#333;}#my-svg .cluster-label text{fill:#333;}#my-svg .cluster-label span{color:#333;}#my-svg .cluster-label span p{background-color:transparent;}#my-svg .label text,#my-svg span{fill:#333;color:#333;}#my-svg .node rect,#my-svg .node circle,#my-svg .node ellipse,#my-svg .node polygon,#my-svg .node path{fill:#ECECFF;stroke:#9370DB;stroke-width:1px;}#my-svg .rough-node .label text,#my-svg .node .label text,#my-svg .image-shape .label,#my-svg .icon-shape .label{text-anchor:middle;}#my-svg .node .katex path{fill:#000;stroke:#000;stroke-width:1px;}#my-svg .rough-node .label,#my-svg .node .label,#my-svg .image-shape .label,#my-svg .icon-shape .label{text-align:center;}#my-svg .node.clickable{cursor:pointer;}#my-svg .root .anchor path{fill:#333333!important;stroke-width:0;stroke:#333333;}#my-svg .arrowheadPath{fill:#333333;}#my-svg .edgePath .path{stroke:#333333;stroke-width:2.0px;}#my-svg .flowchart-link{stroke:#333333;fill:none;}#my-svg .edgeLabel{background-color:rgba(232,232,232, 0.8);text-align:center;}#my-svg .edgeLabel p{background-color:rgba(232,232,232, 0.8);}#my-svg .edgeLabel rect{opacity:0.5;background-color:rgba(232,232,232, 0.8);fill:rgba(232,232,232, 0.8);}#my-svg .labelBkg{background-color:rgba(232, 232, 232, 0.5);}#my-svg .cluster rect{fill:#ffffde;stroke:#aaaa33;stroke-width:1px;}#my-svg .cluster text{fill:#333;}#my-svg .cluster span{color:#333;}#my-svg div.mermaidTooltip{position:absolute;text-align:center;max-width:200px;padding:2px;font-family:"trebuchet ms",verdana,arial,sans-serif;font-size:12px;background:hsl(80, 100%, 96.2745098039%);border:1px solid #aaaa33;border-radius:2px;pointer-events:none;z-index:100;}#my-svg .flowchartTitleText{text-anchor:middle;font-size:18px;fill:#333;}#my-svg rect.text{fill:none;stroke-width:0;}#my-svg .icon-shape,#my-svg .image-shape{background-color:rgba(232,232,232, 0.8);text-align:center;}#my-svg .icon-shape p,#my-svg .image-shape p{background-color:rgba(232,232,232, 0.8);padding:2px;}#my-svg .icon-shape rect,#my-svg .image-shape rect{opacity:0.5;background-color:rgba(232,232,232, 0.8);fill:rgba(232,232,232, 0.8);}#my-svg .label-icon{display:inline-block;height:1em;overflow:visible;vertical-align:-0.125em;}#my-svg .node .label-icon path{fill:currentColor;stroke:revert;stroke-width:revert;}#my-svg :root{--mermaid-font-family:"trebuchet ms",verdana,arial,sans-serif;}</style><g><marker id="my-svg_flowchart-v2-pointEnd" class="marker flowchart-v2" viewBox="0 0 10 10" refX="5" refY="5" markerUnits="userSpaceOnUse" markerWidth="8" markerHeight="8" orient="auto"><path d="M 0 0 L 10 5 L 0 10 z" class="arrowMarkerPath" style="stroke-width: 1; stroke-dasharray: 1, 0;"/></marker><marker id="my-svg_flowchart-v2-pointStart" class="marker flowchart-v2" viewBox="0 0 10 10" refX="4.5" refY="5" markerUnits="userSpaceOnUse" markerWidth="8" markerHeight="8" orient="auto"><path d="M 0 5 L 10 10 L 10 0 z" class="arrowMarkerPath" style="stroke-width: 1; stroke-dasharray: 1, 0;"/></marker><marker id="my-svg_flowchart-v2-circleEnd" class="marker flowchart-v2" viewBox="0 0 10 10" refX="11" refY="5" markerUnits="userSpaceOnUse" markerWidth="11" markerHeight="11" orient="auto"><circle cx="5" cy="5" r="5" class="arrowMarkerPath" style="stroke-width: 1; stroke-dasharray: 1, 0;"/></marker><marker id="my-svg_flowchart-v2-circleStart" class="marker flowchart-v2" viewBox="0 0 10 10" refX="-1" refY="5" markerUnits="userSpaceOnUse" markerWidth="11" markerHeight="11" orient="auto"><circle cx="5" cy="5" r="5" class="arrowMarkerPath" style="stroke-width: 1; stroke-dasharray: 1, 0;"/></marker><marker id="my-svg_flowchart-v2-crossEnd" class="marker cross flowchart-v2" viewBox="0 0 11 11" refX="12" refY="5.2" markerUnits="userSpaceOnUse" markerWidth="11" markerHeight="11" orient="auto"><path d="M 1,1 l 9,9 M 10,1 l -9,9" class="arrowMarkerPath" style="stroke-width: 2; stroke-dasharray: 1, 0;"/></marker><marker id="my-svg_flowchart-v2-crossStart" class="marker cross flowchart-v2" viewBox="0 0 11 11" refX="-1" refY="5.2" markerUnits="userSpaceOnUse" markerWidth="11" markerHeight="11" orient="auto"><path d="M 1,1 l 9,9 M 10,1 l -9,9" class="arrowMarkerPath" style="stroke-width: 2; stroke-dasharray: 1, 0;"/></marker><g class="root"><g class="clusters"/><g class="edgePaths"><path d="M318.023,55.016L318.023,59.182C318.023,63.349,318.023,71.682,318.023,79.349C318.023,87.016,318.023,94.016,318.023,97.516L318.023,101.016" id="L_S_A1_0" class="edge-thickness-normal edge-pattern-solid edge-thickness-normal edge-pattern-solid flowchart-link" style=";" data-edge="true" data-et="edge" data-id="L_S_A1_0" data-points="W3sieCI6MzE4LjAyMzQzNzUsInkiOjU1LjAxNTYyNX0seyJ4IjozMTguMDIzNDM3NSwieSI6ODAuMDE1NjI1fSx7IngiOjMxOC4wMjM0Mzc1LCJ5IjoxMDUuMDE1NjI1fV0=" marker-end="url(#my-svg_flowchart-v2-pointEnd)"/><path d="M318.023,159.016L318.023,163.182C318.023,167.349,318.023,175.682,318.023,183.349C318.023,191.016,318.023,198.016,318.023,201.516L318.023,205.016" id="L_A1_A2_0" class="edge-thickness-normal edge-pattern-solid edge-thickness-normal edge-pattern-solid flowchart-link" style=";" data-edge="true" data-et="edge" data-id="L_A1_A2_0" data-points="W3sieCI6MzE4LjAyMzQzNzUsInkiOjE1OS4wMTU2MjV9LHsieCI6MzE4LjAyMzQzNzUsInkiOjE4NC4wMTU2MjV9LHsieCI6MzE4LjAyMzQzNzUsInkiOjIwOS4wMTU2MjV9XQ==" marker-end="url(#my-svg_flowchart-v2-pointEnd)"/><path d="M318.023,263.016L318.023,267.182C318.023,271.349,318.023,279.682,318.023,287.349C318.023,295.016,318.023,302.016,318.023,305.516L318.023,309.016" id="L_A2_G1_0" class="edge-thickness-normal edge-pattern-solid edge-thickness-normal edge-pattern-solid flowchart-link" style=";" data-edge="true" data-et="edge" data-id="L_A2_G1_0" data-points="W3sieCI6MzE4LjAyMzQzNzUsInkiOjI2My4wMTU2MjV9LHsieCI6MzE4LjAyMzQzNzUsInkiOjI4OC4wMTU2MjV9LHsieCI6MzE4LjAyMzQzNzUsInkiOjMxMy4wMTU2MjV9XQ==" marker-end="url(#my-svg_flowchart-v2-pointEnd)"/><path d="M273.742,395.641L242.453,409.188C211.164,422.734,148.586,449.828,117.297,474.042C86.008,498.255,86.008,519.589,86.008,538.922C86.008,558.255,86.008,575.589,86.008,592.922C86.008,610.255,86.008,627.589,86.008,644.922C86.008,662.255,86.008,679.589,86.008,708.331C86.008,737.073,86.008,777.224,86.008,819.375C86.008,861.526,86.008,905.677,86.008,938.419C86.008,971.161,86.008,992.495,86.008,1011.828C86.008,1031.161,86.008,1048.495,86.008,1065.828C86.008,1083.161,86.008,1100.495,86.008,1117.828C86.008,1135.161,86.008,1152.495,86.008,1175.904C86.008,1199.313,86.008,1228.797,86.008,1260.281C86.008,1291.766,86.008,1325.25,86.008,1347.492C86.008,1369.734,86.008,1380.734,86.008,1386.234L86.008,1391.734" id="L_G1_A3_0" class="edge-thickness-normal edge-pattern-solid edge-thickness-normal edge-pattern-solid flowchart-link" style=";" data-edge="true" data-et="edge" data-id="L_G1_A3_0" data-points="W3sieCI6MjczLjc0MjIzMzc2MjU3MTcsInkiOjM5NS42NDA2NzEyNjI1NzE3fSx7IngiOjg2LjAwNzgxMjUsInkiOjQ3Ni45MjE4NzV9LHsieCI6ODYuMDA3ODEyNSwieSI6NTQwLjkyMTg3NX0seyJ4Ijo4Ni4wMDc4MTI1LCJ5Ijo1OTIuOTIxODc1fSx7IngiOjg2LjAwNzgxMjUsInkiOjY0NC45MjE4NzV9LHsieCI6ODYuMDA3ODEyNSwieSI6Njk2LjkyMTg3NX0seyJ4Ijo4Ni4wMDc4MTI1LCJ5Ijo4MTcuMzc1fSx7IngiOjg2LjAwNzgxMjUsInkiOjk0OS44MjgxMjV9LHsieCI6ODYuMDA3ODEyNSwieSI6MTAxMy44MjgxMjV9LHsieCI6ODYuMDA3ODEyNSwieSI6MTA2NS44MjgxMjV9LHsieCI6ODYuMDA3ODEyNSwieSI6MTExNy44MjgxMjV9LHsieCI6ODYuMDA3ODEyNSwieSI6MTE2OS44MjgxMjV9LHsieCI6ODYuMDA3ODEyNSwieSI6MTI1OC4yODEyNX0seyJ4Ijo4Ni4wMDc4MTI1LCJ5IjoxMzU4LjczNDM3NX0seyJ4Ijo4Ni4wMDc4MTI1LCJ5IjoxMzk1LjczNDM3NX1d" marker-end="url(#my-svg_flowchart-v2-pointEnd)"/><path d="M86.008,1449.734L86.008,1453.901C86.008,1458.068,86.008,1466.401,86.008,1474.068C86.008,1481.734,86.008,1488.734,86.008,1492.234L86.008,1495.734" id="L_A3_A4_0" class="edge-thickness-normal edge-pattern-solid edge-thickness-normal edge-pattern-solid flowchart-link" style=";" data-edge="true" data-et="edge" data-id="L_A3_A4_0" data-points="W3sieCI6ODYuMDA3ODEyNSwieSI6MTQ0OS43MzQzNzV9LHsieCI6ODYuMDA3ODEyNSwieSI6MTQ3NC43MzQzNzV9LHsieCI6ODYuMDA3ODEyNSwieSI6MTQ5OS43MzQzNzV9XQ==" marker-end="url(#my-svg_flowchart-v2-pointEnd)"/><path d="M86.008,1553.734L86.008,1557.901C86.008,1562.068,86.008,1570.401,86.008,1578.068C86.008,1585.734,86.008,1592.734,86.008,1596.234L86.008,1599.734" id="L_A4_A5_0" class="edge-thickness-normal edge-pattern-solid edge-thickness-normal edge-pattern-solid flowchart-link" style=";" data-edge="true" data-et="edge" data-id="L_A4_A5_0" data-points="W3sieCI6ODYuMDA3ODEyNSwieSI6MTU1My43MzQzNzV9LHsieCI6ODYuMDA3ODEyNSwieSI6MTU3OC43MzQzNzV9LHsieCI6ODYuMDA3ODEyNSwieSI6MTYwMy43MzQzNzV9XQ==" marker-end="url(#my-svg_flowchart-v2-pointEnd)"/><path d="M86.008,1657.734L86.008,1661.901C86.008,1666.068,86.008,1674.401,125.253,1685.819C164.498,1697.238,242.988,1711.741,282.232,1718.992L321.477,1726.244" id="L_A5_E_0" class="edge-thickness-normal edge-pattern-solid edge-thickness-normal edge-pattern-solid flowchart-link" style=";" data-edge="true" data-et="edge" data-id="L_A5_E_0" data-points="W3sieCI6ODYuMDA3ODEyNSwieSI6MTY1Ny43MzQzNzV9LHsieCI6ODYuMDA3ODEyNSwieSI6MTY4Mi43MzQzNzV9LHsieCI6MzI1LjQxMDg1MDg5OTc1NzUsInkiOjE3MjYuOTcwNzcwMDcyNTEyM31d" marker-end="url(#my-svg_flowchart-v2-pointEnd)"/><path d="M350.148,407.797L361.962,419.318C373.776,430.839,397.404,453.88,409.217,470.901C421.031,487.922,421.031,498.922,421.031,504.422L421.031,509.922" id="L_G1_A6_0" class="edge-thickness-normal edge-pattern-solid edge-thickness-normal edge-pattern-solid flowchart-link" style=";" data-edge="true" data-et="edge" data-id="L_G1_A6_0" data-points="W3sieCI6MzUwLjE0ODM2MzcwMzc3ODQsInkiOjQwNy43OTY5NDg3OTYyMjE2fSx7IngiOjQyMS4wMzEyNSwieSI6NDc2LjkyMTg3NX0seyJ4Ijo0MjEuMDMxMjUsInkiOjUxMy45MjE4NzV9XQ==" marker-end="url(#my-svg_flowchart-v2-pointEnd)"/><path d="M421.031,567.922L421.031,572.089C421.031,576.255,421.031,584.589,421.031,592.255C421.031,599.922,421.031,606.922,421.031,610.422L421.031,613.922" id="L_A6_A7_0" class="edge-thickness-normal edge-pattern-solid edge-thickness-normal edge-pattern-solid flowchart-link" style=";" data-edge="true" data-et="edge" data-id="L_A6_A7_0" data-points="W3sieCI6NDIxLjAzMTI1LCJ5Ijo1NjcuOTIxODc1fSx7IngiOjQyMS4wMzEyNSwieSI6NTkyLjkyMTg3NX0seyJ4Ijo0MjEuMDMxMjUsInkiOjYxNy45MjE4NzV9XQ==" marker-end="url(#my-svg_flowchart-v2-pointEnd)"/><path d="M421.031,671.922L421.031,676.089C421.031,680.255,421.031,688.589,421.031,696.255C421.031,703.922,421.031,710.922,421.031,714.422L421.031,717.922" id="L_A7_G2_0" class="edge-thickness-normal edge-pattern-solid edge-thickness-normal edge-pattern-solid flowchart-link" style=";" data-edge="true" data-et="edge" data-id="L_A7_G2_0" data-points="W3sieCI6NDIxLjAzMTI1LCJ5Ijo2NzEuOTIxODc1fSx7IngiOjQyMS4wMzEyNSwieSI6Njk2LjkyMTg3NX0seyJ4Ijo0MjEuMDMxMjUsInkiOjcyMS45MjE4NzV9XQ==" marker-end="url(#my-svg_flowchart-v2-pointEnd)"/><path d="M387.265,879.061L380.808,890.856C374.352,902.65,361.44,926.239,354.984,943.534C348.527,960.828,348.527,971.828,348.527,977.328L348.527,982.828" id="L_G2_A8_0" class="edge-thickness-normal edge-pattern-solid edge-thickness-normal edge-pattern-solid flowchart-link" style=";" data-edge="true" data-et="edge" data-id="L_G2_A8_0" data-points="W3sieCI6Mzg3LjI2NDU0MTAyNjYwNjIsInkiOjg3OS4wNjE0MTYwMjY2MDYxfSx7IngiOjM0OC41MjczNDM3NSwieSI6OTQ5LjgyODEyNX0seyJ4IjozNDguNTI3MzQzNzUsInkiOjk4Ni44MjgxMjV9XQ==" marker-end="url(#my-svg_flowchart-v2-pointEnd)"/><path d="M348.527,1040.828L348.527,1044.995C348.527,1049.161,348.527,1057.495,348.527,1065.161C348.527,1072.828,348.527,1079.828,348.527,1083.328L348.527,1086.828" id="L_A8_A9_0" class="edge-thickness-normal edge-pattern-solid edge-thickness-normal edge-pattern-solid flowchart-link" style=";" data-edge="true" data-et="edge" data-id="L_A8_A9_0" data-points="W3sieCI6MzQ4LjUyNzM0Mzc1LCJ5IjoxMDQwLjgyODEyNX0seyJ4IjozNDguNTI3MzQzNzUsInkiOjEwNjUuODI4MTI1fSx7IngiOjM0OC41MjczNDM3NSwieSI6MTA5MC44MjgxMjV9XQ==" marker-end="url(#my-svg_flowchart-v2-pointEnd)"/><path d="M348.527,1144.828L348.527,1148.995C348.527,1153.161,348.527,1161.495,348.527,1169.161C348.527,1176.828,348.527,1183.828,348.527,1187.328L348.527,1190.828" id="L_A9_G3_0" class="edge-thickness-normal edge-pattern-solid edge-thickness-normal edge-pattern-solid flowchart-link" style=";" data-edge="true" data-et="edge" data-id="L_A9_G3_0" data-points="W3sieCI6MzQ4LjUyNzM0Mzc1LCJ5IjoxMTQ0LjgyODEyNX0seyJ4IjozNDguNTI3MzQzNzUsInkiOjExNjkuODI4MTI1fSx7IngiOjM0OC41MjczNDM3NSwieSI6MTE5NC44MjgxMjV9XQ==" marker-end="url(#my-svg_flowchart-v2-pointEnd)"/><path d="M325.684,1298.892L320.074,1308.865C314.464,1318.839,303.244,1338.787,297.634,1354.261C292.023,1369.734,292.023,1380.734,292.023,1386.234L292.023,1391.734" id="L_G3_A10_0" class="edge-thickness-normal edge-pattern-solid edge-thickness-normal edge-pattern-solid flowchart-link" style=";" data-edge="true" data-et="edge" data-id="L_G3_A10_0" data-points="W3sieCI6MzI1LjY4NDQ3MTQxOTE3MiwieSI6MTI5OC44OTE1MDI2NjkxNzJ9LHsieCI6MjkyLjAyMzQzNzUsInkiOjEzNTguNzM0Mzc1fSx7IngiOjI5Mi4wMjM0Mzc1LCJ5IjoxMzk1LjczNDM3NX1d" marker-end="url(#my-svg_flowchart-v2-pointEnd)"/><path d="M292.023,1449.734L292.023,1453.901C292.023,1458.068,292.023,1466.401,292.023,1474.068C292.023,1481.734,292.023,1488.734,292.023,1492.234L292.023,1495.734" id="L_A10_A11_0" class="edge-thickness-normal edge-pattern-solid edge-thickness-normal edge-pattern-solid flowchart-link" style=";" data-edge="true" data-et="edge" data-id="L_A10_A11_0" data-points="W3sieCI6MjkyLjAyMzQzNzUsInkiOjE0NDkuNzM0Mzc1fSx7IngiOjI5Mi4wMjM0Mzc1LCJ5IjoxNDc0LjczNDM3NX0seyJ4IjoyOTIuMDIzNDM3NSwieSI6MTQ5OS43MzQzNzV9XQ==" marker-end="url(#my-svg_flowchart-v2-pointEnd)"/><path d="M292.023,1553.734L292.023,1557.901C292.023,1562.068,292.023,1570.401,292.023,1578.068C292.023,1585.734,292.023,1592.734,292.023,1596.234L292.023,1599.734" id="L_A11_A12_0" class="edge-thickness-normal edge-pattern-solid edge-thickness-normal edge-pattern-solid flowchart-link" style=";" data-edge="true" data-et="edge" data-id="L_A11_A12_0" data-points="W3sieCI6MjkyLjAyMzQzNzUsInkiOjE1NTMuNzM0Mzc1fSx7IngiOjI5Mi4wMjM0Mzc1LCJ5IjoxNTc4LjczNDM3NX0seyJ4IjoyOTIuMDIzNDM3NSwieSI6MTYwMy43MzQzNzV9XQ==" marker-end="url(#my-svg_flowchart-v2-pointEnd)"/><path d="M292.023,1657.734L292.023,1661.901C292.023,1666.068,292.023,1674.401,297.962,1683.666C303.901,1692.931,315.778,1703.128,321.717,1708.226L327.656,1713.324" id="L_A12_E_0" class="edge-thickness-normal edge-pattern-solid edge-thickness-normal edge-pattern-solid flowchart-link" style=";" data-edge="true" data-et="edge" data-id="L_A12_E_0" data-points="W3sieCI6MjkyLjAyMzQzNzUsInkiOjE2NTcuNzM0Mzc1fSx7IngiOjI5Mi4wMjM0Mzc1LCJ5IjoxNjgyLjczNDM3NX0seyJ4IjozMzAuNjkwNzI0ODkwNzM1NDUsInkiOjE3MTUuOTI5Njk5OTA5NjU0Nn1d" marker-end="url(#my-svg_flowchart-v2-pointEnd)"/><path d="M454.798,879.061L461.254,890.856C467.71,902.65,480.623,926.239,487.079,948.7C493.535,971.161,493.535,992.495,493.535,1011.828C493.535,1031.161,493.535,1048.495,493.535,1065.828C493.535,1083.161,493.535,1100.495,493.535,1117.828C493.535,1135.161,493.535,1152.495,493.535,1175.904C493.535,1199.313,493.535,1228.797,493.535,1260.281C493.535,1291.766,493.535,1325.25,493.535,1352.659C493.535,1380.068,493.535,1401.401,493.535,1420.734C493.535,1440.068,493.535,1457.401,493.535,1474.734C493.535,1492.068,493.535,1509.401,493.535,1526.734C493.535,1544.068,493.535,1561.401,493.535,1578.734C493.535,1596.068,493.535,1613.401,493.535,1630.734C493.535,1648.068,493.535,1665.401,473.715,1680.698C453.895,1695.995,414.255,1709.255,394.434,1715.885L374.614,1722.516" id="L_G2_E_0" class="edge-thickness-normal edge-pattern-solid edge-thickness-normal edge-pattern-solid flowchart-link" style=";" data-edge="true" data-et="edge" data-id="L_G2_E_0" data-points="W3sieCI6NDU0Ljc5Nzk1ODk3MzM5MzgsInkiOjg3OS4wNjE0MTYwMjY2MDYxfSx7IngiOjQ5My41MzUxNTYyNSwieSI6OTQ5LjgyODEyNX0seyJ4Ijo0OTMuNTM1MTU2MjUsInkiOjEwMTMuODI4MTI1fSx7IngiOjQ5My41MzUxNTYyNSwieSI6MTA2NS44MjgxMjV9LHsieCI6NDkzLjUzNTE1NjI1LCJ5IjoxMTE3LjgyODEyNX0seyJ4Ijo0OTMuNTM1MTU2MjUsInkiOjExNjkuODI4MTI1fSx7IngiOjQ5My41MzUxNTYyNSwieSI6MTI1OC4yODEyNX0seyJ4Ijo0OTMuNTM1MTU2MjUsInkiOjEzNTguNzM0Mzc1fSx7IngiOjQ5My41MzUxNTYyNSwieSI6MTQyMi43MzQzNzV9LHsieCI6NDkzLjUzNTE1NjI1LCJ5IjoxNDc0LjczNDM3NX0seyJ4Ijo0OTMuNTM1MTU2MjUsInkiOjE1MjYuNzM0Mzc1fSx7IngiOjQ5My41MzUxNTYyNSwieSI6MTU3OC43MzQzNzV9LHsieCI6NDkzLjUzNTE1NjI1LCJ5IjoxNjMwLjczNDM3NX0seyJ4Ijo0OTMuNTM1MTU2MjUsInkiOjE2ODIuNzM0Mzc1fSx7IngiOjM3MC44MjA4NzI5MzM2MzYyLCJ5IjoxNzIzLjc4NDU4NzAwOTY2MDN9XQ==" marker-end="url(#my-svg_flowchart-v2-pointEnd)"/><path d="M371.88,1298.382L377.738,1308.44C383.596,1318.499,395.312,1338.617,401.169,1359.342C407.027,1380.068,407.027,1401.401,407.027,1420.734C407.027,1440.068,407.027,1457.401,407.027,1474.734C407.027,1492.068,407.027,1509.401,407.027,1526.734C407.027,1544.068,407.027,1561.401,407.027,1578.734C407.027,1596.068,407.027,1613.401,407.027,1630.734C407.027,1648.068,407.027,1665.401,400.807,1679.226C394.586,1693.051,382.144,1703.367,375.923,1708.526L369.702,1713.684" id="L_G3_E_0" class="edge-thickness-normal edge-pattern-solid edge-thickness-normal edge-pattern-solid flowchart-link" style=";" data-edge="true" data-et="edge" data-id="L_G3_E_0" data-points="W3sieCI6MzcxLjg4MDE4OTUxODIxLCJ5IjoxMjk4LjM4MTUyOTIzMTc5fSx7IngiOjQwNy4wMjczNDM3NSwieSI6MTM1OC43MzQzNzV9LHsieCI6NDA3LjAyNzM0Mzc1LCJ5IjoxNDIyLjczNDM3NX0seyJ4Ijo0MDcuMDI3MzQzNzUsInkiOjE0NzQuNzM0Mzc1fSx7IngiOjQwNy4wMjczNDM3NSwieSI6MTUyNi43MzQzNzV9LHsieCI6NDA3LjAyNzM0Mzc1LCJ5IjoxNTc4LjczNDM3NX0seyJ4Ijo0MDcuMDI3MzQzNzUsInkiOjE2MzAuNzM0Mzc1fSx7IngiOjQwNy4wMjczNDM3NSwieSI6MTY4Mi43MzQzNzV9LHsieCI6MzY2LjYyMzMzNTY3MzEyMjYsInkiOjE3MTYuMjM3MTEwODYzOTZ9XQ==" marker-end="url(#my-svg_flowchart-v2-pointEnd)"/></g><g class="edgeLabels"><g class="edgeLabel"><g class="label" data-id="L_S_A1_0" transform="translate(0, 0)"><foreignObject width="0" height="0"><div xmlns="http://www.w3.org/1999/xhtml" class="labelBkg" style="display: table-cell; white-space: nowrap; line-height: 1.5; max-width: 200px; text-align: center;"><span class="edgeLabel"></span></div></foreignObject></g></g><g class="edgeLabel"><g class="label" data-id="L_A1_A2_0" transform="translate(0, 0)"><foreignObject width="0" height="0"><div xmlns="http://www.w3.org/1999/xhtml" class="labelBkg" style="display: table-cell; white-space: nowrap; line-height: 1.5; max-width: 200px; text-align: center;"><span class="edgeLabel"></span></div></foreignObject></g></g><g class="edgeLabel"><g class="label" data-id="L_A2_G1_0" transform="translate(0, 0)"><foreignObject width="0" height="0"><div xmlns="http://www.w3.org/1999/xhtml" class="labelBkg" style="display: table-cell; white-space: nowrap; line-height: 1.5; max-width: 200px; text-align: center;"><span class="edgeLabel"></span></div></foreignObject></g></g><g class="edgeLabel" transform="translate(86.0078125, 949.828125)"><g class="label" data-id="L_G1_A3_0" transform="translate(-16.0078125, -12)"><foreignObject width="32.015625" height="24"><div xmlns="http://www.w3.org/1999/xhtml" class="labelBkg" style="display: table-cell; white-space: nowrap; line-height: 1.5; max-width: 200px; text-align: center;"><span class="edgeLabel"><p>拒绝</p></span></div></foreignObject></g></g><g class="edgeLabel"><g class="label" data-id="L_A3_A4_0" transform="translate(0, 0)"><foreignObject width="0" height="0"><div xmlns="http://www.w3.org/1999/xhtml" class="labelBkg" style="display: table-cell; white-space: nowrap; line-height: 1.5; max-width: 200px; text-align: center;"><span class="edgeLabel"></span></div></foreignObject></g></g><g class="edgeLabel"><g class="label" data-id="L_A4_A5_0" transform="translate(0, 0)"><foreignObject width="0" height="0"><div xmlns="http://www.w3.org/1999/xhtml" class="labelBkg" style="display: table-cell; white-space: nowrap; line-height: 1.5; max-width: 200px; text-align: center;"><span class="edgeLabel"></span></div></foreignObject></g></g><g class="edgeLabel"><g class="label" data-id="L_A5_E_0" transform="translate(0, 0)"><foreignObject width="0" height="0"><div xmlns="http://www.w3.org/1999/xhtml" class="labelBkg" style="display: table-cell; white-space: nowrap; line-height: 1.5; max-width: 200px; text-align: center;"><span class="edgeLabel"></span></div></foreignObject></g></g><g class="edgeLabel" transform="translate(421.03125, 476.921875)"><g class="label" data-id="L_G1_A6_0" transform="translate(-64.0078125, -12)"><foreignObject width="128.015625" height="24"><div xmlns="http://www.w3.org/1999/xhtml" class="labelBkg" style="display: table-cell; white-space: nowrap; line-height: 1.5; max-width: 200px; text-align: center;"><span class="edgeLabel"><p>接受并附完整文件</p></span></div></foreignObject></g></g><g class="edgeLabel"><g class="label" data-id="L_A6_A7_0" transform="translate(0, 0)"><foreignObject width="0" height="0"><div xmlns="http://www.w3.org/1999/xhtml" class="labelBkg" style="display: table-cell; white-space: nowrap; line-height: 1.5; max-width: 200px; text-align: center;"><span class="edgeLabel"></span></div></foreignObject></g></g><g class="edgeLabel"><g class="label" data-id="L_A7_G2_0" transform="translate(0, 0)"><foreignObject width="0" height="0"><div xmlns="http://www.w3.org/1999/xhtml" class="labelBkg" style="display: table-cell; white-space: nowrap; line-height: 1.5; max-width: 200px; text-align: center;"><span class="edgeLabel"></span></div></foreignObject></g></g><g class="edgeLabel" transform="translate(348.52734375, 949.828125)"><g class="label" data-id="L_G2_A8_0" transform="translate(-8.0078125, -12)"><foreignObject width="16.015625" height="24"><div xmlns="http://www.w3.org/1999/xhtml" class="labelBkg" style="display: table-cell; white-space: nowrap; line-height: 1.5; max-width: 200px; text-align: center;"><span class="edgeLabel"><p>否</p></span></div></foreignObject></g></g><g class="edgeLabel"><g class="label" data-id="L_A8_A9_0" transform="translate(0, 0)"><foreignObject width="0" height="0"><div xmlns="http://www.w3.org/1999/xhtml" class="labelBkg" style="display: table-cell; white-space: nowrap; line-height: 1.5; max-width: 200px; text-align: center;"><span class="edgeLabel"></span></div></foreignObject></g></g><g class="edgeLabel"><g class="label" data-id="L_A9_G3_0" transform="translate(0, 0)"><foreignObject width="0" height="0"><div xmlns="http://www.w3.org/1999/xhtml" class="labelBkg" style="display: table-cell; white-space: nowrap; line-height: 1.5; max-width: 200px; text-align: center;"><span class="edgeLabel"></span></div></foreignObject></g></g><g class="edgeLabel" transform="translate(292.0234375, 1358.734375)"><g class="label" data-id="L_G3_A10_0" transform="translate(-8.0078125, -12)"><foreignObject width="16.015625" height="24"><div xmlns="http://www.w3.org/1999/xhtml" class="labelBkg" style="display: table-cell; white-space: nowrap; line-height: 1.5; max-width: 200px; text-align: center;"><span class="edgeLabel"><p>否</p></span></div></foreignObject></g></g><g class="edgeLabel"><g class="label" data-id="L_A10_A11_0" transform="translate(0, 0)"><foreignObject width="0" height="0"><div xmlns="http://www.w3.org/1999/xhtml" class="labelBkg" style="display: table-cell; white-space: nowrap; line-height: 1.5; max-width: 200px; text-align: center;"><span class="edgeLabel"></span></div></foreignObject></g></g><g class="edgeLabel"><g class="label" data-id="L_A11_A12_0" transform="translate(0, 0)"><foreignObject width="0" height="0"><div xmlns="http://www.w3.org/1999/xhtml" class="labelBkg" style="display: table-cell; white-space: nowrap; line-height: 1.5; max-width: 200px; text-align: center;"><span class="edgeLabel"></span></div></foreignObject></g></g><g class="edgeLabel"><g class="label" data-id="L_A12_E_0" transform="translate(0, 0)"><foreignObject width="0" height="0"><div xmlns="http://www.w3.org/1999/xhtml" class="labelBkg" style="display: table-cell; white-space: nowrap; line-height: 1.5; max-width: 200px; text-align: center;"><span class="edgeLabel"></span></div></foreignObject></g></g><g class="edgeLabel" transform="translate(493.53515625, 1358.734375)"><g class="label" data-id="L_G2_E_0" transform="translate(-8.0078125, -12)"><foreignObject width="16.015625" height="24"><div xmlns="http://www.w3.org/1999/xhtml" class="labelBkg" style="display: table-cell; white-space: nowrap; line-height: 1.5; max-width: 200px; text-align: center;"><span class="edgeLabel"><p>是</p></span></div></foreignObject></g></g><g class="edgeLabel" transform="translate(407.02734375, 1526.734375)"><g class="label" data-id="L_G3_E_0" transform="translate(-8.0078125, -12)"><foreignObject width="16.015625" height="24"><div xmlns="http://www.w3.org/1999/xhtml" class="labelBkg" style="display: table-cell; white-space: nowrap; line-height: 1.5; max-width: 200px; text-align: center;"><span class="edgeLabel"><p>是</p></span></div></foreignObject></g></g></g><g class="nodes"><g class="node default" id="flowchart-S-0" transform="translate(318.0234375, 31.5078125)"><circle class="basic label-container" style="" r="23.5078125" cx="0" cy="0"/><g class="label" style="" transform="translate(-16.0078125, -12)"><rect/><foreignObject width="32.015625" height="24"><div xmlns="http://www.w3.org/1999/xhtml" style="display: table-cell; white-space: nowrap; line-height: 1.5; max-width: 200px; text-align: center;"><span class="nodeLabel"><p>开始</p></span></div></foreignObject></g></g><g class="node default" id="flowchart-A1-1" transform="translate(318.0234375, 132.015625)"><rect class="basic label-container" style="" x="-118.0078125" y="-27" width="236.015625" height="54"/><g class="label" style="" transform="translate(-88.0078125, -12)"><rect/><foreignObject width="176.015625" height="24"><div xmlns="http://www.w3.org/1999/xhtml" style="display: table-cell; white-space: nowrap; line-height: 1.5; max-width: 200px; text-align: center;"><span class="nodeLabel"><p>发送抵押贷款报价给客户</p></span></div></foreignObject></g></g><g class="node default" id="flowchart-A2-3" transform="translate(318.0234375, 236.015625)"><rect class="basic label-container" style="" x="-62.0078125" y="-27" width="124.015625" height="54"/><g class="label" style="" transform="translate(-32.0078125, -12)"><rect/><foreignObject width="64.015625" height="24"><div xmlns="http://www.w3.org/1999/xhtml" style="display: table-cell; white-space: nowrap; line-height: 1.5; max-width: 200px; text-align: center;"><span class="nodeLabel"><p>等待回复</p></span></div></foreignObject></g></g><g class="node default" id="flowchart-G1-5" transform="translate(318.0234375, 376.46875)"><polygon points="63.453125,0 126.90625,-63.453125 63.453125,-126.90625 0,-63.453125" class="label-container" transform="translate(-62.953125, 63.453125)"/><g class="label" style="" transform="translate(-36.453125, -12)"><rect/><foreignObject width="72.90625" height="24"><div xmlns="http://www.w3.org/1999/xhtml" style="display: table-cell; white-space: nowrap; line-height: 1.5; max-width: 200px; text-align: center;"><span class="nodeLabel"><p>客户回复?</p></span></div></foreignObject></g></g><g class="node default" id="flowchart-A3-7" transform="translate(86.0078125, 1422.734375)"><rect class="basic label-container" style="" x="-78.0078125" y="-27" width="156.015625" height="54"/><g class="label" style="" transform="translate(-48.0078125, -12)"><rect/><foreignObject width="96.015625" height="24"><div xmlns="http://www.w3.org/1999/xhtml" style="display: table-cell; white-space: nowrap; line-height: 1.5; max-width: 200px; text-align: center;"><span class="nodeLabel"><p>更新案件详情</p></span></div></foreignObject></g></g><g class="node default" id="flowchart-A4-9" transform="translate(86.0078125, 1526.734375)"><rect class="basic label-container" style="" x="-46.0078125" y="-27" width="92.015625" height="54"/><g class="label" style="" transform="translate(-16.0078125, -12)"><rect/><foreignObject width="32.015625" height="24"><div xmlns="http://www.w3.org/1999/xhtml" style="display: table-cell; white-space: nowrap; line-height: 1.5; max-width: 200px; text-align: center;"><span class="nodeLabel"><p>归档</p></span></div></foreignObject></g></g><g class="node default" id="flowchart-A5-11" transform="translate(86.0078125, 1630.734375)"><rect class="basic label-container" style="" x="-46.0078125" y="-27" width="92.015625" height="54"/><g class="label" style="" transform="translate(-16.0078125, -12)"><rect/><foreignObject width="32.015625" height="24"><div xmlns="http://www.w3.org/1999/xhtml" style="display: table-cell; white-space: nowrap; line-height: 1.5; max-width: 200px; text-align: center;"><span class="nodeLabel"><p>取消</p></span></div></foreignObject></g></g><g class="node default" id="flowchart-E-13" transform="translate(348.52734375, 1731.2421875)"><circle class="basic label-container" style="" r="23.5078125" cx="0" cy="0"/><g class="label" style="" transform="translate(-16.0078125, -12)"><rect/><foreignObject width="32.015625" height="24"><div xmlns="http://www.w3.org/1999/xhtml" style="display: table-cell; white-space: nowrap; line-height: 1.5; max-width: 200px; text-align: center;"><span class="nodeLabel"><p>结束</p></span></div></foreignObject></g></g><g class="node default" id="flowchart-A6-15" transform="translate(421.03125, 540.921875)"><rect class="basic label-container" style="" x="-78.0078125" y="-27" width="156.015625" height="54"/><g class="label" style="" transform="translate(-48.0078125, -12)"><rect/><foreignObject width="96.015625" height="24"><div xmlns="http://www.w3.org/1999/xhtml" style="display: table-cell; white-space: nowrap; line-height: 1.5; max-width: 200px; text-align: center;"><span class="nodeLabel"><p>移交行政完成</p></span></div></foreignObject></g></g><g class="node default" id="flowchart-A7-17" transform="translate(421.03125, 644.921875)"><rect class="basic label-container" style="" x="-110.0078125" y="-27" width="220.015625" height="54"/><g class="label" style="" transform="translate(-80.0078125, -12)"><rect/><foreignObject width="160.015625" height="24"><div xmlns="http://www.w3.org/1999/xhtml" style="display: table-cell; white-space: nowrap; line-height: 1.5; max-width: 200px; text-align: center;"><span class="nodeLabel"><p>行政评估抵押贷款文件</p></span></div></foreignObject></g></g><g class="node default" id="flowchart-G2-19" transform="translate(421.03125, 817.375)"><polygon points="95.453125,0 190.90625,-95.453125 95.453125,-190.90625 0,-95.453125" class="label-container" transform="translate(-94.953125, 95.453125)"/><g class="label" style="" transform="translate(-68.453125, -12)"><rect/><foreignObject width="136.90625" height="24"><div xmlns="http://www.w3.org/1999/xhtml" style="display: table-cell; white-space: nowrap; line-height: 1.5; max-width: 200px; text-align: center;"><span class="nodeLabel"><p>所有前置文件齐全?</p></span></div></foreignObject></g></g><g class="node default" id="flowchart-A8-21" transform="translate(348.52734375, 1013.828125)"><rect class="basic label-container" style="" x="-110.0078125" y="-27" width="220.015625" height="54"/><g class="label" style="" transform="translate(-80.0078125, -12)"><rect/><foreignObject width="160.015625" height="24"><div xmlns="http://www.w3.org/1999/xhtml" style="display: table-cell; white-space: nowrap; line-height: 1.5; max-width: 200px; text-align: center;"><span class="nodeLabel"><p>生成消息要求补充文件</p></span></div></foreignObject></g></g><g class="node default" id="flowchart-A9-23" transform="translate(348.52734375, 1117.828125)"><rect class="basic label-container" style="" x="-58.453125" y="-27" width="116.90625" height="54"/><g class="label" style="" transform="translate(-28.453125, -12)"><rect/><foreignObject width="56.90625" height="24"><div xmlns="http://www.w3.org/1999/xhtml" style="display: table-cell; white-space: nowrap; line-height: 1.5; max-width: 200px; text-align: center;"><span class="nodeLabel"><p>等待2周</p></span></div></foreignObject></g></g><g class="node default" id="flowchart-G3-25" transform="translate(348.52734375, 1258.28125)"><polygon points="63.453125,0 126.90625,-63.453125 63.453125,-126.90625 0,-63.453125" class="label-container" transform="translate(-62.953125, 63.453125)"/><g class="label" style="" transform="translate(-36.453125, -12)"><rect/><foreignObject width="72.90625" height="24"><div xmlns="http://www.w3.org/1999/xhtml" style="display: table-cell; white-space: nowrap; line-height: 1.5; max-width: 200px; text-align: center;"><span class="nodeLabel"><p>收到回复?</p></span></div></foreignObject></g></g><g class="node default" id="flowchart-A10-27" transform="translate(292.0234375, 1422.734375)"><rect class="basic label-container" style="" x="-78.0078125" y="-27" width="156.015625" height="54"/><g class="label" style="" transform="translate(-48.0078125, -12)"><rect/><foreignObject width="96.015625" height="24"><div xmlns="http://www.w3.org/1999/xhtml" style="display: table-cell; white-space: nowrap; line-height: 1.5; max-width: 200px; text-align: center;"><span class="nodeLabel"><p>更新案件详情</p></span></div></foreignObject></g></g><g class="node default" id="flowchart-A11-29" transform="translate(292.0234375, 1526.734375)"><rect class="basic label-container" style="" x="-46.0078125" y="-27" width="92.015625" height="54"/><g class="label" style="" transform="translate(-16.0078125, -12)"><rect/><foreignObject width="32.015625" height="24"><div xmlns="http://www.w3.org/1999/xhtml" style="display: table-cell; white-space: nowrap; line-height: 1.5; max-width: 200px; text-align: center;"><span class="nodeLabel"><p>归档</p></span></div></foreignObject></g></g><g class="node default" id="flowchart-A12-31" transform="translate(292.0234375, 1630.734375)"><rect class="basic label-container" style="" x="-46.0078125" y="-27" width="92.015625" height="54"/><g class="label" style="" transform="translate(-16.0078125, -12)"><rect/><foreignObject width="32.015625" height="24"><div xmlns="http://www.w3.org/1999/xhtml" style="display: table-cell; white-space: nowrap; line-height: 1.5; max-width: 200px; text-align: center;"><span class="nodeLabel"><p>取消</p></span></div></foreignObject></g></g></g></g></g></svg></div>
+    <!-- 新增：XOR vs AND 可视化对比 -->
+    <div class="gw-compare" id="gw-compare">
+      <h3 class="gw-title">🔀 5. XOR vs AND 网关 · 可视化对比（必考区别）</h3>
+      <p class="gw-sub">左侧二选一 · 右侧全并行 · 点击按钮看 token 流动，直观理解“无并行 vs 并行同步”</p>
+
+      <div class="gw-grid">
+        <!-- XOR -->
+        <div class="gw-card" id="gw-xor">
+          <div class="gw-card-head">
+            <span class="gw-badge xor">XOR · 排他网关</span>
+            <div>
+              <h4>二选一、无并行</h4>
+              <p class="gw-desc">Exclusive Gateway · 菱形 ×</p>
+            </div>
+          </div>
+          <div class="gw-svg-wrap">
+            <svg viewBox="0 0 340 360" xmlns="http://www.w3.org/2000/svg" aria-label="XOR gateway diagram">
+              <!-- 入口 -->
+              <circle cx="170" cy="18" r="12" fill="#1e293b" stroke="#60a5fa" stroke-width="1.8"/>
+              <text x="170" y="22" text-anchor="middle" font-size="8" fill="#93c5fd">●</text>
+              <!-- 入口线 -->
+              <line x1="170" y1="30" x2="170" y2="58" class="gw-path" id="xor-in"/>
+              <polygon points="170,54 166,62 174,62" fill="#334155" />
+              <!-- 分叉菱形 -->
+              <polygon points="170,60 195,85 170,110 145,85" class="gw-diamond" id="xor-fork"/>
+              <text x="170" y="90" text-anchor="middle" font-size="14" font-weight="800" fill="#f59e0b">×</text>
+              <!-- 左分支 -->
+              <path d="M145,85 L60,85 L60,135" class="gw-path" id="xor-left"/>
+              <polygon points="60,131 56,139 64,139" fill="#334155" id="xor-left-arrow"/>
+              <!-- 右分支 -->
+              <path d="M195,85 L280,85 L280,135" class="gw-path" id="xor-right"/>
+              <polygon points="280,131 276,139 284,139" fill="#334155" id="xor-right-arrow"/>
+              <!-- 条件标签 -->
+              <g font-size="9" font-weight="700">
+                <rect x="70" y="90" rx="6" ry="6" width="48" height="16" fill="#1e293b" stroke="#334155"/>
+                <text x="94" y="101" text-anchor="middle" fill="#fbbf24">条件A</text>
+                <rect x="222" y="90" rx="6" ry="6" width="48" height="16" fill="#1e293b" stroke="#334155"/>
+                <text x="246" y="101" text-anchor="middle" fill="#94a3b8">条件B</text>
+              </g>
+              <!-- 任务 A/B -->
+              <rect x="22" y="138" width="88" height="48" class="gw-task" id="xor-taskA"/>
+              <text x="66" y="158" text-anchor="middle" font-size="9" font-weight="700" fill="#e2e8f0">Task A</text>
+              <text x="66" y="172" text-anchor="middle" font-size="7.5" fill="#94a3b8">仅A时执行</text>
+              <rect x="242" y="138" width="88" height="48" class="gw-task" id="xor-taskB"/>
+              <text x="286" y="158" text-anchor="middle" font-size="9" font-weight="700" fill="#e2e8f0">Task B</text>
+              <text x="286" y="172" text-anchor="middle" font-size="7.5" fill="#94a3b8">仅B时执行</text>
+              <!-- 下行汇合线 -->
+              <path d="M66,186 L66,235 L145,235 L155,235" class="gw-path" id="xor-join-left"/>
+              <path d="M286,186 L286,235 L195,235 L185,235" class="gw-path" id="xor-join-right"/>
+              <!-- 汇合菱形 -->
+              <polygon points="170,222 195,247 170,272 145,247" class="gw-diamond" id="xor-join"/>
+              <text x="170" y="252" text-anchor="middle" font-size="14" font-weight="800" fill="#f59e0b">×</text>
+              <line x1="170" y1="272" x2="170" y2="305" class="gw-path" id="xor-out"/>
+              <polygon points="170,301 166,309 174,309" fill="#334155"/>
+              <circle cx="170" cy="322" r="12" fill="#1e293b" stroke="#334155" stroke-width="1.8"/>
+              <text x="170" y="326" text-anchor="middle" font-size="7" fill="#64748b">END</text>
+              <!-- token -->
+              <circle r="7.5" fill="#60a5fa" stroke="#fff" stroke-width="1.8" class="gw-token" id="xor-token" style="opacity:0"/>
+            </svg>
+          </div>
+          <div class="gw-legend">
+            <span><i style="background:#60a5fa"></i> token 只走一条</span>
+            <span><i style="background:#334155"></i> 另一条不触发</span>
+          </div>
+          <div class="gw-controls">
+            <button class="gw-btn" data-xor="A">走分支A</button>
+            <button class="gw-btn" data-xor="B">走分支B</button>
+            <button class="gw-btn" data-xor="reset" title="重置">↺ 重置</button>
+          </div>
+          <div class="gw-summary">
+            <span class="en">XOR (Exclusive) Gateway: Only one outgoing path is selected based on conditions, no parallel execution.</span>
+            <span class="zh">XOR（排他）网关：根据条件只选一条路径，无并行执行。</span>
+          </div>
+        </div>
+
+        <!-- AND -->
+        <div class="gw-card" id="gw-and">
+          <div class="gw-card-head">
+            <span class="gw-badge and">AND · 并行网关</span>
+            <div>
+              <h4>全都要、并行同步</h4>
+              <p class="gw-desc">Parallel Gateway · 菱形 +</p>
+            </div>
+          </div>
+          <div class="gw-svg-wrap">
+            <svg viewBox="0 0 340 360" xmlns="http://www.w3.org/2000/svg" aria-label="AND gateway diagram">
+              <circle cx="170" cy="18" r="12" fill="#1e293b" stroke="#10b981" stroke-width="1.8"/>
+              <text x="170" y="22" text-anchor="middle" font-size="8" fill="#6ee7b7">●</text>
+              <line x1="170" y1="30" x2="170" y2="58" class="gw-path" id="and-in"/>
+              <polygon points="170,54 166,62 174,62" fill="#334155"/>
+              <polygon points="170,60 195,85 170,110 145,85" class="gw-diamond and-d" id="and-fork"/>
+              <text x="170" y="90" text-anchor="middle" font-size="14" font-weight="800" fill="#10b981">＋</text>
+              <path d="M145,85 L60,85 L60,135" class="gw-path" id="and-left"/>
+              <polygon points="60,131 56,139 64,139" fill="#334155"/>
+              <path d="M195,85 L280,85 L280,135" class="gw-path" id="and-right"/>
+              <polygon points="280,131 276,139 284,139" fill="#334155"/>
+              <g font-size="9" font-weight="700">
+                <rect x="68" y="90" rx="6" ry="6" width="52" height="16" fill="rgba(16,185,129,0.12)" stroke="rgba(16,185,129,0.3)"/>
+                <text x="94" y="101" text-anchor="middle" fill="#6ee7b7">同时</text>
+                <rect x="220" y="90" rx="6" ry="6" width="52" height="16" fill="rgba(16,185,129,0.12)" stroke="rgba(16,185,129,0.3)"/>
+                <text x="246" y="101" text-anchor="middle" fill="#6ee7b7">同时</text>
+              </g>
+              <rect x="22" y="138" width="88" height="48" class="gw-task" id="and-taskA"/>
+              <text x="66" y="158" text-anchor="middle" font-size="9" font-weight="700" fill="#e2e8f0">Task A</text>
+              <text x="66" y="172" text-anchor="middle" font-size="7.5" fill="#94a3b8">并行执行</text>
+              <rect x="242" y="138" width="88" height="48" class="gw-task" id="and-taskB"/>
+              <text x="286" y="158" text-anchor="middle" font-size="9" font-weight="700" fill="#e2e8f0">Task B</text>
+              <text x="286" y="172" text-anchor="middle" font-size="7.5" fill="#94a3b8">并行执行</text>
+              <path d="M66,186 L66,235 L145,235 L155,235" class="gw-path" id="and-join-left"/>
+              <path d="M286,186 L286,235 L195,235 L185,235" class="gw-path" id="and-join-right"/>
+              <polygon points="170,222 195,247 170,272 145,247" class="gw-diamond and-d" id="and-join"/>
+              <text x="170" y="252" text-anchor="middle" font-size="14" font-weight="800" fill="#10b981">＋</text>
+              <line x1="170" y1="272" x2="170" y2="305" class="gw-path" id="and-out"/>
+              <polygon points="170,301 166,309 174,309" fill="#334155"/>
+              <circle cx="170" cy="322" r="12" fill="#1e293b" stroke="#334155" stroke-width="1.8"/>
+              <text x="170" y="326" text-anchor="middle" font-size="7" fill="#64748b">END</text>
+              <circle r="7.5" fill="#60a5fa" stroke="#fff" stroke-width="1.8" class="gw-token" id="and-tokenA" style="opacity:0"/>
+              <circle r="7.5" fill="#6ee7b7" stroke="#0f172a" stroke-width="1.8" class="gw-token" id="and-tokenB" style="opacity:0"/>
+            </svg>
+          </div>
+          <div class="gw-legend">
+            <span><i style="background:#60a5fa"></i> 分支A</span>
+            <span><i style="background:#6ee7b7"></i> 分支B · 同时分叉</span>
+            <span><i style="background:#f59e0b"></i> 汇合等待同步</span>
+          </div>
+          <div class="gw-controls">
+            <button class="gw-btn and-btn" data-and="go">▶ 并行触发</button>
+            <button class="gw-btn" data-and="reset">↺ 重置</button>
+          </div>
+          <div class="gw-summary">
+            <span class="en">AND (Parallel) Gateway: All outgoing paths execute in parallel and synchronize after all paths complete.</span>
+            <span class="zh">AND（并行）网关：所有路径并行执行，全部完成后同步。</span>
+          </div>
+        </div>
+      </div>
+
+      <!-- 对比表格 -->
+      <div class="gw-table-wrap">
+        <table>
+          <tr><th>对比项</th><th>XOR 排他网关</th><th>AND 并行网关</th></tr>
+          <tr><td><b>触发条件</b></td><td class="zh">满足条件的那一条才走（if / else）</td><td class="zh">无条件，全部触发</td></tr>
+          <tr><td><b>并行性</b></td><td><span class="en">No parallel</span> <span class="zh">无并行，二选一</span></td><td><span class="en">Parallel</span> <span class="zh">有并行，同时执行</span></td></tr>
+          <tr><td><b>同步点</b></td><td class="zh">汇合时直接通过，无需等待</td><td class="zh">汇合网关等待所有分支到达才继续（同步）</td></tr>
+          <tr><td><b>典型关键词</b></td><td><code>如果 / 否则 / 若 …则</code></td><td><code>同时 / 并行 / 并且 / 与此同时</code></td></tr>
+          <tr><td><b>画图标志</b></td><td>菱形 ×</td><td>菱形 ＋</td></tr>
+        </table>
+      </div>
+
+      <div class="gw-tip"><b>💡 补充：Inclusive (OR) 网关</b> 是 <b>XOR + AND 的结合</b> — 条件满足的多条路径都可以走，可走 1 条或多条，最后在汇合处同步。考试较少单考，但要知道它与 XOR/AND 的区别：<code>XOR=二选一</code>、<code>AND=全都要</code>、<code>OR=满足的都要</code>。</div>
+    </div>
   </section>
 
   <section id="archimate">
@@ -101,5 +293,109 @@
     CSCI927 期末画图题速记 · 祝考试顺利 🎉
   </footer>
 </div>
+<script>
+// XOR vs AND token 动画（纯 SVG + CSS offset-path）
+const xorToken = document.getElementById('xor-token');
+const andTokenA = document.getElementById('and-tokenA');
+const andTokenB = document.getElementById('and-tokenB');
+
+// 路径定义（与 SVG 坐标一致）
+const PATHS = {
+  xorA: "M170 18 L170 58 L148 83 L60 83 L60 138 L66 186 L66 235 L145 235 L170 247 L170 322",
+  xorB: "M170 18 L170 58 L192 83 L280 83 L280 138 L286 186 L286 235 L195 235 L170 247 L170 322",
+  andA: "M170 18 L170 58 L148 83 L60 83 L60 138 L66 186 L66 235 L145 235 L170 247 L170 322",
+  andB: "M170 18 L170 58 L192 83 L280 83 L280 138 L286 186 L286 235 L195 235 L170 247 L170 322"
+};
+
+function prepareToken(el, pathD){
+  el.style.offsetPath = `path('${pathD}')`;
+  el.style.offsetRotate = '0deg';
+  el.style.offsetDistance = '0%';
+  el.style.opacity = '1';
+  // 重置动画
+  el.style.animation = 'none';
+  // 强制回流
+  void el.offsetWidth;
+}
+
+function runToken(el, durationMs){
+  el.style.animation = `gw-move ${durationMs}ms linear forwards`;
+}
+
+function highlightXOR(branch){
+  // 重置所有
+  document.querySelectorAll('#gw-xor .gw-path').forEach(p=>{p.classList.remove('active','dim');});
+  document.querySelectorAll('#gw-xor .gw-task').forEach(t=>t.classList.remove('active'));
+  document.querySelectorAll('#gw-xor .gw-diamond').forEach(d=>d.style.filter='');
+  // 按钮状态
+  document.querySelectorAll('[data-xor]').forEach(b=>b.classList.remove('active'));
+  if(branch==='A'){
+    document.querySelector('[data-xor="A"]').classList.add('active');
+    ['xor-in','xor-left','xor-join-left','xor-out'].forEach(id=>document.getElementById(id).classList.add('active'));
+    ['xor-right','xor-join-right'].forEach(id=>document.getElementById(id).classList.add('dim'));
+    document.getElementById('xor-taskA').classList.add('active');
+    // 箭头颜色
+    prepareToken(xorToken, PATHS.xorA);
+    setTimeout(()=>runToken(xorToken, 2200), 30);
+  } else if(branch==='B'){
+    document.querySelector('[data-xor="B"]').classList.add('active');
+    ['xor-in','xor-right','xor-join-right','xor-out'].forEach(id=>document.getElementById(id).classList.add('active'));
+    ['xor-left','xor-join-left'].forEach(id=>document.getElementById(id).classList.add('dim'));
+    document.getElementById('xor-taskB').classList.add('active');
+    prepareToken(xorToken, PATHS.xorB);
+    setTimeout(()=>runToken(xorToken, 2200), 30);
+  } else {
+    // reset
+    xorToken.style.opacity='0';
+    xorToken.style.animation='none';
+  }
+}
+
+function runAND(){
+  document.querySelectorAll('#gw-and .gw-path').forEach(p=>{p.classList.remove('active-and','dim'); p.classList.add('active-and');});
+  document.querySelectorAll('#gw-and .gw-task').forEach(t=>{t.classList.remove('active-and'); t.classList.add('active-and');});
+  document.querySelectorAll('[data-and]').forEach(b=>b.classList.remove('active'));
+  document.querySelector('[data-and="go"]').classList.add('active');
+  prepareToken(andTokenA, PATHS.andA);
+  prepareToken(andTokenB, PATHS.andB);
+  // 两 token 同时出发，B 稍有颜色区分
+  setTimeout(()=>{
+    runToken(andTokenA, 2400);
+    runToken(andTokenB, 2400);
+    // 汇合闪烁提示（2秒后）
+    setTimeout(()=>{
+      const join = document.getElementById('and-join');
+      join.style.filter='drop-shadow(0 0 12px rgba(245,158,11,0.9))';
+      setTimeout(()=>join.style.filter='', 900);
+    }, 1700);
+  }, 30);
+}
+
+function resetAND(){
+  document.querySelectorAll('#gw-and .gw-path').forEach(p=>p.classList.remove('active-and','dim'));
+  document.querySelectorAll('#gw-and .gw-task').forEach(t=>t.classList.remove('active-and'));
+  document.querySelectorAll('[data-and]').forEach(b=>b.classList.remove('active'));
+  andTokenA.style.opacity='0'; andTokenA.style.animation='none';
+  andTokenB.style.opacity='0'; andTokenB.style.animation='none';
+  const join=document.getElementById('and-join'); if(join) join.style.filter='';
+}
+
+// 事件绑定
+document.querySelectorAll('[data-xor]').forEach(btn=>{
+  btn.addEventListener('click', ()=>{
+    const v=btn.getAttribute('data-xor');
+    if(v==='reset') highlightXOR('reset');
+    else highlightXOR(v);
+  });
+});
+document.querySelector('[data-and="go"]').addEventListener('click', runAND);
+document.querySelector('[data-and="reset"]').addEventListener('click', resetAND);
+
+// 初始：自动演示 XOR 分支A（延迟 600ms，让用户进来先看到动效）
+setTimeout(()=>highlightXOR('A'), 650);
+</script>
+<style>
+@keyframes gw-move { from{ offset-distance:0%; } to{ offset-distance:100%; } }
+</style>
 </body>
 </html>
