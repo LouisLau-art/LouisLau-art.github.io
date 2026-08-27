@@ -1,0 +1,690 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>期末模拟卷 · 交互式刷题</title>
+<meta name="color-scheme" content="dark">
+<style>
+*{margin:0;padding:0;box-sizing:border-box}
+:root{
+  --bg:#0a0f1e;
+  --card:#1e293b;
+  --card2:#0f172a;
+  --card3:#111827;
+  --border:#334155;
+  --border2:#1e3a5f;
+  --blue:#60a5fa;
+  --blue2:#3b82f6;
+  --blue-light:#93c5fd;
+  --yellow:#f59e0b;
+  --yellow-light:#fbbf24;
+  --green:#10b981;
+  --green2:#34d399;
+  --green-light:#6ee7b7;
+  --green-soft:#a7f3d0;
+  --red:#ef4444;
+  --red-soft:#fca5a5;
+  --text:#e5e7eb;
+  --muted:#94a3b8;
+  --radius:16px;
+}
+html{scroll-behavior:smooth}
+body{
+  font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,Helvetica,Arial,sans-serif;
+  background:var(--bg);
+  color:var(--text);
+  line-height:1.65;
+  min-height:100vh;
+  -webkit-font-smoothing:antialiased;
+}
+/* header mesh */
+.hero{
+  max-width:1200px;margin:0 auto;padding:44px 20px 18px;
+  position:relative;
+}
+.hero::before{
+  content:"";position:absolute;inset:0 20px auto 20px;height:340px;z-index:-1;
+  background:
+    radial-gradient(600px 300px at 20% 10%, rgba(59,130,246,0.18), transparent 60%),
+    radial-gradient(500px 300px at 80% 0%, rgba(16,185,129,0.12), transparent 60%),
+    radial-gradient(700px 400px at 50% 30%, rgba(245,158,11,0.06), transparent 60%);
+  pointer-events:none;
+}
+.hero-top{
+  display:flex;align-items:center;gap:14px;flex-wrap:wrap;justify-content:center;margin-bottom:14px;
+}
+.badge-pill{
+  display:inline-flex;align-items:center;gap:6px;
+  background:rgba(245,158,11,0.12);border:1px solid rgba(245,158,11,0.28);color:var(--yellow-light);
+  padding:6px 14px;border-radius:999px;font-size:0.82rem;font-weight:700;letter-spacing:0.02em;
+}
+h1{
+  text-align:center;font-size:clamp(1.9rem,5vw,2.9rem);font-weight:800;letter-spacing:-0.02em;
+  color:var(--blue);line-height:1.15;
+  padding-bottom:18px;border-bottom:3px solid var(--blue2);margin-bottom:16px;
+}
+.hero h1 span{color:#fff}
+.subtitle{
+  text-align:center;color:var(--muted);max-width:780px;margin:0 auto 22px;font-size:0.98rem;line-height:1.7;
+}
+.usage{
+  background:var(--card);border:1px solid var(--border);border-radius:var(--radius);
+  padding:20px 22px;box-shadow:0 10px 40px rgba(0,0,0,0.45);
+  display:grid;grid-template-columns:repeat(3,1fr);gap:16px;
+  max-width:1000px;margin:0 auto 8px;
+}
+.usage-item{display:flex;gap:12px;align-items:flex-start}
+.usage-icon{width:36px;height:36px;border-radius:10px;display:grid;place-items:center;font-size:18px;flex-shrink:0}
+.usage-item:nth-child(1) .usage-icon{background:rgba(59,130,246,0.15);border:1px solid rgba(59,130,246,0.3)}
+.usage-item:nth-child(2) .usage-icon{background:rgba(16,185,129,0.12);border:1px solid rgba(16,185,129,0.25)}
+.usage-item:nth-child(3) .usage-icon{background:rgba(245,158,11,0.12);border:1px solid rgba(245,158,11,0.25)}
+.usage-item h4{font-size:0.92rem;color:#fff;margin-bottom:4px}
+.usage-item p{font-size:0.84rem;color:var(--muted);line-height:1.5}
+@media(max-width:760px){
+  .usage{grid-template-columns:1fr;gap:14px;padding:18px}
+  h1{font-size:1.85rem}
+}
+
+/* sticky bar */
+.sticky-wrap{
+  position:sticky;top:0;z-index:40;
+  backdrop-filter:blur(16px) saturate(1.2);
+  background:rgba(15,23,42,0.88);
+  border-top:1px solid rgba(51,65,85,0.5);
+  border-bottom:1px solid rgba(51,65,85,0.7);
+  box-shadow:0 8px 30px rgba(0,0,0,0.35);
+}
+.sticky-inner{
+  max-width:1200px;margin:0 auto;padding:14px 20px;
+  display:flex;flex-wrap:wrap;gap:14px;align-items:center;justify-content:space-between;
+}
+.stats{
+  display:flex;gap:10px;flex-wrap:wrap;align-items:center;
+}
+.stat{
+  background:var(--card);border:1px solid var(--border);border-radius:12px;padding:10px 14px;min-width:118px;
+}
+.stat-label{font-size:0.72rem;color:var(--muted);letter-spacing:0.06em;text-transform:uppercase;font-weight:600}
+.stat-value{font-size:1.15rem;font-weight:800;color:#fff;line-height:1.1;margin-top:2px}
+.stat-value small{font-size:0.82rem;font-weight:600;color:var(--muted)}
+.stat.accent{border-color:rgba(16,185,129,0.35);background:linear-gradient(135deg, rgba(16,185,129,0.12), var(--card))}
+.stat.warn{border-color:rgba(245,158,11,0.35);background:linear-gradient(135deg, rgba(245,158,11,0.10), var(--card))}
+.progress-wrap{flex:1;min-width:160px;max-width:360px}
+.progress-label{display:flex;justify-content:space-between;font-size:0.78rem;color:var(--muted);margin-bottom:6px;font-weight:600}
+.progress-track{height:8px;background:#0f172a;border:1px solid var(--border);border-radius:999px;overflow:hidden}
+.progress-fill{height:100%;width:0%;background:linear-gradient(90deg, var(--blue2), var(--green));border-radius:999px;transition:width 0.5s cubic-bezier(0.22,1,0.36,1)}
+.controls{display:flex;gap:10px;align-items:center;flex-wrap:wrap}
+.filter-group{display:flex;background:var(--card2);border:1px solid var(--border);border-radius:999px;padding:4px;gap:4px}
+.filter-btn{
+  padding:7px 14px;border-radius:999px;border:1px solid transparent;background:transparent;color:var(--muted);
+  font-size:0.84rem;font-weight:700;cursor:pointer;transition:all 0.2s;
+}
+.filter-btn:hover{color:#fff;background:rgba(255,255,255,0.06)}
+.filter-btn.active{background:var(--blue2);color:#fff;border-color:var(--blue2);box-shadow:0 4px 12px rgba(59,130,246,0.35)}
+.toggle-wrap{
+  display:flex;align-items:center;gap:10px;background:var(--card);border:1px solid var(--border);border-radius:999px;padding:6px 12px 6px 8px;
+}
+.toggle-wrap.active{border-color:rgba(245,158,11,0.4);background:rgba(245,158,11,0.08)}
+.switch{position:relative;width:42px;height:24px;background:#334155;border-radius:999px;cursor:pointer;transition:background 0.2s;flex-shrink:0}
+.switch::after{content:"";position:absolute;top:2px;left:2px;width:20px;height:20px;background:#fff;border-radius:50%;transition:transform 0.22s cubic-bezier(0.22,1,0.36,1);box-shadow:0 1px 4px rgba(0,0,0,0.3)}
+.switch.on{background:var(--yellow)}
+.switch.on::after{transform:translateX(18px)}
+.toggle-label{font-size:0.84rem;font-weight:700;color:var(--muted);cursor:pointer;user-select:none}
+.toggle-wrap.active .toggle-label{color:var(--yellow-light)}
+.reset-btn{
+  background:transparent;border:1px solid var(--border);color:var(--muted);padding:7px 12px;border-radius:999px;font-size:0.8rem;font-weight:600;cursor:pointer;transition:all 0.2s;
+}
+.reset-btn:hover{border-color:var(--red);color:var(--red-soft);background:rgba(239,68,68,0.08)}
+
+/* main */
+.main{max-width:960px;margin:0 auto;padding:28px 20px 60px}
+.course-head{
+  margin:30px 0 14px;display:flex;align-items:center;gap:12px;flex-wrap:wrap;
+}
+.course-head h2{font-size:1.35rem;color:var(--blue);font-weight:800;letter-spacing:-0.01em}
+.course-head .desc{font-size:0.86rem;color:var(--muted)}
+.course-pill{padding:6px 12px;border-radius:999px;font-size:0.78rem;font-weight:800;letter-spacing:0.04em}
+.pill-968{background:rgba(59,130,246,0.15);border:1px solid rgba(59,130,246,0.3);color:var(--blue-light)}
+.pill-927{background:rgba(16,185,129,0.14);border:1px solid rgba(16,185,129,0.3);color:var(--green-soft)}
+.count{margin-left:auto;font-size:0.82rem;color:var(--muted);background:var(--card);border:1px solid var(--border);padding:6px 10px;border-radius:999px}
+
+/* card */
+.card{
+  background:var(--card2);border:1px solid var(--border);border-radius:16px;
+  padding:22px 22px 18px;margin-bottom:16px;
+  box-shadow:0 8px 30px rgba(0,0,0,0.35), 0 1px 0 rgba(255,255,255,0.03) inset;
+  transition:transform 0.2s, border-color 0.2s, box-shadow 0.2s;
+  animation:enter 0.45s both;
+}
+.card:hover{transform:translateY(-2px);border-color:#3a4a64;box-shadow:0 14px 40px rgba(0,0,0,0.45)}
+@keyframes enter{from{opacity:0;transform:translateY(10px)}to{opacity:1;transform:translateY(0)}}
+.card-head{display:flex;gap:10px;align-items:center;flex-wrap:wrap;margin-bottom:12px}
+.idx{width:30px;height:30px;border-radius:9px;display:grid;place-items:center;font-size:0.82rem;font-weight:800;background:var(--card);border:1px solid var(--border);color:var(--muted)}
+.type-badge{font-size:0.72rem;font-weight:800;letter-spacing:0.06em;padding:5px 9px;border-radius:999px;border:1px solid var(--border)}
+.type-mcq{background:rgba(59,130,246,0.12);color:var(--blue-light);border-color:rgba(59,130,246,0.25)}
+.type-saq{background:rgba(16,185,129,0.12);color:var(--green-light);border-color:rgba(16,185,129,0.25)}
+.course-tag{font-size:0.72rem;font-weight:700;padding:5px 9px;border-radius:999px}
+.tag-968{color:var(--blue-light);background:rgba(59,130,246,0.1);border:1px solid rgba(59,130,246,0.2)}
+.tag-927{color:var(--green-soft);background:rgba(16,185,129,0.1);border:1px solid rgba(16,185,129,0.2)}
+.mastery-dot{margin-left:auto;display:flex;align-items:center;gap:6px;font-size:0.78rem;font-weight:700;padding:5px 10px;border-radius:999px;border:1px solid transparent}
+.dot-known{background:rgba(16,185,129,0.12);color:var(--green-light);border-color:rgba(16,185,129,0.25)}
+.dot-unknown{background:rgba(239,68,68,0.1);color:var(--red-soft);border-color:rgba(239,68,68,0.25)}
+.dot-none{background:var(--card);color:var(--muted);border-color:var(--border)}
+.q-title{
+  font-size:1.12rem;font-weight:700;color:#f1f5f9;line-height:1.55;margin-bottom:14px;
+  letter-spacing:-0.01em;
+}
+@media(min-width:768px){.q-title{font-size:1.18rem}}
+/* options */
+.options{display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-bottom:6px}
+@media(max-width:640px){.options{grid-template-columns:1fr}}
+.opt{
+  display:flex;gap:10px;align-items:center;
+  background:var(--card);border:1.5px solid var(--border);border-radius:12px;
+  padding:13px 14px;cursor:pointer;transition:all 0.18s;
+  font-size:0.92rem;color:#e2e8f0;font-weight:500;position:relative;overflow:hidden;
+  user-select:none;
+}
+.opt:hover{border-color:#4b5d7a;background:#233044;transform:translateY(-1px)}
+.opt:active{transform:scale(0.99)}
+.opt-letter{
+  width:28px;height:28px;border-radius:8px;display:grid;place-items:center;
+  background:var(--card2);border:1px solid var(--border);font-size:0.78rem;font-weight:800;color:var(--muted);flex-shrink:0;
+}
+.opt.correct{background:rgba(16,185,129,0.14);border-color:var(--green);color:#ecfdf5;box-shadow:0 0 0 3px rgba(16,185,129,0.12)}
+.opt.correct .opt-letter{background:var(--green);color:#fff;border-color:var(--green)}
+.opt.wrong{background:rgba(239,68,68,0.13);border-color:var(--red);color:#fef2f2;box-shadow:0 0 0 3px rgba(239,68,68,0.1)}
+.opt.wrong .opt-letter{background:var(--red);color:#fff;border-color:var(--red)}
+.opt.dim{opacity:0.55}
+.opt.correct::after{content:"✓";position:absolute;right:12px;top:50%;transform:translateY(-50%);font-weight:900;color:var(--green);font-size:1.05rem}
+.opt.wrong::after{content:"✕";position:absolute;right:12px;top:50%;transform:translateY(-50%);font-weight:900;color:var(--red);font-size:0.95rem}
+
+/* explain / answer area */
+.reveal{
+  overflow:hidden;max-height:0;opacity:0;transform:translateY(-6px);
+  transition:max-height 0.42s cubic-bezier(0.22,1,0.36,1), opacity 0.32s, transform 0.32s, margin 0.32s;
+  margin-top:0;
+}
+.reveal.open{max-height:900px;opacity:1;transform:translateY(0);margin-top:14px}
+.explain-box{
+  background:var(--card3);border:1px solid var(--border);border-radius:12px;padding:16px 16px;
+  border-left:4px solid var(--blue2);
+}
+.explain-box .en{color:var(--blue-light);font-size:0.93rem;line-height:1.6}
+.explain-box .zh{color:var(--green-soft);font-size:0.92rem;line-height:1.6;margin-top:10px;padding-top:10px;border-top:1px dashed rgba(51,65,85,0.8)}
+.explain-label{font-size:0.72rem;font-weight:800;letter-spacing:0.07em;text-transform:uppercase;margin-bottom:8px;display:flex;align-items:center;gap:6px}
+.explain-label.en-label{color:var(--blue-light)}
+.explain-label.zh-label{color:var(--green-light)}
+.answer-box{
+  background:var(--card3);border:1px solid var(--border);border-radius:12px;padding:16px 16px;
+  border-left:4px solid var(--green);
+}
+/* saq 我的答案输入框 */
+.saq-input-wrap{margin:14px 0 14px}
+.saq-input-label{font-size:0.78rem;font-weight:800;letter-spacing:0.06em;color:#cbd5e1;margin-bottom:8px;display:flex;align-items:center;gap:6px}
+.saq-textarea{
+  width:100%;min-height:120px;resize:vertical;
+  background:var(--card2);border:1.5px solid var(--border);border-radius:12px;
+  padding:14px 14px;color:#e2e8f0;font-size:1rem;line-height:1.65;
+  font-family:inherit;outline:none;transition:border-color 0.2s, box-shadow 0.2s, background 0.2s;
+  display:block;
+}
+.saq-textarea::placeholder{color:#64748b}
+.saq-textarea:focus{border-color:var(--blue);box-shadow:0 0 0 3px rgba(96,165,250,0.18);background:#0b1224}
+.saq-textarea:hover{border-color:#3a4a64}
+@media(max-width:640px){.saq-textarea{font-size:1rem;min-height:110px}}
+
+.saq-btn{
+  display:inline-flex;align-items:center;gap:8px;
+  background:linear-gradient(135deg, var(--blue2), #2563eb);color:#fff;border:none;
+  padding:10px 16px;border-radius:999px;font-size:0.9rem;font-weight:700;cursor:pointer;
+  box-shadow:0 6px 18px rgba(37,99,235,0.35);transition:all 0.2s;
+}
+.saq-btn:hover{transform:translateY(-1px);box-shadow:0 8px 22px rgba(37,99,235,0.45)}
+.saq-btn.open{background:var(--card);color:var(--muted);border:1px solid var(--border);box-shadow:none}
+.saq-btn.open:hover{background:#232f45;color:#fff}
+
+/* mastery actions */
+.actions{display:flex;gap:10px;margin-top:16px;padding-top:14px;border-top:1px solid rgba(51,65,85,0.5);flex-wrap:wrap;align-items:center}
+.action-btn{
+  flex:1;min-width:130px;display:inline-flex;justify-content:center;align-items:center;gap:7px;
+  padding:10px 14px;border-radius:999px;font-size:0.88rem;font-weight:800;cursor:pointer;transition:all 0.2s;border:1.5px solid var(--border);
+}
+.btn-known{background:rgba(16,185,129,0.1);border-color:rgba(16,185,129,0.25);color:var(--green-light)}
+.btn-known:hover{background:var(--green);color:#fff;border-color:var(--green);box-shadow:0 6px 16px rgba(16,185,129,0.3)}
+.btn-known.active{background:var(--green);color:#fff;border-color:var(--green)}
+.btn-unknown{background:rgba(239,68,68,0.08);border-color:rgba(239,68,68,0.2);color:var(--red-soft)}
+.btn-unknown:hover{background:var(--red);color:#fff;border-color:var(--red);box-shadow:0 6px 16px rgba(239,68,68,0.28)}
+.btn-unknown.active{background:var(--red);color:#fff;border-color:var(--red)}
+.hint{font-size:0.78rem;color:var(--muted);margin-left:auto}
+@media(max-width:600px){.hint{width:100%;margin-left:0}}
+.empty{
+  text-align:center;background:var(--card);border:1px dashed var(--border);border-radius:16px;padding:40px 20px;color:var(--muted);
+}
+.empty b{color:var(--yellow-light)}
+.footer{text-align:center;color:#64748b;font-size:0.82rem;margin-top:36px;line-height:1.7}
+.footer a{color:var(--blue-light);text-decoration:none}
+</style>
+</head>
+<body>
+<div class="hero">
+  <div class="hero-top"><span class="badge-pill">✦ 期末模拟卷 · 中英双语 · 单文件离线可用</span></div>
+  <h1>期末模拟卷 <span>· 交互式刷题</span></h1>
+  <p class="subtitle">覆盖 <b style="color:#93c5fd">CSCI968 高级网络安全</b> 与 <b style="color:#6ee7b7">CSCI927 面向服务软件工程</b> · 选择题即点即判 · 简答题闪卡式展开 · 掌握度自动记忆，重点重刷更高效</p>
+  <div class="usage">
+    <div class="usage-item">
+      <div class="usage-icon">🟦</div>
+      <div><h4>选择题 · 即时反馈</h4><p>点选项 → 绿色为正确、红色为你的错选，解析中英双语立刻展开</p></div>
+    </div>
+    <div class="usage-item">
+      <div class="usage-icon">🃏</div>
+      <div><h4>简答闪卡 · 先写再对</h4><p>在输入框写下你的答案 → 点「显示答案」上下对比，蓝色英文 + 绿色中文</p></div>
+    </div>
+    <div class="usage-item">
+      <div class="usage-icon">⭐</div>
+      <div><h4>掌握度 · 本地记忆</h4><p>每题标记 ✅我会了 / ❌还不会，刷新保留；一键只看不会的</p></div>
+    </div>
+  </div>
+</div>
+
+<div class="sticky-wrap" id="sticky">
+  <div class="sticky-inner">
+    <div class="stats">
+      <div class="stat">
+        <div class="stat-label">已做 / 总题</div>
+        <div class="stat-value" id="statDone">0 <small>/ 0</small></div>
+      </div>
+      <div class="stat accent">
+        <div class="stat-label">掌握率</div>
+        <div class="stat-value" id="statRate">0%</div>
+      </div>
+      <div class="stat warn">
+        <div class="stat-label">还不会</div>
+        <div class="stat-value" id="statUnknown" style="color:var(--yellow-light)">0 题</div>
+      </div>
+      <div class="progress-wrap">
+        <div class="progress-label"><span>总体进度</span><span id="progressText">0%</span></div>
+        <div class="progress-track"><div class="progress-fill" id="progressFill"></div></div>
+      </div>
+    </div>
+    <div class="controls">
+      <div class="filter-group" id="filterGroup">
+        <button class="filter-btn active" data-filter="all">全部</button>
+        <button class="filter-btn" data-filter="CSCI968">CSCI968</button>
+        <button class="filter-btn" data-filter="CSCI927">CSCI927</button>
+      </div>
+      <div class="toggle-wrap" id="toggleWrap">
+        <div class="switch" id="switch"></div>
+        <span class="toggle-label" id="toggleLabel">只看不会的</span>
+      </div>
+      <button class="reset-btn" id="resetBtn" title="清空本地记录">↺ 重置记录</button>
+    </div>
+  </div>
+</div>
+
+<main class="main" id="app"></main>
+
+<script>
+// ---- 嵌入的题库（来自 mock_exam_data.json） ----
+const DATA = {
+  "title": "期末模拟卷 - 中英双语",
+  "courses": [
+    {
+      "id": "CSCI968",
+      "name": "CSCI968 高级网络安全",
+      "desc": "选择题 + 简答闪卡（对齐真实考试题型）",
+      "items": [
+        {"type": "mcq", "q": "In the OSI model, which layer is responsible for routing packets between networks?", "options": ["Data Link layer", "Network layer", "Transport layer", "Session layer"], "answer": 1, "explain_en": "The Network layer (Layer 3) routes packets between networks and handles logical addressing.", "explain_zh": "网络层（第3层）负责网络间数据包的路由选择和逻辑寻址。"},
+        {"type": "mcq", "q": "Which protocol belongs to the Internet layer of the TCP/IP model?", "options": ["HTTP", "TCP", "IP", "SSH"], "answer": 2, "explain_en": "IP (Internet Protocol) is the core protocol of the Internet layer, handling packet addressing and routing.", "explain_zh": "IP（网际协议）是网际层的核心协议，负责数据包寻址和路由。"},
+        {"type": "mcq", "q": "Confidentiality is primarily achieved by which technique?", "options": ["Message Authentication Code (MAC)", "Digital Signature", "Encryption", "Hashing"], "answer": 2, "explain_en": "Encryption ensures only authorized parties can read the data.", "explain_zh": "加密确保只有授权方才能读取数据，实现机密性。"},
+        {"type": "mcq", "q": "Integrity is primarily achieved by which technique?", "options": ["Encryption", "MAC (Message Authentication Code)", "Digital Signature", "Firewall"], "answer": 1, "explain_en": "MAC detects any modification of data during transmission, ensuring integrity.", "explain_zh": "消息认证码（MAC）检测数据在传输中是否被篡改，实现完整性。"},
+        {"type": "mcq", "q": "Authenticity (verifying sender identity) is primarily achieved by which technique?", "options": ["Encryption", "MAC", "Digital Signature", "Access Control"], "answer": 2, "explain_en": "Digital signatures verify the identity of the sender using public key cryptography.", "explain_zh": "数字签名利用公钥密码学验证发送方身份，实现真实性。"},
+        {"type": "mcq", "q": "What is the main role of a CA (Certificate Authority)?", "options": ["Encrypt network traffic", "Issue and manage digital certificates as a trusted third party", "Detect intrusions", "Route packets between networks"], "answer": 1, "explain_en": "A CA is a trusted third party that issues, manages and revokes digital certificates.", "explain_zh": "CA是可信第三方，负责颁发、管理和撤销数字证书。"},
+        {"type": "mcq", "q": "What is X.509?", "options": ["An encryption algorithm", "A standard format for public key certificates", "A firewall technology", "An intrusion detection system"], "answer": 1, "explain_en": "X.509 is the most widely used standard for public key certificate format.", "explain_zh": "X.509是最广泛使用的公钥证书格式标准。"},
+        {"type": "mcq", "q": "How is certificate revocation typically implemented?", "options": ["CRL (Certificate Revocation List) or OCSP", "AES", "Firewalls", "MAC"], "answer": 0, "explain_en": "Revocation is implemented via CRL (Certificate Revocation List) or OCSP (Online Certificate Status Protocol).", "explain_zh": "证书撤销通过CRL（证书撤销列表）或OCSP（在线证书状态协议）实现。"},
+        {"type": "mcq", "q": "What is the Diffie-Hellman (DH) protocol used for?", "options": ["Encrypting emails", "Key agreement - establishing a shared secret over an insecure channel", "Detecting intrusions", "Certificate revocation"], "answer": 1, "explain_en": "DH is a key agreement protocol allowing two parties to establish a shared secret over an insecure channel without transmitting the secret itself.", "explain_zh": "DH是密钥协商协议，让双方在不安全信道上协商共享密钥，不传输密钥本身。"},
+        {"type": "mcq", "q": "In a MITM (Man-in-the-Middle) attack against DH, what does the attacker do?", "options": ["Guesses the password", "Replaces both parties' public keys with his own", "Cracks the private key", "Sends spam emails"], "answer": 1, "explain_en": "The attacker intercepts and replaces public keys from both parties with his own, establishing separate shared secrets with each side.", "explain_zh": "攻击者拦截并替换双方的公钥，与双方分别建立共享密钥。"},
+        {"type": "mcq", "q": "Forward secrecy guarantees that:", "options": ["Long-term key compromise does not compromise past session keys", "Firewalls block all attacks", "Data is always encrypted", "Certificates never expire"], "answer": 0, "explain_en": "Forward secrecy means that even if long-term keys are compromised, past session keys remain secure. Implemented via DHE/ECDHE.", "explain_zh": "前向保密性保证长期密钥泄露不影响过去的会话密钥，通过DHE/ECDHE实现。"},
+        {"type": "mcq", "q": "Which is NOT an improvement of Kerberos V5 over V4?", "options": ["Cross-realm authentication", "AES encryption", "Forwardable/proxiable tickets", "Removal of the ticket system"], "answer": 3, "explain_en": "Kerberos V5 added cross-realm auth, AES, and forwardable tickets - it did not remove the ticket system.", "explain_zh": "Kerberos V5增加了跨域认证、AES加密和可转发票据，并没有移除票据系统。"},
+        {"type": "mcq", "q": "The Connection layer of SSH is responsible for:", "options": ["Encryption", "User authentication", "Port forwarding and session multiplexing", "Packet routing"], "answer": 2, "explain_en": "SSH has 3 layers: Transport (encryption), User Authentication, Connection (port forwarding, session multiplexing).", "explain_zh": "SSH三层：传输层（加密）、用户认证层、连接层（端口转发、会话复用）。"},
+        {"type": "mcq", "q": "Which trust model does PGP (Pretty Good Privacy) use?", "options": ["Monopoly single root CA", "Oligarchy of CAs", "Web of Trust", "Delegated CAs"], "answer": 2, "explain_en": "PGP uses a decentralized Web of Trust model, while S/MIME uses a centralized PKI/CA model.", "explain_zh": "PGP使用去中心化的信任网络模型，而S/MIME使用中心化的PKI/CA模型。"},
+        {"type": "mcq", "q": "Which is a key improvement of TLS 1.3 over TLS 1.2?", "options": ["Slower handshake", "1-RTT handshake and removal of insecure cipher suites", "Added 3DES support", "Removed encryption"], "answer": 1, "explain_en": "TLS 1.3 introduced 1-RTT handshake, removed insecure suites (RSA key exchange, 3DES), and enforces forward secrecy.", "explain_zh": "TLS 1.3引入1-RTT握手、移除了不安全的套件（RSA密钥交换、3DES），并强制前向保密性。"},
+        {"type": "mcq", "q": "DTLS (Datagram TLS) is designed for which transport protocol?", "options": ["TCP", "UDP", "HTTP", "FTP"], "answer": 1, "explain_en": "DTLS is TLS adapted for UDP (used in VoIP, VPN), tolerating packet loss and reordering.", "explain_zh": "DTLS是适配UDP的TLS（用于VoIP、VPN），能容忍丢包和乱序。"},
+        {"type": "mcq", "q": "QUIC is the transport protocol underlying which application protocol?", "options": ["HTTP/2", "HTTP/3", "FTP", "SMTP"], "answer": 1, "explain_en": "QUIC has built-in TLS 1.3 encryption and 0-RTT handshake, underlying HTTP/3.", "explain_zh": "QUIC内置TLS 1.3加密和0-RTT握手，是HTTP/3的底层传输协议。"},
+        {"type": "mcq", "q": "What does IPsec AH (Authentication Header) provide?", "options": ["Encryption only", "Integrity and authentication, but NO encryption", "Both encryption and authentication", "Nothing"], "answer": 1, "explain_en": "AH only provides integrity and authentication, no encryption. ESP provides both.", "explain_zh": "AH仅提供完整性和认证，不加密。ESP同时提供加密、完整性和认证。"},
+        {"type": "mcq", "q": "IPsec Tunnel mode is mainly used for:", "options": ["End-to-end communication (client to server)", "Site-to-site VPN (connecting two networks)", "Email encryption", "File transfer"], "answer": 1, "explain_en": "Tunnel mode encrypts the entire IP packet, used for site-to-site VPN. Transport mode encrypts only the payload for end-to-end.", "explain_zh": "隧道模式加密整个IP数据包，用于站点间VPN。传输模式只加密载荷，用于端到端通信。"},
+        {"type": "mcq", "q": "What is the main weakness of WEP (Wired Equivalent Privacy)?", "options": ["Too strong encryption", "24-bit IV (Initialization Vector) repeats frequently and no key management", "Too complex to deploy", "No encryption"], "answer": 1, "explain_en": "WEP's 24-bit IV repeats frequently, no key management, easy to crack within minutes.", "explain_zh": "WEP的24位IV频繁重复、无密钥管理，几分钟内即可破解。"},
+        {"type": "mcq", "q": "WPA3 uses which handshake to resist offline password cracking?", "options": ["TKIP", "SAE (Simultaneous Authentication of Equals)", "AES-CCMP", "WEP"], "answer": 1, "explain_en": "WPA3 uses SAE handshake to prevent offline password cracking and provide forward secrecy.", "explain_zh": "WPA3使用SAE（同等同时认证）握手，防止离线密码破解并提供前向保密性。"},
+        {"type": "mcq", "q": "Which systems are typically deployed in a DMZ?", "options": ["Internal databases", "Web servers, mail servers, DNS servers", "Employee workstations", "Printers"], "answer": 1, "explain_en": "DMZ hosts public-facing services like Web/mail/DNS servers, separated from internal network to reduce attack surface.", "explain_zh": "DMZ部署面向公众的服务（如Web/邮件/DNS服务器），与内部网络隔离以减少攻击面。"},
+        {"type": "mcq", "q": "What is the difference between NIDS and HIDS?", "options": ["NIDS monitors network traffic, HIDS monitors a single host", "NIDS monitors hosts, HIDS monitors networks", "They are the same", "NIDS only detects viruses"], "answer": 0, "explain_en": "NIDS (Network-based IDS) monitors network traffic; HIDS (Host-based IDS) monitors a single host's activity.", "explain_zh": "NIDS（网络级IDS）监控网络流量，HIDS（主机级IDS）监控单个主机活动。"},
+        {"type": "mcq", "q": "Which security property does a MAC (Message Authentication Code) provide?", "options": ["Confidentiality", "Integrity", "Availability", "Non-repudiation"], "answer": 1, "explain_en": "MAC ensures data is not modified during transmission, providing integrity.", "explain_zh": "MAC确保数据在传输中未被篡改，提供完整性。"},
+        {"type": "saq", "q": "Explain the Diffie-Hellman (DH) protocol and the Man-in-the-Middle (MITM) attack against it.", "a_en": "DH is a key agreement protocol that allows two parties to establish a shared secret over an insecure channel without transmitting the secret itself. In a MITM attack, the attacker intercepts public keys from both parties, replaces them with his own public key, establishes separate shared secrets with both sides, and can read/modify all traffic between them.", "a_zh": "DH是密钥协商协议，允许双方在不安全信道上协商共享密钥而不传输密钥本身。中间人攻击中，攻击者拦截双方公钥并替换为自己的公钥，与双方分别建立共享密钥，从而窃听/篡改双方流量。"},
+        {"type": "saq", "q": "What is a DMZ (Demilitarized Zone)? What systems are typically deployed in it?", "a_en": "DMZ is a network segment separated from the internal network by firewalls, hosting public-facing services to reduce the internal attack surface. Typical systems: Web servers, mail servers, DNS servers, public API gateways.", "a_zh": "DMZ（非军事区）是通过防火墙与内部网络隔离的网络段，托管面向公众的服务以减少内部攻击面。典型系统：Web服务器、邮件服务器、DNS服务器、公共API网关。"},
+        {"type": "saq", "q": "List the main improvements of TLS 1.3 over TLS 1.2.", "a_en": "1. 1-RTT handshake (faster connection). 2. Removes insecure cipher suites (RSA key exchange, 3DES). 3. Enforces forward secrecy by default. 4. Simplified handshake reduces attack surface.", "a_zh": "1. 1-RTT握手（连接更快）。2. 移除不安全的密码套件（RSA密钥交换、3DES）。3. 默认强制前向保密性。4. 简化握手过程减少攻击面。"},
+        {"type": "saq", "q": "What is the difference between IPsec Transport mode and Tunnel mode?", "a_en": "Transport mode encrypts only the payload of IP packets, used for end-to-end communication (client to server). Tunnel mode encrypts the entire IP packet, used for site-to-site VPN (connecting two networks).", "a_zh": "传输模式只加密IP数据包载荷，用于端到端通信（客户端到服务器）。隧道模式加密整个IP数据包，用于站点间VPN（连接两个网络）。"},
+        {"type": "saq", "q": "What is the difference between AH (Authentication Header) and ESP (Encapsulating Security Payload) in IPsec?", "a_en": "AH only provides integrity and authentication, no encryption. ESP provides encryption plus integrity and authentication, and is the most widely used IPsec protocol.", "a_zh": "AH仅提供完整性和认证，不加密。ESP提供加密+完整性和认证，是最常用的IPsec协议。"},
+        {"type": "saq", "q": "What is forward secrecy? How is it implemented?", "a_en": "Forward secrecy means that compromise of long-term keys does not compromise past session keys. It is implemented via ephemeral key exchange: DHE (Ephemeral Diffie-Hellman) or ECDHE (Elliptic Curve Ephemeral Diffie-Hellman).", "a_zh": "前向保密性指长期密钥泄露不影响过去的会话密钥。通过临时密钥交换实现：DHE（临时DH）或ECDHE（椭圆曲线临时DH）。"},
+        {"type": "saq", "q": "What is the difference between key transport and key agreement?", "a_en": "Key transport: one party generates the key and sends it to the other (e.g., RSA key exchange). Key agreement: both parties contribute to generate the shared key (e.g., Diffie-Hellman).", "a_zh": "密钥传输：一方生成密钥发给另一方（如RSA密钥交换）。密钥协商：双方共同生成共享密钥（如DH）。"},
+        {"type": "saq", "q": "List the improvements of Kerberos V5 over V4.", "a_en": "1. Cross-realm authentication. 2. AES encryption (instead of DES). 3. Forwardable/proxiable tickets. 4. Better resistance to replay attacks.", "a_zh": "1. 跨域认证。2. AES加密（替代DES）。3. 可转发/可代理票据。4. 更好地抵抗重放攻击。"},
+        {"type": "saq", "q": "Describe the three-layer architecture of SSH (Secure Shell).", "a_en": "1. Transport layer: key exchange, encryption and integrity. 2. User authentication layer: password or public key authentication. 3. Connection layer: port forwarding and session multiplexing.", "a_zh": "1. 传输层：密钥交换、加密和完整性。2. 用户认证层：密码或公钥认证。3. 连接层：端口转发和会话复用。"},
+        {"type": "saq", "q": "Compare PGP and S/MIME for email security.", "a_en": "PGP uses a decentralized Web of Trust model, used for personal email. S/MIME uses a centralized PKI/CA trust model, used for enterprise email.", "a_zh": "PGP使用去中心化的信任网络模型，用于个人邮件。S/MIME使用中心化的PKI/CA信任模型，用于企业邮件。"},
+        {"type": "saq", "q": "What are the weaknesses of WEP and how are they fixed?", "a_en": "WEP weaknesses: 24-bit IV repeats frequently, no key management, easily cracked. Fixed by WPA (TKIP, temporary fix) and WPA2 (AES-CCMP, long-term standard).", "a_zh": "WEP弱点：24位IV频繁重复、无密钥管理、易被破解。由WPA（TKIP临时修复）和WPA2（AES-CCMP长期标准）修复。"},
+        {"type": "saq", "q": "Explain the differences between WPA, WPA2 and WPA3.", "a_en": "WPA: uses TKIP to fix WEP weaknesses (temporary). WPA2: uses AES-CCMP encryption, standard for years. WPA3: uses SAE handshake to prevent offline password cracking and provides forward secrecy.", "a_zh": "WPA：用TKIP临时修复WEP弱点。WPA2：用AES-CCMP加密，长期标准。WPA3：用SAE握手防止离线密码破解，提供前向保密性。"},
+        {"type": "saq", "q": "List the 7 layers of the OSI model in order.", "a_en": "Physical → Data Link → Network → Transport → Session → Presentation → Application.", "a_zh": "物理层→数据链路层→网络层→传输层→会话层→表示层→应用层。"},
+        {"type": "saq", "q": "What are the three core security properties (CIA?) and how is each implemented?", "a_en": "1. Confidentiality: encryption. 2. Integrity: MAC (Message Authentication Code). 3. Authenticity: digital signature.", "a_zh": "1. 机密性：加密。2. 完整性：消息认证码（MAC）。3. 真实性：数字签名。"},
+        {"type": "saq", "q": "What are the PKI trust models?", "a_en": "Monopoly (single root CA, most common), Oligarchy (a few CAs), Delegated CAs, and Anarchy/Web of Trust (peer-to-peer, used in PGP).", "a_zh": "垄断模型（单一根CA，最常见）、寡头模型（少数几个CA）、委托CA模型、无政府/信任网络模型（点对点，PGP使用）。"}
+      ]
+    },
+    {
+      "id": "CSCI927",
+      "name": "CSCI927 面向服务软件工程",
+      "desc": "简答闪卡（对齐真实考试题型：全部简答题）",
+      "items": [
+        {"type": "saq", "q": "List and explain 4 core BPMN elements.", "a_en": "1. Event: circle shape, represents start/end/intermediate points. 2. Activity: rounded rectangle, represents a task or work. 3. Gateway: diamond shape, represents decision point (exclusive/parallel/inclusive). 4. Sequence Flow: arrow, shows order of execution.", "a_zh": "1. 事件：圆形，表示流程开始/结束/中间点。2. 活动：圆角矩形，表示任务或工作。3. 网关：菱形，表示决策点（排他/并行/包含）。4. 顺序流：箭头，表示执行顺序。"},
+        {"type": "saq", "q": "What are 4 core principles of microservices architecture?", "a_en": "1. Single responsibility: each service owns one business capability. 2. Independent deployment: services deploy without affecting others. 3. Decentralized data: each service manages its own database. 4. Loose coupling: services communicate via standard APIs.", "a_zh": "1. 单一职责：每个服务拥有一个业务能力。2. 独立部署：服务可独立部署。3. 去中心化数据：每个服务管理自己的数据库。4. 松耦合：服务通过标准API通信。"},
+        {"type": "saq", "q": "What are the three main types of process mining?", "a_en": "1. Process Discovery: generate a process model from event logs. 2. Conformance Checking: compare event logs with an existing model to detect deviations. 3. Performance Analysis: analyze bottlenecks, waiting times and throughput.", "a_zh": "1. 流程发现：从事件日志生成流程模型。2. 一致性检查：对比日志和现有模型检测偏差。3. 性能分析：分析瓶颈、等待时间和吞吐量。"},
+        {"type": "saq", "q": "Explain the three layers of the ArchiMate model.", "a_en": "1. Business Layer: business processes, actors, business services. 2. Application Layer: software applications and services (e.g., CRM system). 3. Technology Layer: hardware and infrastructure (e.g., servers, databases, networks).", "a_zh": "1. 业务层：业务流程、参与者、业务服务。2. 应用层：软件应用和服务（如CRM系统）。3. 技术层：硬件和基础设施（如服务器、数据库、网络）。"},
+        {"type": "saq", "q": "What is the difference between an exclusive (XOR) gateway and a parallel (AND) gateway in BPMN?", "a_en": "XOR (Exclusive) Gateway: only one outgoing path is selected based on conditions, no parallel execution. AND (Parallel) Gateway: all outgoing paths execute in parallel and synchronize after all paths complete.", "a_zh": "XOR（排他）网关：根据条件只选一条路径，无并行执行。AND（并行）网关：所有路径并行执行，全部完成后同步。"},
+        {"type": "saq", "q": "What are the three types of gateways in BPMN?", "a_en": "1. Exclusive Gateway (XOR): one path by condition. 2. Parallel Gateway (AND): all paths execute and synchronize. 3. Inclusive Gateway (OR): one or more paths by condition.", "a_zh": "1. 排他网关（XOR）：按条件选一条路径。2. 并行网关（AND）：所有路径执行并同步。3. 包含网关（OR）：按条件选一条或多条路径。"},
+        {"type": "saq", "q": "What are the core characteristics of SOA (Service-Oriented Architecture)?", "a_en": "Loose coupling, reusability, autonomy, interoperability, discoverability.", "a_zh": "松耦合、可复用、自治、互操作、可发现。"},
+        {"type": "saq", "q": "What is the difference between microservices and traditional SOA?", "a_en": "Traditional SOA: centralized ESB (Enterprise Service Bus), heavyweight, for large enterprises. Microservices: decentralized, lightweight, independently deployed, for cloud-native applications.", "a_zh": "传统SOA：中心化的ESB（企业服务总线）、重量级、面向大型企业。微服务：去中心化、轻量、独立部署、面向云原生应用。"},
+        {"type": "saq", "q": "What three attributes must an event log contain for process mining?", "a_en": "1. Case ID: unique identifier of each process instance. 2. Activity: name of the task performed. 3. Timestamp: when the task was completed.", "a_zh": "1. Case ID（实例ID）：每个流程实例的唯一标识。2. Activity（活动）：执行的任务名。3. Timestamp（时间戳）：任务完成时间。"},
+        {"type": "saq", "q": "In BPMN, what is an Event?", "a_en": "An Event is a circle shape that represents start, end or intermediate points in a process.", "a_zh": "事件是圆形，表示流程的开始、结束或中间点。"},
+        {"type": "saq", "q": "In BPMN, what is an Activity?", "a_en": "An Activity is a rounded rectangle that represents a task or work to be executed.", "a_zh": "活动是圆角矩形，表示要执行的任务或工作。"},
+        {"type": "saq", "q": "In BPMN, what is a Gateway?", "a_en": "A Gateway is a diamond shape that represents a decision point (exclusive/parallel/inclusive).", "a_zh": "网关是菱形，表示决策点（排他/并行/包含）。"},
+        {"type": "saq", "q": "In BPMN, what is a Sequence Flow?", "a_en": "A Sequence Flow is an arrow that shows the order of execution between elements.", "a_zh": "顺序流是箭头，表示元素之间的执行顺序。"},
+        {"type": "saq", "q": "In BPMN, what are Pools and Lanes?", "a_en": "Pools and Lanes represent different participants or departments in a process.", "a_zh": "池和泳道表示流程中不同的参与者或部门。"},
+        {"type": "saq", "q": "Explain the microservices principle: Single responsibility.", "a_en": "Each service owns one single business capability and does it well.", "a_zh": "每个服务拥有并做好单一的业务能力。"},
+        {"type": "saq", "q": "Explain the microservices principle: Independent deployment.", "a_en": "Services can be deployed without affecting other services.", "a_zh": "服务可以独立部署，不影响其他服务。"},
+        {"type": "saq", "q": "Explain the microservices principle: Decentralized data.", "a_en": "Each service manages its own database, no shared database.", "a_zh": "每个服务管理自己的数据库，无共享数据库。"},
+        {"type": "saq", "q": "Explain the microservices principle: Loose coupling.", "a_en": "Services communicate via standard APIs with no tight dependencies.", "a_zh": "服务通过标准API通信，无紧密依赖。"},
+        {"type": "saq", "q": "What is Process Discovery in process mining?", "a_en": "Process Discovery generates a process model from event logs, with no prior model needed.", "a_zh": "流程发现从事件日志生成流程模型，无需预先定义模型。"},
+        {"type": "saq", "q": "What is Conformance Checking in process mining?", "a_en": "Conformance Checking compares event logs with an existing process model to detect deviations from the expected behavior.", "a_zh": "一致性检查对比事件日志与现有流程模型，检测偏离预期行为的偏差。"},
+        {"type": "saq", "q": "What is Performance Analysis in process mining?", "a_en": "Performance Analysis analyzes bottlenecks, waiting times and throughput of the process.", "a_zh": "性能分析分析流程的瓶颈、等待时间和吞吐量。"},
+        {"type": "saq", "q": "Describe the Business Layer of ArchiMate.", "a_en": "The Business Layer describes business processes, actors and business services (e.g., customer, order process).", "a_zh": "业务层描述业务流程、参与者和业务服务（如客户、订单流程）。"},
+        {"type": "saq", "q": "Describe the Application Layer of ArchiMate.", "a_en": "The Application Layer describes software applications and application services (e.g., CRM system, payment service).", "a_zh": "应用层描述软件应用和应用服务（如CRM系统、支付服务）。"},
+        {"type": "saq", "q": "Describe the Technology Layer of ArchiMate.", "a_en": "The Technology Layer describes hardware and infrastructure (e.g., servers, databases, networks).", "a_zh": "技术层描述硬件和基础设施（如服务器、数据库、网络）。"},
+        {"type": "saq", "q": "What is Service Compliance?", "a_en": "Service Compliance ensures business processes follow internal policies, industry regulations and legal requirements via automated checking.", "a_zh": "服务合规通过自动检查确保业务流程符合内部政策、行业法规和法律要求。"},
+        {"type": "saq", "q": "What is semantic annotation in BPMN? (Immediate vs Cumulative effects)", "a_en": "Immediate Effect: what changes right after a task completes. Cumulative Effect: what changes across the whole process (e.g., total balance change).", "a_zh": "即时效果：任务完成后立即变化的状态。累积效果：整个流程执行完的总变化（如余额总变化）。"},
+        {"type": "saq", "q": "What is BSRL?", "a_en": "BSRL (Business Service Representation Language) is a language for specifying business services, describing service providers, consumers and service specifications.", "a_zh": "BSRL（业务服务表示语言）用于规范业务服务，描述服务提供者、消费者和服务规范。"},
+        {"type": "saq", "q": "What is SoaML?", "a_en": "SoaML (Service-Oriented Architecture Modeling Language) is a UML-based modeling language for service design, specifying service interfaces, contracts and compositions.", "a_zh": "SoaML（面向服务架构建模语言）是基于UML的服务设计建模语言，规范服务接口、契约和组合。"},
+        {"type": "saq", "q": "What is the role of semantic annotation and ontology in services?", "a_en": "Semantic annotation adds machine-readable meaning to services; ontology provides a shared vocabulary to enable semantic service discovery and matching.", "a_zh": "语义标注为服务添加机器可读的含义；本体提供共享词汇，实现语义服务发现和匹配。"},
+        {"type": "saq", "q": "What is TOGAF ADM?", "a_en": "TOGAF ADM (Architecture Development Method) is a step-by-step approach for developing an enterprise architecture, covering architecture vision, business/IS/technology architecture, and implementation planning.", "a_zh": "TOGAF ADM（架构开发方法）是开发企业架构的逐步方法，涵盖架构愿景、业务/信息系统/技术架构和实施规划。"},
+        {"type": "saq", "q": "What are common challenges of service interoperability?", "a_en": "Heterogeneous platforms/formats, incompatible interfaces and protocols. Solved via standard APIs, message formats (XML/JSON) and middleware/ESB or service contracts.", "a_zh": "异构平台/格式、不兼容的接口和协议。通过标准API、消息格式（XML/JSON）、中间件/ESB或服务契约解决。"}
+      ]
+    }
+  ]
+};
+
+// ---- 状态管理 ----
+const LS_MASTERY = 'mock_exam_mastery_v2';
+const LS_ANSWERS = 'mock_exam_answers_v2';
+function load(key, fallback){try{const v=localStorage.getItem(key);return v?JSON.parse(v):fallback}catch(e){return fallback}}
+let mastery = load(LS_MASTERY, {}); // uid -> 'known' | 'unknown'
+let answers = load(LS_ANSWERS, {}); // uid -> number (mcq index) or true (saq revealed)
+// saq 我的答案：按题目单独 key 持久化 mock_exam_myanswer_<uid>
+function myAnswerKey(uid){return `mock_exam_myanswer_${uid}`;}
+function getMyAnswer(uid){try{return localStorage.getItem(myAnswerKey(uid))||''}catch(e){return ''}}
+function setMyAnswer(uid, val){try{localStorage.setItem(myAnswerKey(uid), val);}catch(e){}}
+function clearAllMyAnswers(){ allItems.forEach(it=>{try{localStorage.removeItem(myAnswerKey(it.uid))}catch(e){}}); }
+let activeCourse = 'all';
+let onlyUnknown = false;
+
+const allItems = [];
+DATA.courses.forEach(course=>{
+  course.items.forEach((it, idx)=>{
+    allItems.push({
+      ...it,
+      courseId: course.id,
+      courseName: course.name,
+      courseDesc: course.desc,
+      uid: `${course.id}-${idx}`,
+      globalIndex: allItems.length
+    });
+  });
+});
+
+const app = document.getElementById('app');
+const elDone = document.getElementById('statDone');
+const elRate = document.getElementById('statRate');
+const elUnknown = document.getElementById('statUnknown');
+const elFill = document.getElementById('progressFill');
+const elProgressText = document.getElementById('progressText');
+
+function save(){
+  localStorage.setItem(LS_MASTERY, JSON.stringify(mastery));
+  localStorage.setItem(LS_ANSWERS, JSON.stringify(answers));
+}
+
+function getStats(){
+  const total = allItems.length;
+  const done = Object.keys(mastery).length;
+  const unknown = Object.values(mastery).filter(v=>v==='unknown').length;
+  const known = Object.values(mastery).filter(v=>v==='known').length;
+  const rate = total ? Math.round(known/total*100) : 0;
+  const progress = total ? Math.round(done/total*100) : 0;
+  return {total, done, unknown, known, rate, progress};
+}
+
+function updateStatsBar(){
+  const s = getStats();
+  elDone.innerHTML = `${s.done} <small>/ ${s.total}</small>`;
+  elRate.textContent = s.rate + '%';
+  elUnknown.textContent = s.unknown + ' 题';
+  elFill.style.width = s.progress + '%';
+  elProgressText.textContent = s.progress + '%';
+}
+
+function escapeHtml(str){
+  return String(str).replace(/[&<>"']/g, m=>({ '&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[m]));
+}
+
+function render(){
+  updateStatsBar();
+  // filter
+  let filtered = allItems.filter(item=>{
+    if(activeCourse!=='all' && item.courseId!==activeCourse) return false;
+    if(onlyUnknown && mastery[item.uid]!=='unknown') return false;
+    return true;
+  });
+
+  if(filtered.length===0){
+    app.innerHTML = `<div class="empty">😶 没有符合条件的题目<br><span style="font-size:0.86rem">试试切换「${onlyUnknown?'关闭“只看不会的”':'全部课程'}」或先标记几道 <b>❌ 还不会</b></span></div>`;
+    return;
+  }
+
+  // group by course for display order
+  let html = '';
+  let currentCourse = null;
+  filtered.forEach((item, i)=>{
+    if(item.courseId!==currentCourse){
+      currentCourse=item.courseId;
+      const course = DATA.courses.find(c=>c.id===currentCourse);
+      const countInGroup = filtered.filter(x=>x.courseId===currentCourse).length;
+      const pillClass = currentCourse==='CSCI968'?'pill-968':'pill-927';
+      html += `<div class="course-head">
+        <span class="course-pill ${pillClass}">${escapeHtml(currentCourse)}</span>
+        <h2>${escapeHtml(course.name)}</h2>
+        <span class="desc">${escapeHtml(course.desc)}</span>
+        <span class="count">${countInGroup} 题</span>
+      </div>`;
+    }
+
+    const isMcq = item.type==='mcq';
+    const masteryState = mastery[item.uid]; // 'known'|'unknown'|undefined
+    const answered = answers.hasOwnProperty(item.uid);
+    const selected = answers[item.uid];
+    const showExplain = isMcq ? answered : !!answers[item.uid];
+
+    let masteryDot = '';
+    if(masteryState==='known') masteryDot = `<span class="mastery-dot dot-known">✅ 已掌握</span>`;
+    else if(masteryState==='unknown') masteryDot = `<span class="mastery-dot dot-unknown">❌ 还不会</span>`;
+    else masteryDot = `<span class="mastery-dot dot-none">○ 未标记</span>`;
+
+    const letters = ['A','B','C','D'];
+    html += `<article class="card" data-uid="${item.uid}" style="animation-delay:${(i%10)*0.04}s">
+      <div class="card-head">
+        <span class="idx">${item.globalIndex+1}</span>
+        <span class="type-badge ${isMcq?'type-mcq':'type-saq'}">${isMcq?'选择题':'简答闪卡'}</span>
+        <span class="course-tag ${item.courseId==='CSCI968'?'tag-968':'tag-927'}">${item.courseId}</span>
+        ${masteryDot}
+      </div>
+      <div class="q-title">${escapeHtml(item.q)}</div>`;
+
+    if(isMcq){
+      html += `<div class="options">`;
+      item.options.forEach((opt, idx)=>{
+        let cls='opt';
+        if(answered){
+          if(idx===item.answer) cls+=' correct';
+          else if(idx===selected && idx!==item.answer) cls+=' wrong';
+          else cls+=' dim';
+        }
+        html += `<div class="${cls}" data-opt="${idx}" role="button" tabindex="0" aria-label="选项 ${letters[idx]}">
+          <span class="opt-letter">${letters[idx]}</span>
+          <span>${escapeHtml(opt)}</span>
+        </div>`;
+      });
+      html += `</div>`;
+      // explain
+      html += `<div class="reveal ${showExplain?'open':''}">
+        <div class="explain-box">
+          <div class="explain-label en-label">🔵 解析 · Explain (EN)</div>
+          <div class="en">${escapeHtml(item.explain_en)}</div>
+          <div class="explain-label zh-label" style="margin-top:12px">🟢 解析 · 中文</div>
+          <div class="zh">${escapeHtml(item.explain_zh)}</div>
+        </div>
+      </div>`;
+    } else {
+      const isOpen = !!answers[item.uid];
+      const myVal = getMyAnswer(item.uid);
+      html += `<div class="saq-input-wrap">
+        <div class="saq-input-label">✏️ 我的答案</div>
+        <textarea class="saq-textarea" data-myanswer="${item.uid}" placeholder="在这里写下你的答案…">${escapeHtml(myVal)}</textarea>
+      </div>`;
+      html += `<div style="margin:8px 0 2px">
+        <button class="saq-btn ${isOpen?'open':''}" data-toggle="saq">
+          ${isOpen?'🙈 隐藏答案':'👁️ 显示答案'}
+        </button>
+      </div>`;
+      html += `<div class="reveal ${isOpen?'open':''}">
+        <div class="answer-box">
+          <div class="explain-label en-label">🔵 标准答案 · Answer (EN)</div>
+          <div class="en" style="color:var(--blue-light)">${escapeHtml(item.a_en)}</div>
+          <div class="explain-label zh-label" style="margin-top:12px">🟢 标准答案 · 中文</div>
+          <div class="zh" style="color:var(--green-soft)">${escapeHtml(item.a_zh)}</div>
+        </div>
+      </div>`;
+    }
+
+    html += `<div class="actions">
+      <button class="action-btn btn-known ${masteryState==='known'?'active':''}" data-action="known">✅ 我会了</button>
+      <button class="action-btn btn-unknown ${masteryState==='unknown'?'active':''}" data-action="unknown">❌ 还不会</button>
+      <span class="hint">${answered? (isMcq?'已作答 · 可改选':'已展开'): '未作答'}</span>
+    </div>
+    </article>`;
+  });
+
+  html += `<div class="footer">
+    已加载 <b style="color:#93c5fd">${allItems.length}</b> 道题 · 本地自动记忆（localStorage）· 离线可用<br>
+    <span style="color:#475569">数据内联于单文件 · 无网络请求 · file:// 直接打开可用</span>
+  </div>`;
+  app.innerHTML = html;
+
+  // bind events
+  app.querySelectorAll('.card').forEach(card=>{
+    const uid = card.getAttribute('data-uid');
+    const item = allItems.find(x=>x.uid===uid);
+    if(item.type==='mcq'){
+      card.querySelectorAll('.opt').forEach(opt=>{
+        opt.addEventListener('click', ()=>{
+          const idx = Number(opt.getAttribute('data-opt'));
+          answers[uid]=idx;
+          save();
+          render();
+          // scroll to keep explain visible on mobile
+          requestAnimationFrame(()=>{
+            const c = document.querySelector(`[data-uid="${uid}"]`);
+            if(c) c.scrollIntoView({behavior:'smooth', block:'nearest'});
+          });
+        });
+        opt.addEventListener('keydown', e=>{
+          if(e.key==='Enter' || e.key===' '){ e.preventDefault(); opt.click(); }
+        });
+      });
+    } else {
+      const btn = card.querySelector('[data-toggle="saq"]');
+      if(btn) btn.addEventListener('click', ()=>{
+        if(answers[uid]) delete answers[uid];
+        else answers[uid]=true;
+        save();
+        // 记住当前文本框焦点，避免重渲染丢失光标
+        const ta = card.querySelector('textarea[data-myanswer]');
+        const curVal = ta ? ta.value : null;
+        if(curVal!==null) setMyAnswer(uid, curVal);
+        render();
+        // 恢复焦点到对应卡片的输入框（若之前有焦点）
+        if(curVal!==null){
+          const nextCard = document.querySelector(`[data-uid="${uid}"]`);
+          const nextTa = nextCard && nextCard.querySelector('textarea[data-myanswer]');
+          if(nextTa){ nextTa.focus(); nextTa.setSelectionRange(nextTa.value.length, nextTa.value.length); }
+        }
+      });
+      const ta = card.querySelector('textarea[data-myanswer]');
+      if(ta){
+        ta.addEventListener('input', ()=>{
+          setMyAnswer(uid, ta.value);
+        });
+        // 避免输入时冒泡误触卡片 hover 等
+        ta.addEventListener('click', e=> e.stopPropagation());
+      }
+    }
+    card.querySelectorAll('[data-action]').forEach(b=>{
+      b.addEventListener('click', ()=>{
+        const act = b.getAttribute('data-action');
+        if(mastery[uid]===act) delete mastery[uid];
+        else mastery[uid]=act;
+        save();
+        render();
+      });
+    });
+  });
+}
+
+// filter events
+document.querySelectorAll('.filter-btn').forEach(btn=>{
+  btn.addEventListener('click', ()=>{
+    document.querySelectorAll('.filter-btn').forEach(b=>b.classList.remove('active'));
+    btn.classList.add('active');
+    activeCourse = btn.getAttribute('data-filter');
+    render();
+  });
+});
+const toggleWrap = document.getElementById('toggleWrap');
+const sw = document.getElementById('switch');
+function setToggle(v){
+  onlyUnknown=v;
+  sw.classList.toggle('on', v);
+  toggleWrap.classList.toggle('active', v);
+  render();
+}
+toggleWrap.addEventListener('click', ()=> setToggle(!onlyUnknown));
+sw.addEventListener('click', e=>{e.stopPropagation(); setToggle(!onlyUnknown)});
+
+document.getElementById('resetBtn').addEventListener('click', ()=>{
+  if(confirm('确定清空所有「我会了 / 还不会」、作答记录和我的答案？')){
+    mastery={}; answers={};
+    localStorage.removeItem(LS_MASTERY);
+    localStorage.removeItem(LS_ANSWERS);
+    clearAllMyAnswers();
+    render();
+  }
+});
+
+// initial render
+render();
+console.log('[mock_exam] loaded', allItems.length, 'items', DATA.courses.map(c=>c.id+':'+c.items.length).join(', '));
+</script>
+</body>
+</html>
