@@ -1,0 +1,272 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>期末复习速记 - 必背！先背高频题！</title>
+    <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+            background: #0a0f1e;
+            color: #e5e7eb;
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 40px 20px;
+            line-height: 1.6;
+        }
+        h1, h2, h3 { color: #60a5fa; margin-bottom: 20px; }
+        h1 { text-align: center; font-size: 3rem; margin-bottom: 10px; border-bottom: 3px solid #3b82f6; padding-bottom: 20px; }
+        .priority-tag { text-align: center; font-size: 1.5rem; color: #f59e0b; margin-bottom: 20px; font-weight: bold; }
+        .task-plan { background: #1e293b; border-radius: 16px; padding: 40px; margin-bottom: 40px; box-shadow: 0 10px 40px rgba(0,0,0,0.5); }
+        .task-step { background: #0f172a; border-left: 6px solid #10b981; padding: 30px; margin: 20px 0; border-radius: 12px; }
+        .task-step h4 { color: #34d399; margin-bottom: 15px; font-size: 1.3rem; }
+        .task-step ul { list-style: none; padding-left: 30px; }
+        .task-step li { padding: 8px 0; position: relative; }
+        .task-step li:before { content: "👉"; position: absolute; left: -25px; }
+        .time-tag { background: #334155; padding: 4px 12px; border-radius: 20px; font-size: 0.9rem; display: inline-block; margin-bottom: 10px; color: #fbbf24; }
+        .course { background: #1e293b; border-radius: 16px; padding: 40px; margin-bottom: 40px; box-shadow: 0 10px 40px rgba(0,0,0,0.5); }
+        .question { background: #0f172a; border-left: 6px solid #f59e0b; padding: 30px; margin: 30px 0; border-radius: 12px; }
+        .question h4 { color: #fbbf24; margin-bottom: 20px; font-size: 1.2rem; }
+        .answer { background: #111827; padding: 20px; border-radius: 8px; white-space: pre-wrap; font-size: 1.1rem; }
+        .answer .en { color: #93c5fd; }
+        .answer .zh { color: #a7f3d0; margin-top: 10px; }
+        .core-points { background: #0f172a; border-radius: 12px; padding: 30px; margin: 30px 0; }
+        .core-points ul { list-style: none; padding-left: 0; }
+        .core-points li { padding: 12px 0; border-bottom: 1px solid #334155; padding-left: 30px; position: relative; }
+        .core-points li:before { content: "✅"; position: absolute; left: 0; color: #10b981; }
+        .core-points .en { color: #93c5fd; }
+        .core-points .zh { color: #a7f3d0; margin-left: 20px; display: block; font-size: 0.9rem; }
+        .nav { position: sticky; top: 20px; background: #1e293b; padding: 20px; border-radius: 12px; margin-bottom: 40px; display: flex; gap: 20px; flex-wrap: wrap; justify-content: center; }
+        .nav a { color: #60a5fa; text-decoration: none; font-weight: bold; padding: 10px 20px; border: 2px solid #3b82f6; border-radius: 8px; transition: all 0.2s; }
+        .nav a:hover { background: #3b82f6; color: white; }
+        .highlight { background: #334155; padding: 4px 8px; border-radius: 4px; font-weight: bold; }
+        .section-tag { background: #f59e0b; color: #000; padding: 8px 16px; border-radius: 20px; font-weight: bold; display: inline-block; margin-bottom: 20px; font-size: 1.1rem; }
+    </style>
+</head>
+<body>
+    <h1>🏫 期末复习速记</h1>
+    <div class="priority-tag">⏰ 先背【高频题答案】！至少拿30分稳过！然后按任务规划走！</div>
+
+    <div class="task-plan">
+        <h2 style="text-align:center; color:#34d399;">📅 今日复习任务规划（8月27日）</h2>
+        <div class="task-step">
+            <span class="time-tag">⏱️ 约1小时</span>
+            <h4>1️⃣ 第1优先级：背10道高频题答案（必背！）</h4>
+            <ul>
+                <li>CSCI968 5道高频题答案</li>
+                <li>CSCI927 5道高频题答案</li>
+                <li>背到滚瓜烂熟，至少拿30分，稳过及格线！</li>
+            </ul>
+        </div>
+        <div class="task-step">
+            <span class="time-tag">⏱️ 约2小时</span>
+            <h4>2️⃣ 第2优先级：背核心考点速记</h4>
+            <ul>
+                <li>CSCI968核心考点：网络基础+密码学+PKI+认证+密钥交换+应用层+TLS+IPSec+DMZ+IDS</li>
+                <li>CSCI927核心考点：BPMN+微服务+ArchiMate+流程挖掘+服务合规</li>
+                <li>只背重点，不用理解，考试能写出来就行！</li>
+            </ul>
+        </div>
+        <div class="task-step">
+            <span class="time-tag">⏱️ 约2小时</span>
+            <h4>3️⃣ 快速过一遍作业答案</h4>
+            <ul>
+                <li>CSCI968 A2答案</li>
+                <li>CSCI927 Tutorial 2/4/5/7</li>
+            </ul>
+        </div>
+        <div class="task-step">
+            <span class="time-tag">⏱️ 约2小时</span>
+            <h4>4️⃣ 快速过一遍复习课件重点章节</h4>
+            <ul>
+                <li>CSCI968 SubjectRevision.pdf 第1-30页</li>
+                <li>CSCI927 12.Revision.pdf 全看一遍</li>
+            </ul>
+        </div>
+        <div class="task-step">
+            <span class="time-tag">⏱️ 剩下的时间</span>
+            <h4>5️⃣ 快速过Workshop练习题，练手找感觉</h4>
+        </div>
+    </div>
+
+    <div class="nav">
+        <a href="#csci968">🔵 CSCI968 高级网络安全</a>
+        <a href="#csci927">🟢 CSCI927 面向服务软件工程</a>
+    </div>
+
+    <div id="csci968" class="course">
+        <h2>🔵 CSCI968 高级网络安全</h2>
+
+        <span class="section-tag">⭐ 第1优先级：5道高频题答案（必背！至少30分！）</span>
+        <div class="question">
+            <h4>Q1: Explain Diffie-Hellman (DH) protocol and Man-in-the-Middle (MITM) attack.</h4>
+            <div class="answer"><span class="en">DH (Diffie-Hellman) is a key agreement protocol that allows two parties to establish a shared secret over an insecure channel without transmitting the secret itself. In MITM (Man-in-the-Middle) attack, attacker intercepts public keys from both parties, replaces them with his own public key, establishes separate shared secrets with both sides, can read and modify all traffic between them.</span>
+<span class="zh">DH（迪菲-赫尔曼）是一种密钥协商协议，允许双方在不安全的信道上协商一个共享密钥，而不需要传输密钥本身。在MITM（中间人）攻击中，攻击者拦截双方的公钥，替换成自己的公钥，与双方分别建立共享密钥，可以读取和篡改双方之间的所有流量。</span></div>
+        </div>
+        <div class="question">
+            <h4>Q2: What is DMZ (Demilitarized Zone) network? What systems are typically deployed in DMZ?</h4>
+            <div class="answer"><span class="en">DMZ (Demilitarized Zone) is a network segment separated from internal network by firewalls, hosts public-facing services to reduce internal attack surface. Typical systems: Web servers, mail servers, DNS (Domain Name System) servers, public API (Application Programming Interface) gateways.</span>
+<span class="zh">DMZ（非军事区）是一个通过防火墙与内部网络隔离的网络段，托管面向公众的服务，以减少内部攻击面。典型系统：Web服务器、邮件服务器、DNS（域名系统）服务器、公共API（应用程序编程接口）网关。</span></div>
+        </div>
+        <div class="question">
+            <h4>Q3: What are the main improvements of TLS 1.3 (Transport Layer Security) over TLS 1.2?</h4>
+            <div class="answer"><span class="en">1. 1-RTT (Round-Trip Time) handshake (faster connection setup)
+2. Removes insecure cipher suites (RSA key exchange, 3DES (Triple Data Encryption Standard))
+3. Enforces forward secrecy by default
+4. Simplified handshake process reduces attack surface</span>
+<span class="zh">1. 1-RTT（往返时间）握手（更快的连接建立）
+2. 移除不安全的密码套件（RSA密钥交换、3DES（三重数据加密标准））
+3. 默认强制前向保密性
+4. 简化的握手过程减少攻击面</span></div>
+        </div>
+        <div class="question">
+            <h4>Q4: Difference between IPSec (Internet Protocol Security) Transport mode and Tunnel mode?</h4>
+            <div class="answer"><span class="en">- Transport mode: Only encrypts the payload of IP (Internet Protocol) packet, used for end-to-end communication (client to server)
+- Tunnel mode: Encrypts the entire IP packet, used for site-to-site VPN (Virtual Private Network)</span>
+<span class="zh">- 传输模式：仅加密IP（互联网协议）数据包的有效载荷，用于端到端通信（客户端到服务器）
+- 隧道模式：加密整个IP数据包，用于站点间VPN（虚拟专用网络）</span></div>
+        </div>
+        <div class="question">
+            <h4>Q5: What are the differences between AH (Authentication Header) and ESP (Encapsulating Security Payload) in IPSec?</h4>
+            <div class="answer"><span class="en">- AH (Authentication Header): Only provides integrity and authentication, no encryption
+- ESP (Encapsulating Security Payload): Provides both encryption, integrity and authentication, is the most widely used IPSec protocol</span>
+<span class="zh">- AH（认证头）：仅提供完整性和认证，不加密
+- ESP（封装安全载荷）：同时提供加密、完整性和认证，是最常用的IPSec协议</span></div>
+        </div>
+
+        <span class="section-tag">⭐ 第2优先级：核心考点速记（用于选择题和额外简答题）</span>
+        <div class="core-points">
+            <ul>
+                <li><span class="highlight">OSI 7层</span>
+                    <span class="en">Physical → Data Link → Network → Transport → Session → Presentation → Application</span>
+                    <span class="zh">物理层→数据链路层→网络层→传输层→会话层→表示层→应用层</span>
+                </li>
+                <li><span class="highlight">TCP/IP 5层</span>
+                    <span class="en">Link → Internet → Transport → Application (TCP (Transmission Control Protocol), UDP (User Datagram Protocol))</span>
+                    <span class="zh">链路层→网际层→传输层→应用层（TCP（传输控制协议）、UDP（用户数据报协议））</span>
+                </li>
+                <li><span class="highlight">三大安全属性</span>
+                    <span class="en">Confidentiality (Encryption), Integrity (MAC (Message Authentication Code)), Authenticity (Digital Signature)</span>
+                    <span class="zh">机密性（加密）、完整性（消息认证码）、真实性（数字签名）</span>
+                </li>
+                <li><span class="highlight">PKI (Public Key Infrastructure) 核心</span>
+                    <span class="en">CA (Certificate Authority), X.509 standard, CRL (Certificate Revocation List), OCSP (Online Certificate Status Protocol), Monopoly/Web of Trust trust models</span>
+                    <span class="zh">CA（证书颁发机构）、X.509标准、CRL（证书撤销列表）、OCSP（在线证书状态协议）、垄断模型/信任网络信任模型</span>
+                </li>
+                <li><span class="highlight">前向保密性</span>
+                    <span class="en">Compromise of long-term keys doesn't compromise past session keys, implemented via DHE (Ephemeral DH)/ECDHE (Elliptic Curve Ephemeral DH)</span>
+                    <span class="zh">长期密钥泄露不影响过去的会话密钥，用DHE（临时DH）/ECDHE（椭圆曲线临时DH）实现</span>
+                </li>
+                <li><span class="highlight">密钥传输vs协商</span>
+                    <span class="en">Transport (RSA: one generates and sends), Agreement (DH: both contribute)</span>
+                    <span class="zh">密钥传输（RSA：一方生成发给另一方）、密钥协商（DH：双方共同生成）</span>
+                </li>
+                <li><span class="highlight">Kerberos V5改进</span>
+                    <span class="en">Cross-realm authentication, AES (Advanced Encryption Standard) encryption, forwardable/proxiable tickets, anti-replay</span>
+                    <span class="zh">跨域认证、AES（高级加密标准）加密、可转发票据、抗重放攻击</span>
+                </li>
+                <li><span class="highlight">SSH (Secure Shell) 三层</span>
+                    <span class="en">Transport Layer (Encryption), User Authentication Layer, Connection Layer (Port Forwarding)</span>
+                    <span class="zh">传输层（加密）、用户认证层、连接层（端口转发）</span>
+                </li>
+                <li><span class="highlight">邮件安全</span>
+                    <span class="en">PGP (Pretty Good Privacy, Web of Trust, personal use) / S/MIME (Secure/Multipurpose Internet Mail Extensions, CA, enterprise use)</span>
+                    <span class="zh">PGP（相当好的隐私，信任网络，个人用）、S/MIME（安全多用途互联网邮件扩展，CA，企业用）</span>
+                </li>
+                <li><span class="highlight">TLS/DTLS/QUIC</span>
+                    <span class="en">TLS (Transport Layer Security, TCP), DTLS (Datagram TLS, UDP), QUIC (Quick UDP Internet Connections, HTTP/3 (Hypertext Transfer Protocol 3))</span>
+                    <span class="zh">TLS（传输层安全，TCP用）、DTLS（数据报TLS，UDP用）、QUIC（快速UDP互联网连接，HTTP/3用）</span>
+                </li>
+                <li><span class="highlight">WEP (Wired Equivalent Privacy) 弱点</span>
+                    <span class="en">24-bit IV (Initialization Vector) repeats, no key management, easy to crack</span>
+                    <span class="zh">24位IV（初始化向量）重复、无密钥管理、易破解</span>
+                </li>
+                <li><span class="highlight">WPA/WPA2/WPA3</span>
+                    <span class="en">WPA (Wi-Fi Protected Access, TKIP), WPA2 (AES-CCMP), WPA3 (SAE (Simultaneous Authentication of Equals) handshake)</span>
+                    <span class="zh">WPA（Wi-Fi保护访问，TKIP）、WPA2（AES-CCMP）、WPA3（SAE（同等同时认证）握手）</span>
+                </li>
+                <li><span class="highlight">IDS (Intrusion Detection System)</span>
+                    <span class="en">NIDS (Network-based IDS), HIDS (Host-based IDS), Signature/Anomaly detection</span>
+                    <span class="zh">NIDS（网络级IDS）、HIDS（主机级IDS），特征匹配/异常检测</span>
+                </li>
+            </ul>
+        </div>
+    </div>
+
+    <div id="csci927" class="course">
+        <h2>🟢 CSCI927 面向服务软件工程</h2>
+
+        <span class="section-tag">⭐ 第1优先级：5道高频题答案（必背！至少30分！）</span>
+        <div class="question">
+            <h4>Q1: List and explain 4 core BPMN (Business Process Model and Notation) elements.</h4>
+            <div class="answer"><span class="en">1. Event: Circle shape, represents start/end/intermediate points in a process
+2. Activity: Rounded rectangle, represents a task or work to be executed
+3. Gateway: Diamond shape, represents decision point (XOR (Exclusive OR)/AND (Logical AND)/OR (Inclusive OR))
+4. Sequence Flow: Arrow, shows the order of execution between elements</span>
+<span class="zh">1. 事件：圆形，表示流程的开始/结束/中间点
+2. 活动：圆角矩形，表示要执行的任务或工作
+3. 网关：菱形，表示决策点（XOR（排他OR）/AND（逻辑AND）/OR（包含OR））
+4. 顺序流：箭头，显示元素之间的执行顺序</span></div>
+        </div>
+        <div class="question">
+            <h4>Q2: What are 4 core principles of microservices architecture?</h4>
+            <div class="answer"><span class="en">1. Single responsibility: Each service owns one single business capability
+2. Independent deployment: Services can be deployed without affecting other services
+3. Decentralized data: Each service manages its own database, no shared database
+4. Loose coupling: Services communicate via standard APIs (Application Programming Interfaces), no tight dependencies</span>
+<span class="zh">1. 单一职责：每个服务拥有一个单一的业务能力
+2. 独立部署：可以部署服务而不影响其他服务
+3. 去中心化数据：每个服务管理自己的数据库，无共享数据库
+4. 松耦合：服务通过标准API（应用程序编程接口）通信，无紧密依赖</span></div>
+        </div>
+        <div class="question">
+            <h4>Q3: What are the three main types of process mining?</h4>
+            <div class="answer"><span class="en">1. Process Discovery: Generate a process model from event logs, no prior model needed
+2. Conformance Checking: Compare event logs with existing process model to detect deviations
+3. Performance Analysis: Analyze bottlenecks, waiting times and throughput of the process</span>
+<span class="zh">1. 流程发现：从事件日志生成流程模型，不需要先前的模型
+2. 一致性检查：对比事件日志与现有流程模型以检测偏差
+3. 性能分析：分析流程的瓶颈、等待时间和吞吐量</span></div>
+        </div>
+        <div class="question">
+            <h4>Q4: Explain the three layers of ArchiMate model.</h4>
+            <div class="answer"><span class="en">1. Business Layer: Describes business processes, actors and business services (e.g., customer, order process)
+2. Application Layer: Describes software applications and application services (e.g., CRM (Customer Relationship Management) system, payment service)
+3. Technology Layer: Describes hardware and infrastructure (e.g., servers, databases, networks)</span>
+<span class="zh">1. 业务层：描述业务流程、参与者和业务服务（例如客户、订单流程）
+2. 应用层：描述软件应用和应用服务（例如CRM（客户关系管理）系统、支付服务）
+3. 技术层：描述硬件和基础设施（例如服务器、数据库、网络）</span></div>
+        </div>
+        <div class="question">
+            <h4>Q5: What is the difference between XOR (Exclusive) gateway and AND (Parallel) gateway in BPMN?</h4>
+            <div class="answer"><span class="en">- XOR (Exclusive) Gateway: Only one outgoing path is selected based on conditions, no parallel execution
+- AND (Parallel) Gateway: All outgoing paths are executed in parallel, synchronize after all paths complete</span>
+<span class="zh">- XOR（排他）网关：根据条件仅选择一条输出路径，无并行执行
+- AND（并行）网关：所有输出路径并行执行，在所有路径完成后同步</span></div>
+        </div>
+
+        <span class="section-tag">⭐ 第2优先级：核心考点速记（用于选择题和额外简答题）</span>
+        <div class="core-points">
+            <ul>
+                <li><span class="highlight">BPMN (Business Process Model and Notation) 网关类型</span>
+                    <span class="en">XOR (Exclusive, one path by condition), AND (Parallel, all paths sync), OR (Inclusive, multiple paths)</span>
+                    <span class="zh">XOR（排他，一条路径按条件）、AND（并行，全部路径同步）、OR（包含，多条路径）</span>
+                </li>
+                <li><span class="highlight">微服务vs传统SOA (Service-Oriented Architecture)</span>
+                    <span class="en">Microservices (Decentralized, lightweight, independent deployment) vs SOA (Centralized ESB (Enterprise Service Bus), heavyweight)</span>
+                    <span class="zh">微服务（去中心化，轻量，独立部署）、传统SOA（中心化ESB（企业服务总线），重量级）</span>
+                </li>
+                <li><span class="highlight">事件日志要求</span>
+                    <span class="en">Case ID, Activity, Timestamp</span>
+                    <span class="zh">流程实例ID、活动名、时间戳</span>
+                </li>
+                <li><span class="highlight">SOA (Service-Oriented Architecture) 核心特征</span>
+                    <span class="en">Loose coupling, Reusability, Autonomy, Interoperability, Discoverability</span>
+                    <span class="zh">松耦合、可复用、自治、互操作、可发现</span>
+                </li>
+            </ul>
+        </div>
+    </div>
+</body>
+</html>
